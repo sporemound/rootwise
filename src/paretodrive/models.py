@@ -30,6 +30,10 @@ class ScanConfig:
     batch_size: int = 256
     sleep_ms_per_batch: int = 25
     stop_after: int | None = None
+    max_rss_mib: int | None = 512
+    min_free_destination_mib: int | None = 1024
+    active_window_seconds: float = 30.0
+    cooldown_seconds: float = 2.0
 
     def validate(self) -> None:
         if not math.isfinite(self.max_files_per_second) or self.max_files_per_second <= 0:
@@ -40,6 +44,14 @@ class ScanConfig:
             raise ValueError("sleep_ms_per_batch must be between 0 and 60000")
         if self.stop_after is not None and self.stop_after < 1:
             raise ValueError("stop_after must be positive")
+        if self.max_rss_mib is not None and self.max_rss_mib < 32:
+            raise ValueError("max_rss_mib must be at least 32 or disabled")
+        if self.min_free_destination_mib is not None and self.min_free_destination_mib < 1:
+            raise ValueError("min_free_destination_mib must be positive or disabled")
+        if not math.isfinite(self.active_window_seconds) or self.active_window_seconds <= 0:
+            raise ValueError("active_window_seconds must be finite and positive")
+        if not math.isfinite(self.cooldown_seconds) or self.cooldown_seconds < 0:
+            raise ValueError("cooldown_seconds must be finite and nonnegative")
 
 
 @dataclass(frozen=True)

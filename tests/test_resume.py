@@ -56,3 +56,17 @@ def test_resume_rejects_different_root_on_same_volume(tmp_path: Path) -> None:
         assert database.connection.execute(
             "SELECT state FROM scan_sessions WHERE scan_session_id=?", (session,)
         ).fetchone()[0] == "STOPPED"
+
+
+def test_resume_rejects_database_application_identity_mismatch(tmp_path: Path) -> None:
+    source = tmp_path / "source"
+    source.mkdir()
+    database_path = tmp_path / "inventory.db"
+    config = ScanConfig(str(source), str(database_path))
+    volume = actual_volume(source)
+    with InventoryDatabase(database_path, RecordingGuard(tmp_path)) as database:
+        session = database.start_session(volume, config)
+        database.finish(session, SessionState.STOPPED)
+        database.connection.execute("PRAGMA application_id=0")
+        with pytest.raises(ScanStateError, match="application identity"):
+            database.resume_session(volume, str(source.resolve()))

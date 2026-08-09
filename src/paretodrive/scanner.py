@@ -13,7 +13,9 @@ from pathlib import Path, PurePosixPath
 from typing import Iterator
 
 from .database import InventoryDatabase
+from .errors import ResourceLimitExceeded
 from .models import Observation, ScanConfig, SessionState, VolumeInfo
+from .resources import MIB, ResourceController, ResourcePolicy
 
 REPARSE_POINT = 0x400
 
@@ -157,6 +159,7 @@ class MetadataScanner:
         database: InventoryDatabase,
         config: ScanConfig,
         cancellation: CancellationToken | None = None,
+        resource_controller: ResourceController | None = None,
     ) -> None:
         self.source = source.resolve(strict=True)
         self.volume = volume
@@ -164,6 +167,18 @@ class MetadataScanner:
         self.config = config
         self.config.validate()
         self.cancellation = cancellation or CancellationToken()
+        self.resources = resource_controller or ResourceController(
+            Path(config.database).resolve(strict=False).parent,
+            ResourcePolicy(
+                None if config.max_rss_mib is None else config.max_rss_mib * MIB,
+                None
+                if config.min_free_destination_mib is None
+                else config.min_free_destination_mib * MIB,
+                config.active_window_seconds,
+                config.cooldown_seconds,
+            ),
+            lambda: self.cancellation.cancelled,
+        )
         self._processed = 0
         self._rate_started = time.monotonic()
 
@@ -174,6 +189,7 @@ class MetadataScanner:
             else self.database.start_session(self.volume, self.config)
         )
         try:
+            self.resources.check()
             while not self.cancellation.cancelled:
                 relative_dir = self.database.next_directory(session_id)
                 if relative_dir is None:
@@ -182,6 +198,15 @@ class MetadataScanner:
                 self._scan_directory(session_id, relative_dir)
                 if self.config.stop_after is not None and self._processed >= self.config.stop_after:
                     self.cancellation.cancel()
+            self.database.finish(session_id, SessionState.STOPPED)
+            return session_id, SessionState.STOPPED
+        except ResourceLimitExceeded as exc:
+            self.database.record_error(
+                session_id, "", "resource_check", type(exc).__name__, None, str(exc)
+            )
+            self.database.record_event(
+                session_id, "RESOURCE_STOP", {"error_type": type(exc).__name__, "message": str(exc)}
+            )
             self.database.finish(session_id, SessionState.STOPPED)
             return session_id, SessionState.STOPPED
         except (KeyboardInterrupt, SystemExit):
@@ -280,6 +305,7 @@ class MetadataScanner:
         errors.clear()
         if self.config.sleep_ms_per_batch:
             time.sleep(self.config.sleep_ms_per_batch / 1000.0)
+        self.resources.check()
 
     def _rate_limit(self) -> None:
         expected = self._processed / self.config.max_files_per_second

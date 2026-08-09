@@ -14,7 +14,7 @@ row/error counts within one transaction.
 
 The approved destination directory is an operator-controlled trust boundary. A same-privilege actor
 who can concurrently rename its intermediate path components or coherently rewrite the inventory
-database is outside the audit.1 attacker model; such an actor can redirect or forge local state and
+database is outside the audit.2 attacker model; such an actor can redirect or forge local state and
 can always deny service. These races remain relevant if that assumption changes, in which case
 handle-relative output creation and an authenticated immutable snapshot become required.
 

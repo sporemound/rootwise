@@ -40,7 +40,7 @@ def export_canonical(
         digest = hashlib.sha256()
         count = 0
         with guard.open_new_binary(output) as (destination, stream):
-            header = _line({"record_type": "session", "schema": 1, "status": "COMPLETE"})
+            header = _line({"record_type": "session", "schema": 2, "status": "COMPLETE"})
             stream.write(header)
             digest.update(header)
             count += 1
@@ -71,6 +71,20 @@ def export_canonical(
             ):
                 record = dict(row)
                 record["record_type"] = "error"
+                encoded = _line(record)
+                stream.write(encoded)
+                digest.update(encoded)
+                count += 1
+            for row in connection.execute(
+                "SELECT event_type,detail_json FROM scan_events WHERE scan_session_id=? "
+                "ORDER BY event_id",
+                (session_id,),
+            ):
+                record = {
+                    "record_type": "event",
+                    "event_type": row["event_type"],
+                    "detail": json.loads(row["detail_json"]),
+                }
                 encoded = _line(record)
                 stream.write(encoded)
                 digest.update(encoded)

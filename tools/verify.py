@@ -96,6 +96,9 @@ def write_checksums() -> None:
 def main() -> int:
     ARTIFACTS.mkdir(exist_ok=True)
     before = source_manifest()
+    revision = execute(
+        ["git", "-c", f"safe.directory={ROOT}", "rev-parse", "HEAD"], "git_revision"
+    )
     test = execute([sys.executable, "-m", "pytest", "-q"], "pytest")
     fixture = execute([sys.executable, "tools/generate_fixture_evidence.py"], "canonical_fixture")
     after = source_manifest()
@@ -106,11 +109,12 @@ def main() -> int:
             fixture_value = json.loads(str(fixture["stdout"]))
         except json.JSONDecodeError:
             fixture["passed"] = False
-    overall = bool(test["passed"] and fixture["passed"] and unchanged)
+    overall = bool(revision["passed"] and test["passed"] and fixture["passed"] and unchanged)
     host_name = "TEST-WINDOWS.json" if os.name == "nt" else "TEST-LINUX.json"
     write_json("SOURCE_MANIFEST.json", {"algorithm": "sha256", "files": before})
     write_json(host_name, {
-        "status": "PASS" if overall else "FAIL", "platform": platform.platform(),
+        "status": "PASS" if overall else "FAIL", "version": "0.2.0-audit.2",
+        "platform": platform.platform(),
         "dependencies": versions(), "tests": test, "fixture": fixture,
         "canonical_fixture": fixture_value, "source_unchanged": unchanged,
     })
@@ -122,7 +126,8 @@ def main() -> int:
         "status": "VERIFIED" if overall else "FAILED", "source_manifest_sha256": hashlib.sha256(
             json.dumps(before, sort_keys=True, separators=(",", ":")).encode("utf-8")
         ).hexdigest(), "platform": platform.platform(), "python": sys.version,
-        "source_revision": "UNCOMMITTED_WORKTREE",
+        "source_revision": str(revision["stdout"]).strip(),
+        "revision_check": revision,
     })
     write_json("SBOM.json", {
         "runtime_dependencies": [], "development_versions": versions(),
@@ -133,7 +138,8 @@ def main() -> int:
     other_host = "TEST-LINUX.json" if os.name == "nt" else "TEST-WINDOWS.json"
     write_json(other_host, {"status": "NOT_TESTED", "reason": "requires independent host"})
     write_json("TEST-EXFAT-VHDX.json", {
-        "status": "NOT_TESTED", "reason": "requires disposable exFAT VHDX on Windows"
+        "status": "NOT_TESTED", "reason": "requires disposable exFAT VHDX on Windows",
+        "plan_only_harness": "locally tested without administrator privileges",
     })
     write_json("TEST-READ-ONLY.json", {
         "status": "NOT_TESTED", "reason": "requires OS-enforced read-only source and manifests"

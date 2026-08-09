@@ -8,7 +8,7 @@ capabilities. Keep the future executor in a separately distributed package and r
 
 ## Language and storage
 
-Python is reasonable for audit.1 because the hot path is OS/SQLite I/O and the runtime dependency
+Python is reasonable for the audit scanner because the hot path is OS/SQLite I/O and the runtime dependency
 surface is small. Windows handle safety already requires `ctypes`; if acceptance testing reveals
 unmanageable handle, cancellation, or filesystem edge cases, a small Rust scanner core is preferable
 to accumulating Python platform shims. Do not change languages solely for throughput.

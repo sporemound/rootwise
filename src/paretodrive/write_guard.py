@@ -69,6 +69,18 @@ class WriteGuard:
             raise BoundaryViolation(f"SQLite journal path is link-like: {journal}")
         return journal
 
+    def open_database_lease(self, database_path: str | os.PathLike[str]) -> BinaryIO:
+        """Open the persistent scanner lease sidecar after destination authorization."""
+        lease = self.authorize(str(database_path) + "-scanlock")
+        if lease.is_symlink():
+            raise BoundaryViolation(f"database lease path is link-like: {lease}")
+        if lease.exists():
+            self.verify_existing(lease)
+            return lease.open("r+b")
+        stream = lease.open("x+b")
+        self.verify_existing(lease)
+        return stream
+
     @contextmanager
     def open_new_binary(self, path: str | os.PathLike[str]) -> Iterator[tuple[Path, BinaryIO]]:
         """Atomically create a new output; existing files and final links fail closed."""

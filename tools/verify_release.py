@@ -14,7 +14,7 @@ from pathlib import Path
 
 def main() -> int:
     root = Path(__file__).parents[1]
-    package = root / "artifacts" / "paretodrive-0.2.0-audit.1-source.zip"
+    package = root / "artifacts" / "paretodrive-0.2.0-audit.2-source.zip"
     if not package.is_file():
         raise SystemExit("release package is missing")
     with tempfile.TemporaryDirectory(prefix="paretodrive-release-") as temporary:

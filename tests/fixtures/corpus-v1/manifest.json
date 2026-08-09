@@ -2,7 +2,7 @@
   "schema": 1,
   "fixed_timestamp_ns": 1704067200000000000,
   "expected_sha256": {
-    "windows-cpython-3.12": "57f2aa24aa89bb0c490edf77e12027e2b42160b70f43bdc06c30c177260a6d74"
+    "windows-cpython-3.12": "7a40e32dfa0ed16afab2ef42944db845daad3bf1477e07cd1061bbb8dbfec6b8"
   },
   "directories": [
     "project/src/deep/one/two/three",

@@ -16,3 +16,6 @@ class BoundaryViolation(ParetoDriveError):
 class ScanStateError(ParetoDriveError):
     """A scan-session state transition is invalid."""
 
+
+class ResourceLimitExceeded(ParetoDriveError):
+    """A configured resource boundary requested a clean scanner stop."""

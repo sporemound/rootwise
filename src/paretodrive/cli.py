@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Sequence
 
 from .canonicalize import export_canonical
+from .capabilities import detect_capabilities
 from .database import InventoryDatabase
 from .models import ScanConfig, VolumeInfo
 from .reporting import session_report
@@ -32,6 +33,13 @@ def parser() -> argparse.ArgumentParser:
     scan.add_argument("--dry-run", action="store_true")
     scan.add_argument("--canonical-export")
     scan.add_argument("--error-log")
+    scan.add_argument("--max-rss-mib", type=int, default=512, help="0 disables the RSS ceiling")
+    scan.add_argument(
+        "--min-free-destination-mib", type=int, default=1024,
+        help="0 disables the destination free-space floor",
+    )
+    scan.add_argument("--active-window-seconds", type=float, default=30.0)
+    scan.add_argument("--cooldown-seconds", type=float, default=2.0)
     export = commands.add_parser("export")
     export.add_argument("--source", required=True, help="source root used for volume boundary")
     export.add_argument("--database", required=True)
@@ -39,6 +47,8 @@ def parser() -> argparse.ArgumentParser:
     export.add_argument("--output", required=True)
     report = commands.add_parser("report")
     report.add_argument("--database", required=True)
+    capabilities = commands.add_parser("capabilities")
+    capabilities.add_argument("--path", required=True)
     return root
 
 
@@ -54,6 +64,9 @@ def _boundaries(source: Path, database_path: Path) -> tuple[WriteGuard, VolumeIn
 
 def main(argv: Sequence[str] | None = None) -> int:
     args = parser().parse_args(argv)
+    if args.command == "capabilities":
+        print(json.dumps(detect_capabilities(args.path).to_dict(), indent=2, sort_keys=True))
+        return 0
     if args.command == "report":
         print(json.dumps(session_report(args.database), indent=2, sort_keys=True))
         return 0
@@ -72,6 +85,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         source=str(source), database=str(database_path),
         max_files_per_second=args.max_files_per_second, batch_size=args.batch_size,
         sleep_ms_per_batch=args.sleep_ms_per_batch, stop_after=args.stop_after,
+        max_rss_mib=None if args.max_rss_mib == 0 else args.max_rss_mib,
+        min_free_destination_mib=(
+            None if args.min_free_destination_mib == 0 else args.min_free_destination_mib
+        ),
+        active_window_seconds=args.active_window_seconds,
+        cooldown_seconds=args.cooldown_seconds,
     )
     cancellation = CancellationToken()
     error_log = guard.authorize(args.error_log) if args.error_log else None
