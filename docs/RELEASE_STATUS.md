@@ -1,12 +1,19 @@
 # Release Status
 
-Version: `0.2.0-audit.2` (unreleased source milestone)
+Version: `0.3.0-alpha` (unreleased source milestone)
 
 - Designed: metadata-only scanner boundary and staged release gates.
 - Implemented: volume identity, guarded outputs, handle-bound traversal, SQLite sessions,
   cancellation/resume, structured errors, and deterministic canonical export.
-- Tested locally: 29 synthetic/unit/static tests pass; generated evidence records exact versions
-  and output.
+- Viewer implemented: query-only inventory reader, bounded search, separate revisioned decisions,
+  headless CLI, and optional PySide6 table interface.
+- Tested locally: 37 synthetic/unit/static tests pass on CPython 3.14.3, including construction of
+  the real PySide6 6.10.2 window using the offscreen Qt platform. Ruff and strict mypy pass across
+  17 source files under the hash-locked CPython 3.12 development environment.
+- GUI interaction and visual layout: constructed and event-processed offscreen; not yet manually
+  reviewed in a visible desktop session.
+- Search scale: functionally tested with bounded pages; not benchmarked at millions of rows and
+  not an Everything-performance claim.
 - Windows acceptance: passed locally on Windows 10 Home for source commit `018435d`; this was not
   an independent build or replication.
 - exFAT VHDX: passed using a new 512 MiB disposable VHDX resolved only from its exact workspace

@@ -23,9 +23,12 @@ def main() -> int:
         candidate = ROOT / relative
         if not candidate.is_file() or hashlib.sha256(candidate.read_bytes()).hexdigest() != expected:
             raise SystemExit(f"verified source changed; release build refused: {relative}")
-    output = ROOT / "artifacts" / "paretodrive-0.2.0-audit.2-source.zip"
+    output = ROOT / "artifacts" / "paretodrive-0.3.0-alpha-source.zip"
     included_roots = ("src", "docs", "tests", "tools")
-    files = [ROOT / name for name in ("pyproject.toml", "requirements-dev.lock", "README.md", "LICENSE", "CHANGELOG.md")]
+    files = [ROOT / name for name in (
+        "pyproject.toml", "requirements-dev.lock", "requirements-viewer.lock",
+        "README.md", "LICENSE", "CHANGELOG.md",
+    )]
     for directory in included_roots:
         files.extend(path for path in (ROOT / directory).rglob("*") if path.is_file() and "__pycache__" not in path.parts)
     with zipfile.ZipFile(output, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:

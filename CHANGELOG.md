@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.0-alpha - unreleased
+
+- Added a separate `paretodrive_view` package with query-only inventory access.
+- Added bounded path search and exact item lookup for completed scan sessions.
+- Added a distinct user-decision database with optimistic revisions and append-only history.
+- Added headless search/decision commands and a minimal optional PySide6 table viewer.
+- Added a hash-locked Windows PySide6 6.10.2 dependency set.
+- Added viewer trust-boundary, decision-schema, backend, CLI, static-safety, and offscreen GUI tests.
+
 ## 0.2.0-audit.2 - unreleased
 
 - Added explicit Windows/exFAT acceptance contracts and plan-only VHDX tooling.

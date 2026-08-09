@@ -18,7 +18,10 @@ TIMEOUT_SECONDS = 180
 
 
 def source_manifest() -> dict[str, str]:
-    excluded = {".git", ".pytest_cache", ".pytest-tmp", ".tool-tmp", "__pycache__", "artifacts", ".venv", "build", "dist"}
+    excluded = {
+        ".git", ".pytest_cache", ".pytest-tmp", ".tool-tmp", "__pycache__", "artifacts",
+        ".venv", ".venv-gui", "build", "dist",
+    }
     result: dict[str, str] = {}
     for path in sorted(ROOT.rglob("*")):
         if not path.is_file() or any(part in excluded for part in path.relative_to(ROOT).parts):
@@ -68,7 +71,7 @@ def execute(command: list[str], label: str) -> dict[str, object]:
 
 
 def versions() -> dict[str, str]:
-    names = ("pytest", "psutil", "coverage", "ruff", "mypy")
+    names = ("pytest", "psutil", "coverage", "ruff", "mypy", "PySide6")
     found: dict[str, str] = {"python": platform.python_version()}
     for name in names:
         try:
@@ -113,7 +116,7 @@ def main() -> int:
     host_name = "TEST-WINDOWS.json" if os.name == "nt" else "TEST-LINUX.json"
     write_json("SOURCE_MANIFEST.json", {"algorithm": "sha256", "files": before})
     write_json(host_name, {
-        "status": "PASS" if overall else "FAIL", "version": "0.2.0-audit.2",
+        "status": "PASS" if overall else "FAIL", "version": "0.3.0-alpha",
         "platform": platform.platform(),
         "dependencies": versions(), "tests": test, "fixture": fixture,
         "canonical_fixture": fixture_value, "source_unchanged": unchanged,
@@ -137,13 +140,38 @@ def main() -> int:
     })
     other_host = "TEST-LINUX.json" if os.name == "nt" else "TEST-WINDOWS.json"
     write_json(other_host, {"status": "NOT_TESTED", "reason": "requires independent host"})
-    write_json("TEST-EXFAT-VHDX.json", {
-        "status": "NOT_TESTED", "reason": "requires disposable exFAT VHDX on Windows",
-        "plan_only_harness": "locally tested without administrator privileges",
-    })
-    write_json("TEST-READ-ONLY.json", {
-        "status": "NOT_TESTED", "reason": "requires OS-enforced read-only source and manifests"
-    })
+    exfat_path = ARTIFACTS / "TEST-EXFAT-VHDX.json"
+    exfat: dict[str, object] | None = None
+    if exfat_path.is_file():
+        try:
+            candidate = json.loads(exfat_path.read_text(encoding="utf-8"))
+            if candidate.get("status") == "PASS":
+                exfat = candidate
+        except (json.JSONDecodeError, OSError):
+            pass
+    if exfat is None:
+        write_json("TEST-EXFAT-VHDX.json", {
+            "status": "NOT_TESTED", "reason": "requires disposable exFAT VHDX on Windows",
+            "plan_only_harness": "locally tested without administrator privileges",
+        })
+        write_json("TEST-READ-ONLY.json", {
+            "status": "NOT_TESTED",
+            "reason": "requires OS-enforced read-only source and manifests",
+        })
+    else:
+        capabilities = exfat.get("capabilities")
+        source_unchanged = exfat.get("source_unchanged")
+        read_only_passed = (
+            isinstance(capabilities, dict)
+            and capabilities.get("os_enforced_read_only") is True
+            and isinstance(source_unchanged, dict)
+            and source_unchanged.get("identical") is True
+        )
+        write_json("TEST-READ-ONLY.json", {
+            "status": "PASS" if read_only_passed else "FAILED",
+            "source_commit": exfat.get("source_commit"),
+            "evidence": "TEST-EXFAT-VHDX.json",
+        })
     write_checksums()
     summary = {"status": "PASS" if overall else "FAIL", "test": test["passed"],
                "fixture": fixture["passed"], "source_unchanged": unchanged}

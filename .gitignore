@@ -9,6 +9,7 @@ build/
 dist/
 *.egg-info/
 .venv/
+.venv-gui/
 artifacts/*.json
 artifacts/*.txt
 !artifacts/.gitkeep

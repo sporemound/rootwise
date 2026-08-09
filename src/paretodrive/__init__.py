@@ -1,3 +1,3 @@
 """ParetoDrive audit scanner."""
 
-__version__ = "0.2.0-audit.2"
+__version__ = "0.3.0-alpha"
