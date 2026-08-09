@@ -1,10 +1,11 @@
-# ParetoDrive 0.9.0-alpha
+# ParetoDrive 0.10.0-alpha
 
 ParetoDrive contains a deliberately narrow, metadata-only filesystem inventory scanner, a
 separate read-only review interface, structural analytics, robust Pareto review ranking, a
 proposal-only hierarchical optimizer, and explicitly permissioned content enrichment.
 Stage 0.8 also records an explicit plan selection as a non-executable canonical approval receipt.
 Stage 0.9 compiles a bounded metadata-only executor-preflight manifest from that receipt.
+Stage 0.10 imports completed enrichment evidence into a new immutable analytical snapshot.
 The core scanner records directory entries and metadata in an external SQLite database and can
 stream a canonical NDJSON representation. Only the separate Stage 0.7 enrichment command reads
 selected source-file contents, and only with an explicit acknowledgement and immutable selection
@@ -229,3 +230,22 @@ python -m paretodrive_preflight.cli `
 The preflight manifest contains inventory observations, not current source validation. It records
 `false` for source-content reads, execution, archive creation, and original removal. No archive is
 created. See `docs/PREFLIGHT_CONTRACT.md`.
+
+## Enrichment evidence fusion
+
+Stage 0.10 reads one complete structural analysis and one complete enrichment run bound to the
+same inventory session and logical digest. It writes a new sibling fusion database without opening
+the inventory or any recorded source path:
+
+```powershell
+$ErrorActionPreference = "Stop"
+$env:PYTHONPATH = "E:\Python Scripts\paretodrive\src"
+python -m paretodrive_fusion.cli `
+    --analysis "E:\inventories\analysis.db" `
+    --evidence "E:\inventories\evidence.db" `
+    --fusion "E:\inventories\fusion.db"
+```
+
+D2 remains candidate evidence. Only D3/D4 populate confirmed-member features. Coverage is selected
+files divided by observed files; confirmed-member ratio is confirmed members divided by selected
+files. Neither metric implies deletion or archive eligibility. See `docs/FUSION_CONTRACT.md`.

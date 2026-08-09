@@ -1,6 +1,6 @@
 # Release Status
 
-Version: `0.9.0-alpha` (unreleased source milestone)
+Version: `0.10.0-alpha` (unreleased source milestone)
 
 - Designed: metadata-only scanner boundary and staged release gates.
 - Implemented: volume identity, guarded outputs, handle-bound traversal, SQLite sessions,
@@ -24,9 +24,12 @@ Version: `0.9.0-alpha` (unreleased source milestone)
 - Metadata-only executor preflight implemented: full plans/ranking/analysis/inventory provenance
   tracing, bounded regular-member enumeration, exact count/byte reconciliation, scan-error-region
   rejection, and explicit false content-read/execution/archive/removal authorization fields.
-- Tested locally: 66 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
+- Enrichment-evidence fusion implemented: full analysis/enrichment logical validation, exact
+  session and inventory binding, D2 candidate versus D3/D4 confirmed separation, and directory
+  coverage/member features with explicit denominators.
+- Tested locally: 70 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
   including construction of the real PySide6 6.10.2 window using the offscreen Qt platform. Ruff
-  and strict mypy pass across 45 source files under the hash-locked CPython 3.12 environment.
+  and strict mypy pass across 48 source files under the hash-locked CPython 3.12 environment.
 - GUI interaction and visual layout: constructed and event-processed offscreen; not yet manually
   reviewed in a visible desktop session.
 - Search scale: functionally tested with bounded pages; not benchmarked at millions of rows and
@@ -51,6 +54,10 @@ Version: `0.9.0-alpha` (unreleased source milestone)
   intersections, member bounds, count/byte reconciliation, deterministic output, and unchanged
   source contents are covered. Current source observations and destination capacity are not
   checked, and the output is intentionally non-executable.
+- Fusion scale: only small synthetic D2/D3/D4 selections are tested. Evidence tampering, stopped
+  runs, deterministic output, unchanged inputs/source contents, and candidate/confirmed separation
+  are covered. Multi-million-row aggregation and combining multiple enrichment runs are not yet
+  implemented or accepted.
 - Installed analytics integration: passed against the retained 30-observation synthetic exFAT
   inventory after VHDX detachment, producing 15 roles, 16 aggregate nodes, one project, six
   relationships, and four `COMPLETE` stages while leaving the inventory byte-identical. Output
@@ -80,6 +87,11 @@ Version: `0.9.0-alpha` (unreleased source milestone)
   through the synthetic plan, ranking, analysis, and inventory; enumerated and reconciled the
   archive members; left all inputs and source contents SHA-256-identical; and emitted four false
   authorization fields. No archive or destination artifact other than the manifest was created.
+- Installed fusion integration: `paretodrive-fuse-evidence` validated temporary D3 evidence,
+  preserved three selected files as zero candidate and two confirmed duplicate members at the
+  root, and left the inventory, analysis, evidence, and synthetic source contents SHA-256-identical.
+  The successful installed run used the unlocked CPython 3.12 environment because an operator-open
+  viewer held the CPython 3.14 console executable during the initial editable-install attempt.
 - Windows acceptance: passed locally on Windows 10 Home for source commit `018435d`; this was not
   an independent build or replication.
 - exFAT VHDX: passed using a new 512 MiB disposable VHDX resolved only from its exact workspace

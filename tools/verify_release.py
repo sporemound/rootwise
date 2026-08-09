@@ -14,7 +14,7 @@ from pathlib import Path
 
 def main() -> int:
     root = Path(__file__).parents[1]
-    package = root / "artifacts" / "paretodrive-0.9.0-alpha-source.zip"
+    package = root / "artifacts" / "paretodrive-0.10.0-alpha-source.zip"
     if not package.is_file():
         raise SystemExit("release package is missing")
     with tempfile.TemporaryDirectory(prefix="paretodrive-release-") as temporary:
@@ -22,7 +22,8 @@ def main() -> int:
         with zipfile.ZipFile(package, "r") as archive:
             archive.extractall(extracted)
         environment = {key: value for key, value in os.environ.items() if key in {
-            "PATH", "SYSTEMROOT", "WINDIR", "TEMP", "TMP", "PATHEXT", "COMSPEC"
+            "PATH", "SYSTEMROOT", "WINDIR", "TEMP", "TMP", "PATHEXT", "COMSPEC",
+            "PARETODRIVE_ENTRYPOINT_DIR",
         }}
         environment.update({"PYTHONHASHSEED": "0", "TZ": "UTC", "PYTHONUTF8": "1"})
         started = time.monotonic()

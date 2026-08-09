@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.10.0-alpha - unreleased
+
+- Added strict logical validation and snapshot-only import of complete enrichment evidence.
+- Preserved D2 candidate evidence separately from D3/D4 confirmed duplicate evidence.
+- Added directory-level selection coverage and candidate/confirmed duplicate-member features with
+  explicit denominators.
+
 ## 0.9.0-alpha - unreleased
 
 - Added a query-only plans-to-inventory provenance-chain validator.

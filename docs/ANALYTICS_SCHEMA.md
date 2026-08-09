@@ -77,3 +77,17 @@ modification times, and attributes.
 
 The manifest state is `PREFLIGHT_ONLY_NON_EXECUTABLE`. Source-content-read, execution,
 archive-creation, and original-removal authorizations are all `false`.
+
+## 0.10 enrichment-evidence fusion
+
+The fusion database uses application ID `1346654812` and binds one complete structural analysis
+run to one complete enrichment run over the same inventory session and logical digest.
+
+- `fusion_runs` records both inputs, evidence level, counts, digests, and state.
+- `fusion_stages` records `validate`, `import`, and `directory_features` provenance.
+- `imported_file_evidence` preserves the per-file algorithm and digest.
+- `imported_duplicate_groups` and `imported_duplicate_members` preserve candidate/confirmed status.
+- `directory_evidence_features` stores selection coverage and separate D2 versus D3/D4 member
+  counts and bytes.
+
+The fusion database is analytical evidence, not an approval or executor input.

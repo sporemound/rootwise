@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "paretodrive"
-version = "0.9.0a0"
-description = "Audit-first inventory, plan approval, and metadata-only executor preflight"
+version = "0.10.0a0"
+description = "Audit-first inventory, enrichment fusion, approval, and executor preflight"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
@@ -26,6 +26,7 @@ paretodrive-optimize = "paretodrive_analytics.optimizer_cli:main"
 paretodrive-enrich = "paretodrive_enrich.cli:main"
 paretodrive-approve = "paretodrive_approval.cli:main"
 paretodrive-preflight = "paretodrive_preflight.cli:main"
+paretodrive-fuse-evidence = "paretodrive_fusion.cli:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

@@ -82,7 +82,10 @@ def main() -> int:
             "plans": _sha256(plans), "declaration": _sha256(declaration),
             "inventory": _sha256(inventory), "source": _tree_digest(source),
         }
-        executable = Path(sys.executable).with_name(
+        entrypoint_directory = Path(
+            os.environ.get("PARETODRIVE_ENTRYPOINT_DIR", str(Path(sys.executable).parent))
+        )
+        executable = entrypoint_directory / (
             "paretodrive-approve.exe" if os.name == "nt" else "paretodrive-approve"
         )
         if not executable.is_file():
@@ -114,7 +117,7 @@ def main() -> int:
         }
         if before != after_approval:
             raise RuntimeError("installed approval CLI modified an input")
-        preflight_executable = Path(sys.executable).with_name(
+        preflight_executable = entrypoint_directory / (
             "paretodrive-preflight.exe" if os.name == "nt" else "paretodrive-preflight"
         )
         if not preflight_executable.is_file():
