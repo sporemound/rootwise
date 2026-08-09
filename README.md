@@ -1,11 +1,12 @@
-# ParetoDrive 0.6.0-alpha
+# ParetoDrive 0.7.0-alpha
 
 ParetoDrive contains a deliberately narrow, metadata-only filesystem inventory scanner, a
-separate read-only review interface, structural analytics, robust Pareto review ranking, and a
-proposal-only hierarchical optimizer.
-It records directory entries and metadata in an external SQLite database and can stream a
-canonical NDJSON representation. It does not read source-file contents, hash source files,
-classify data, create archives, reorganize files, or delete anything.
+separate read-only review interface, structural analytics, robust Pareto review ranking, a
+proposal-only hierarchical optimizer, and explicitly permissioned content enrichment.
+The core scanner records directory entries and metadata in an external SQLite database and can
+stream a canonical NDJSON representation. Only the separate Stage 0.7 enrichment command reads
+selected source-file contents, and only with an explicit acknowledgement and immutable selection
+manifest. No component creates archives, reorganizes files, or deletes anything.
 
 This source tree remains an alpha milestone, not a claim of safety for a real drive. The disposable
 exFAT and OS-enforced read-only gates passed locally, but independent replication and real-scale
@@ -21,8 +22,8 @@ revisioned database and cannot modify inventory observations or execute filesyst
 ## Development
 
 Use Python 3.11 or newer. The scanner, viewer backend, and 0.4 structural analysis use only the
-standard library. Stage 0.5 analytics and Stage 0.6 optimizer dependencies are optional and
-separately locked.
+standard library. Stage 0.5 analytics, Stage 0.6 optimizer, and Stage 0.7 enrichment dependencies
+are optional and separately locked.
 
 ```powershell
 $ErrorActionPreference = "Stop"
@@ -63,6 +64,17 @@ $Repo = "E:\Python Scripts\paretodrive"
 if (-not (Test-Path -LiteralPath $Repo -PathType Container)) { throw "Missing repo: $Repo" }
 Set-Location -LiteralPath $Repo
 python -m pip install --require-hashes -r requirements-optimizer.lock
+```
+
+The permissioned enrichment component uses the official BLAKE3 Python binding and has its own
+complete Windows lock:
+
+```powershell
+$ErrorActionPreference = "Stop"
+$Repo = "E:\Python Scripts\paretodrive"
+if (-not (Test-Path -LiteralPath $Repo -PathType Container)) { throw "Missing repo: $Repo" }
+Set-Location -LiteralPath $Repo
+python -m pip install --require-hashes -r requirements-enrichment.lock
 ```
 
 ## CLI
@@ -153,3 +165,26 @@ python -m paretodrive_analytics.optimizer_cli `
 Capacity values are planning constraints, not detected free-space claims. Every result remains
 `UNAPPROVED`; proposed names and potential recoverable bytes do not create archives or recover
 space. See `docs/OPTIMIZATION_CONTRACT.md` before interpreting any plan.
+
+## Permissioned content enrichment
+
+Stage 0.7 is a separate content-reading boundary. It requires a manifest that pins one complete
+inventory session, that snapshot's logical digest, one evidence level, and an explicit sorted list
+of relative file paths. The evidence database must be new, beside the inventory database, and on a
+different OS volume from the source:
+
+```powershell
+$ErrorActionPreference = "Stop"
+$env:PYTHONPATH = "E:\Python Scripts\paretodrive\src"
+python -m paretodrive_enrich.cli `
+    --inventory "E:\inventories\inventory.db" `
+    --source "D:\disposable-source" `
+    --selection "E:\inventories\selection.json" `
+    --evidence "E:\inventories\evidence.db" `
+    --allow-content-read
+```
+
+D2 is sampled candidate evidence only. D3 and D4 confirm identical bytes for the selected files,
+but no evidence level implies that a file may be moved, archived, or deleted. Content reads can
+update access-time metadata depending on the filesystem and mount policy. See
+`docs/ENRICHMENT_CONTRACT.md` before using this command.

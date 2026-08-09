@@ -12,4 +12,5 @@ dist/
 .venv-gui/
 artifacts/*.json
 artifacts/*.txt
+artifacts/*.zip
 !artifacts/.gitkeep

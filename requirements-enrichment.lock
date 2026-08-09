@@ -1,0 +1,6 @@
+# Hash-locked Stage 0.7 dependency for CPython 3.11-3.14 on Windows x86-64.
+blake3==1.0.9 \
+    --hash=sha256:d819457dccfd82fe34684ec99e36725f747bd5761a0e17f537387fb31d121193 \
+    --hash=sha256:15566065ff90ab3da46ec0be1417406f00507af902b6fb0fbc6563e77f02fc42 \
+    --hash=sha256:caded2806d2cbeed638c5e2517ed8b2a94165b3452fda35e72896142d22070e0 \
+    --hash=sha256:0aba416bb2e3ef0c65e74d5eba21062483c714cd78e7e303c9d03c547fc7d015

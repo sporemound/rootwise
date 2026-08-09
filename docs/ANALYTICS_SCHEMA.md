@@ -43,3 +43,17 @@ query-only decision snapshot and explicit capacity policy.
 - `proposed_archives` stores collision-checked proposal names; no archive is created.
 
 The plans database is a proposal artifact, not an approval manifest and not executor input.
+
+## 0.7 content enrichment
+
+The evidence database uses application ID `1346654811`, is a new file beside the inventory, and
+binds an explicit selection manifest to a complete inventory snapshot and its source-volume
+identity.
+
+- `enrichment_runs` records the selection, policy, BLAKE3 version, byte counts, and terminal state.
+- `enrichment_stages` records `selection`, `read`, and `duplicates` provenance.
+- `file_evidence` stores per-file evidence level, algorithm, digest, size, and bytes read.
+- `duplicate_groups` and `duplicate_members` store D2 `CANDIDATE` or D3/D4 `CONFIRMED` groups.
+- `enrichment_errors` records fail-closed run errors.
+
+Evidence is not an approval, plan, archive manifest, or executor input.

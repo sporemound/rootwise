@@ -1,6 +1,6 @@
 # Release Status
 
-Version: `0.6.0-alpha` (unreleased source milestone)
+Version: `0.7.0-alpha` (unreleased source milestone)
 
 - Designed: metadata-only scanner boundary and staged release gates.
 - Implemented: volume identity, guarded outputs, handle-bound traversal, SQLite sessions,
@@ -14,9 +14,13 @@ Version: `0.6.0-alpha` (unreleased source milestone)
 - Proposal optimizer implemented: explicit hierarchical candidates, exact tree Pareto reference,
   fixed-seed NSGA-III, R-NSGA-III refinement with explicit degeneracy fallback, independent plan
   validation, hard capacity constraints, and `UNAPPROVED` reduced presentation.
-- Tested locally: 49 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
+- Permissioned enrichment implemented: immutable explicit selections, D2 sampled BLAKE3, D3 full
+  BLAKE3, D4 full SHA-256, bounded/rate-limited reads, path and metadata revalidation, and a
+  separate evidence database. D2 groups remain `CANDIDATE`; D3/D4 groups are byte-equality
+  evidence only and authorize no action.
+- Tested locally: 58 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
   including construction of the real PySide6 6.10.2 window using the offscreen Qt platform. Ruff
-  and strict mypy pass across 32 source files under the hash-locked CPython 3.12 environment.
+  and strict mypy pass across 37 source files under the hash-locked CPython 3.12 environment.
 - GUI interaction and visual layout: constructed and event-processed offscreen; not yet manually
   reviewed in a visible desktop session.
 - Search scale: functionally tested with bounded pages; not benchmarked at millions of rows and
@@ -29,6 +33,10 @@ Version: `0.6.0-alpha` (unreleased source milestone)
 - Optimizer scale: exact frontier-state growth and small evolutionary fixtures are tested; large
   candidate trees, convergence quality, cross-seed variance, and thermal behavior are not accepted
   for the real source.
+- Enrichment scale: only small synthetic selections are tested. D2/D3/D4 correctness, bounded
+  stopping, duplicate status, unchanged file contents, and same-volume rejection are covered;
+  large selections, throughput, thermal behavior, and hostile concurrent replacement are not
+  accepted. Content reads may update access-time metadata depending on the filesystem.
 - Installed analytics integration: passed against the retained 30-observation synthetic exFAT
   inventory after VHDX detachment, producing 15 roles, 16 aggregate nodes, one project, six
   relationships, and four `COMPLETE` stages while leaving the inventory byte-identical. Output
@@ -45,6 +53,11 @@ Version: `0.6.0-alpha` (unreleased source milestone)
   favor of the recorded degenerate fallback. Ranking SHA-256 remained
   `252e73caf0130412d24dad24ec513e1fc4b7f55a0dae2d16e2988a28cd802115`; plans output digest:
   `536d417d7c286dbe9a2169a99cb09ec0ee5e1f9bc2b378f24e29bfb55fac38ba`.
+- Installed enrichment boundary: the 0.7 package and `paretodrive-enrich` entry point are installed
+  with BLAKE3 1.0.9. Synthetic D2/D3/D4 success paths pass only through an explicitly injected
+  test volume resolver. The production resolver refuses a same-volume source/evidence setup before
+  creating evidence or reading selected content. No distinct mounted disposable source is
+  currently available for a successful installed-CLI content-read acceptance run.
 - Windows acceptance: passed locally on Windows 10 Home for source commit `018435d`; this was not
   an independent build or replication.
 - exFAT VHDX: passed using a new 512 MiB disposable VHDX resolved only from its exact workspace

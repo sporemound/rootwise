@@ -74,6 +74,7 @@ def versions() -> dict[str, str]:
     names = (
         "pytest", "psutil", "coverage", "ruff", "mypy", "PySide6",
         "duckdb", "polars", "pyarrow", "numpy", "scipy", "pymoo",
+        "blake3",
     )
     found: dict[str, str] = {"python": platform.python_version()}
     for name in names:
@@ -105,6 +106,15 @@ def main() -> int:
     revision = execute(
         ["git", "-c", f"safe.directory={ROOT}", "rev-parse", "HEAD"], "git_revision"
     )
+    release_revision = ROOT / "RELEASE_REVISION.txt"
+    if not revision["passed"] and release_revision.is_file():
+        recorded = release_revision.read_text(encoding="ascii").strip()
+        valid = len(recorded) == 40 and all(character in "0123456789abcdef" for character in recorded)
+        revision = {
+            "label": "release_revision", "command": ["read", "RELEASE_REVISION.txt"],
+            "timeout_seconds": 0, "duration_seconds": 0.0, "exit_code": 0 if valid else 1,
+            "stdout": recorded + "\n", "stderr": "", "timed_out": False, "passed": valid,
+        }
     test = execute([sys.executable, "-m", "pytest", "-q"], "pytest")
     fixture = execute([sys.executable, "tools/generate_fixture_evidence.py"], "canonical_fixture")
     after = source_manifest()
@@ -119,7 +129,7 @@ def main() -> int:
     host_name = "TEST-WINDOWS.json" if os.name == "nt" else "TEST-LINUX.json"
     write_json("SOURCE_MANIFEST.json", {"algorithm": "sha256", "files": before})
     write_json(host_name, {
-        "status": "PASS" if overall else "FAIL", "version": "0.6.0-alpha",
+        "status": "PASS" if overall else "FAIL", "version": "0.7.0-alpha",
         "platform": platform.platform(),
         "dependencies": versions(), "tests": test, "fixture": fixture,
         "canonical_fixture": fixture_value, "source_unchanged": unchanged,
@@ -140,6 +150,7 @@ def main() -> int:
             "core": [],
             "optional_analytics": ["duckdb==1.5.5", "polars==1.43.2", "pyarrow==25.0.0"],
             "optional_optimizer": ["numpy==2.4.6", "scipy==1.17.1", "pymoo==0.6.2"],
+            "optional_enrichment": ["blake3==1.0.9"],
         }, "development_versions": versions(),
         "development_lock_sha256": hashlib.sha256(
             (ROOT / "requirements-dev.lock").read_bytes()
@@ -149,6 +160,9 @@ def main() -> int:
         ).hexdigest(),
         "optimizer_lock_sha256": hashlib.sha256(
             (ROOT / "requirements-optimizer.lock").read_bytes()
+        ).hexdigest(),
+        "enrichment_lock_sha256": hashlib.sha256(
+            (ROOT / "requirements-enrichment.lock").read_bytes()
         ).hexdigest(),
     })
     other_host = "TEST-LINUX.json" if os.name == "nt" else "TEST-WINDOWS.json"

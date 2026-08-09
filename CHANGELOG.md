@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.7.0-alpha - unreleased
+
+- Added an explicitly acknowledged, selection-bound content-reading enrichment package.
+- Added bounded D2 sampled BLAKE3, D3 full BLAKE3, and D4 full SHA-256 evidence.
+- Added a separate provenance database whose duplicate results are evidence only, never action
+  authorization.
+
 ## 0.6.0-alpha - unreleased
 
 - Added explicit hierarchical archive-candidate actions and hard policy constraints.
