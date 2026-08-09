@@ -29,4 +29,5 @@ def test_vhdx_harness_is_plan_only_by_default_and_has_no_disk_number_input(tmp_p
         plan = json.loads(completed.stdout)
         assert plan["action"] == "Plan"
         assert plan["physical_disk_selection"] is False
+        assert plan["backend"] in {"hyper_v", "storage_diskpart"}
         assert not vhdx.exists()
