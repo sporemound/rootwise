@@ -1,0 +1,58 @@
+from __future__ import annotations
+
+from pathlib import Path
+
+from paretodrive.database import InventoryDatabase
+from paretodrive.models import ScanConfig, SessionState
+from paretodrive.scanner import MetadataScanner
+from paretodrive.errors import ScanStateError
+import pytest
+
+from .helpers import RecordingGuard, actual_volume, make_corpus
+
+
+def test_resume_reuses_session_and_finishes_without_duplicate_rows(tmp_path: Path) -> None:
+    source = make_corpus(tmp_path / "source")
+    database_path = tmp_path / "inventory.db"
+    stopped = ScanConfig(str(source), str(database_path), 100_000, 2, 0, stop_after=4)
+    complete = ScanConfig(str(source), str(database_path), 100_000, 3, 0)
+    with InventoryDatabase(database_path, RecordingGuard(tmp_path)) as database:
+        first_session, first_state = MetadataScanner(
+            source, actual_volume(source), database, stopped
+        ).run()
+        assert first_state is SessionState.STOPPED
+        second_session, second_state = MetadataScanner(
+            source, actual_volume(source), database, complete
+        ).run(resume=True)
+        assert second_session == first_session
+        assert second_state is SessionState.COMPLETE
+        count = database.connection.execute(
+            "SELECT observed_count FROM scan_sessions WHERE scan_session_id=?", (first_session,)
+        ).fetchone()[0]
+        actual = database.connection.execute(
+            "SELECT (SELECT COUNT(*) FROM files WHERE scan_session_id=?)+"
+            "(SELECT COUNT(*) FROM directories WHERE scan_session_id=?)",
+            (first_session, first_session),
+        ).fetchone()[0]
+        assert count == actual
+
+
+def test_resume_rejects_different_root_on_same_volume(tmp_path: Path) -> None:
+    first = tmp_path / "first"
+    second = tmp_path / "second"
+    first.mkdir()
+    second.mkdir()
+    (first / "one.txt").touch()
+    (second / "two.txt").touch()
+    database_path = tmp_path / "inventory.db"
+    stopped = ScanConfig(str(first), str(database_path), 100_000, 1, 0, stop_after=1)
+    resume_config = ScanConfig(str(second), str(database_path), 100_000, 1, 0)
+    volume = actual_volume(first)
+    with InventoryDatabase(database_path, RecordingGuard(tmp_path)) as database:
+        session, state = MetadataScanner(first, volume, database, stopped).run()
+        assert state is SessionState.STOPPED
+        with pytest.raises(ScanStateError, match="no resumable"):
+            MetadataScanner(second, volume, database, resume_config).run(resume=True)
+        assert database.connection.execute(
+            "SELECT state FROM scan_sessions WHERE scan_session_id=?", (session,)
+        ).fetchone()[0] == "STOPPED"

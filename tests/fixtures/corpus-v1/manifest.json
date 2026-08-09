@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "fixed_timestamp_ns": 1704067200000000000,
+  "expected_sha256": {
+    "windows-cpython-3.12": "57f2aa24aa89bb0c490edf77e12027e2b42160b70f43bdc06c30c177260a6d74"
+  },
+  "directories": [
+    "project/src/deep/one/two/three",
+    "project/.cache",
+    "project/build",
+    "project/.venv/lib/site-packages",
+    "empty directory",
+    "media/final exports",
+    "unicode"
+  ],
+  "files": {
+    "project/pyproject.toml": "[project]\nname='fixture'\n",
+    "project/src/main.py": "print('fixture')\n",
+    "project/src/deep/one/two/three/config.json": "{}\n",
+    "project/.cache/item.bin": "cache",
+    "project/build/output.dat": "built",
+    "project/.venv/lib/site-packages/dependency.py": "x=1\n",
+    "media/final exports/render.wav": "same",
+    "media/final exports/other.wav": "diff",
+    "unicode/café.txt": "nfc",
+    "unicode/café.txt": "nfd",
+    "=formula.txt": "",
+    "+plus.txt": "",
+    "-minus.txt": "",
+    "@at.txt": "",
+    "spaces & punctuation !.txt": ""
+  },
+  "notes": [
+    "The two WAV fixtures have the same byte length and different content.",
+    "The scanner must not inspect either content value.",
+    "Inaccessible/disappearing entries and cancellation are injected by tests.",
+    "A symlink fixture is created only where the host permits unprivileged creation."
+  ]
+}

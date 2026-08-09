@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.pytest-tmp/
+.tool-tmp/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+.venv/
+artifacts/*.json
+artifacts/*.txt
+!artifacts/.gitkeep
