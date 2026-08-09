@@ -29,3 +29,17 @@ analysis database, and records the selected complete analysis run and logical in
 
 The 0.5 reader opens 0.4 in SQLite read-only/query-only mode. It never opens the inventory or
 observed source paths, and none of its outputs authorize filesystem changes.
+
+## 0.6 proposal optimization
+
+The plans database uses application ID `1346654810` and binds a complete ranking run to a
+query-only decision snapshot and explicit capacity policy.
+
+- `plan_runs` records ranking, decision/session digests, configuration, dependencies, and state.
+- `plan_stages` records `candidates`, `exact`, `nsga3`, `rnsga3`, `validate`, and `present`.
+- `candidate_groups` stores the hierarchy and explicit eligibility/protection constraints.
+- `proposed_plans` stores independently recomputed objectives and `UNAPPROVED` state.
+- `plan_actions` stores one action for every candidate in every retained plan.
+- `proposed_archives` stores collision-checked proposal names; no archive is created.
+
+The plans database is a proposal artifact, not an approval manifest and not executor input.

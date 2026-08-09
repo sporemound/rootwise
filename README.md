@@ -1,7 +1,8 @@
-# ParetoDrive 0.5.0-alpha
+# ParetoDrive 0.6.0-alpha
 
 ParetoDrive contains a deliberately narrow, metadata-only filesystem inventory scanner, a
-separate read-only review interface, structural analytics, and robust Pareto review ranking.
+separate read-only review interface, structural analytics, robust Pareto review ranking, and a
+proposal-only hierarchical optimizer.
 It records directory entries and metadata in an external SQLite database and can stream a
 canonical NDJSON representation. It does not read source-file contents, hash source files,
 classify data, create archives, reorganize files, or delete anything.
@@ -20,7 +21,8 @@ revisioned database and cannot modify inventory observations or execute filesyst
 ## Development
 
 Use Python 3.11 or newer. The scanner, viewer backend, and 0.4 structural analysis use only the
-standard library. Stage 0.5 analytics dependencies are optional and separately locked.
+standard library. Stage 0.5 analytics and Stage 0.6 optimizer dependencies are optional and
+separately locked.
 
 ```powershell
 $ErrorActionPreference = "Stop"
@@ -51,6 +53,16 @@ $Repo = "E:\Python Scripts\paretodrive"
 if (-not (Test-Path -LiteralPath $Repo -PathType Container)) { throw "Missing repo: $Repo" }
 Set-Location -LiteralPath $Repo
 python -m pip install --require-hashes -r requirements-analytics.lock
+```
+
+The proposal optimizer has its own complete Windows lock:
+
+```powershell
+$ErrorActionPreference = "Stop"
+$Repo = "E:\Python Scripts\paretodrive"
+if (-not (Test-Path -LiteralPath $Repo -PathType Container)) { throw "Missing repo: $Repo" }
+Set-Location -LiteralPath $Repo
+python -m pip install --require-hashes -r requirements-optimizer.lock
 ```
 
 ## CLI
@@ -119,3 +131,25 @@ The ranking retains four independent uncertainty intervals, computes robust Pare
 within explicit cohorts, and emits a bounded human-review queue. It does not modify the analysis
 database, inspect the source filesystem, combine the objectives into a single importance score,
 or imply any filesystem action.
+
+## Proposal-only optimization
+
+Optimization requires prior explicit `ARCHIVE_ELIGIBLE` decisions and capacity values supplied by
+the operator. All three inputs/outputs must be distinct sibling databases:
+
+```powershell
+$ErrorActionPreference = "Stop"
+$env:PYTHONPATH = "E:\Python Scripts\paretodrive\src"
+python -m paretodrive_analytics.optimizer_cli `
+    --ranking "E:\inventories\ranking.db" `
+    --decisions "E:\inventories\decisions.db" `
+    --plans "E:\inventories\plans.db" `
+    --maximum-archive-bytes 107374182400 `
+    --destination-available-bytes 1099511627776 `
+    --destination-safety-margin 0.15 `
+    --generations 20
+```
+
+Capacity values are planning constraints, not detected free-space claims. Every result remains
+`UNAPPROVED`; proposed names and potential recoverable bytes do not create archives or recover
+space. See `docs/OPTIMIZATION_CONTRACT.md` before interpreting any plan.

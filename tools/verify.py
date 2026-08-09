@@ -73,7 +73,7 @@ def execute(command: list[str], label: str) -> dict[str, object]:
 def versions() -> dict[str, str]:
     names = (
         "pytest", "psutil", "coverage", "ruff", "mypy", "PySide6",
-        "duckdb", "polars", "pyarrow",
+        "duckdb", "polars", "pyarrow", "numpy", "scipy", "pymoo",
     )
     found: dict[str, str] = {"python": platform.python_version()}
     for name in names:
@@ -119,7 +119,7 @@ def main() -> int:
     host_name = "TEST-WINDOWS.json" if os.name == "nt" else "TEST-LINUX.json"
     write_json("SOURCE_MANIFEST.json", {"algorithm": "sha256", "files": before})
     write_json(host_name, {
-        "status": "PASS" if overall else "FAIL", "version": "0.5.0-alpha",
+        "status": "PASS" if overall else "FAIL", "version": "0.6.0-alpha",
         "platform": platform.platform(),
         "dependencies": versions(), "tests": test, "fixture": fixture,
         "canonical_fixture": fixture_value, "source_unchanged": unchanged,
@@ -139,12 +139,16 @@ def main() -> int:
         "runtime_dependencies": {
             "core": [],
             "optional_analytics": ["duckdb==1.5.5", "polars==1.43.2", "pyarrow==25.0.0"],
+            "optional_optimizer": ["numpy==2.4.6", "scipy==1.17.1", "pymoo==0.6.2"],
         }, "development_versions": versions(),
         "development_lock_sha256": hashlib.sha256(
             (ROOT / "requirements-dev.lock").read_bytes()
         ).hexdigest(),
         "analytics_lock_sha256": hashlib.sha256(
             (ROOT / "requirements-analytics.lock").read_bytes()
+        ).hexdigest(),
+        "optimizer_lock_sha256": hashlib.sha256(
+            (ROOT / "requirements-optimizer.lock").read_bytes()
         ).hexdigest(),
     })
     other_host = "TEST-LINUX.json" if os.name == "nt" else "TEST-WINDOWS.json"

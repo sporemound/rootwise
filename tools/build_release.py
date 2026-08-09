@@ -23,11 +23,12 @@ def main() -> int:
         candidate = ROOT / relative
         if not candidate.is_file() or hashlib.sha256(candidate.read_bytes()).hexdigest() != expected:
             raise SystemExit(f"verified source changed; release build refused: {relative}")
-    output = ROOT / "artifacts" / "paretodrive-0.5.0-alpha-source.zip"
+    output = ROOT / "artifacts" / "paretodrive-0.6.0-alpha-source.zip"
     included_roots = ("src", "docs", "tests", "tools")
     files = [ROOT / name for name in (
         "pyproject.toml", "requirements-dev.lock", "requirements-viewer.lock",
         "requirements-analytics.lock",
+        "requirements-optimizer.lock",
         "README.md", "LICENSE", "CHANGELOG.md",
     )]
     for directory in included_roots:

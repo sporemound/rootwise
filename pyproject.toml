@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "paretodrive"
-version = "0.5.0a0"
-description = "Audit-first inventory, structural analytics, and robust Pareto review"
+version = "0.6.0a0"
+description = "Audit-first inventory, robust Pareto review, and proposal-only optimization"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
@@ -14,12 +14,14 @@ dependencies = []
 [project.optional-dependencies]
 viewer = ["PySide6==6.10.2"]
 analytics = ["duckdb==1.5.5", "polars==1.43.2", "pyarrow==25.0.0"]
+optimizer = ["numpy==2.4.6", "scipy==1.17.1", "pymoo==0.6.2"]
 
 [project.scripts]
 paretodrive = "paretodrive.cli:main"
 paretodrive-view = "paretodrive_view.cli:main"
 paretodrive-analyze = "paretodrive_analytics.cli:main"
 paretodrive-rank = "paretodrive_analytics.ranking_cli:main"
+paretodrive-optimize = "paretodrive_analytics.optimizer_cli:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
@@ -38,3 +40,9 @@ target-version = "py311"
 [tool.mypy]
 python_version = "3.11"
 strict = true
+follow_imports_for_stubs = true
+
+[[tool.mypy.overrides]]
+module = ["numpy", "numpy.*", "pymoo", "pymoo.*"]
+follow_imports = "skip"
+ignore_missing_imports = true

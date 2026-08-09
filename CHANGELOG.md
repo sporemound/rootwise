@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.6.0-alpha - unreleased
+
+- Added explicit hierarchical archive-candidate actions and hard policy constraints.
+- Added an exact tree Pareto reference solver plus fixed-seed NSGA-III and R-NSGA-III proposal
+  search.
+- Added independent deterministic plan validation and reduced, unapproved proposal presentation.
+
 ## 0.5.0-alpha - unreleased
 
 - Added DuckDB/Polars directory feature materialization from completed 0.4 analysis snapshots.
