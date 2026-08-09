@@ -1,7 +1,7 @@
-# ParetoDrive 0.4.0-alpha
+# ParetoDrive 0.5.0-alpha
 
-ParetoDrive contains a deliberately narrow, metadata-only filesystem inventory scanner and a
-separate 0.3 read-only review interface.
+ParetoDrive contains a deliberately narrow, metadata-only filesystem inventory scanner, a
+separate read-only review interface, structural analytics, and robust Pareto review ranking.
 It records directory entries and metadata in an external SQLite database and can stream a
 canonical NDJSON representation. It does not read source-file contents, hash source files,
 classify data, create archives, reorganize files, or delete anything.
@@ -19,7 +19,8 @@ revisioned database and cannot modify inventory observations or execute filesyst
 
 ## Development
 
-Use Python 3.11 or newer. Runtime dependencies are standard-library only.
+Use Python 3.11 or newer. The scanner, viewer backend, and 0.4 structural analysis use only the
+standard library. Stage 0.5 analytics dependencies are optional and separately locked.
 
 ```powershell
 $ErrorActionPreference = "Stop"
@@ -40,6 +41,16 @@ $Repo = "E:\Python Scripts\paretodrive"
 if (-not (Test-Path -LiteralPath $Repo -PathType Container)) { throw "Missing repo: $Repo" }
 Set-Location -LiteralPath $Repo
 python -m pip install --require-hashes -r requirements-viewer.lock
+```
+
+Install the optional Windows analytics dependencies in the same way:
+
+```powershell
+$ErrorActionPreference = "Stop"
+$Repo = "E:\Python Scripts\paretodrive"
+if (-not (Test-Path -LiteralPath $Repo -PathType Container)) { throw "Missing repo: $Repo" }
+Set-Location -LiteralPath $Repo
+python -m pip install --require-hashes -r requirements-analytics.lock
 ```
 
 ## CLI
@@ -90,3 +101,21 @@ python -m paretodrive_analytics.cli `
 The output contains explainable file roles, recursive directory totals, project-marker boundaries,
 structural relationship evidence, and per-stage provenance. It does not read observed source paths
 or produce archive/delete instructions.
+
+## Pareto review ranking
+
+Rank a completed analysis into a third, new database beside it:
+
+```powershell
+$ErrorActionPreference = "Stop"
+$env:PYTHONPATH = "E:\Python Scripts\paretodrive\src"
+python -m paretodrive_analytics.ranking_cli `
+    --analysis "E:\inventories\analysis.db" `
+    --ranking "E:\inventories\ranking.db" `
+    --review-limit 100
+```
+
+The ranking retains four independent uncertainty intervals, computes robust Pareto fronts only
+within explicit cohorts, and emits a bounded human-review queue. It does not modify the analysis
+database, inspect the source filesystem, combine the objectives into a single importance score,
+or imply any filesystem action.

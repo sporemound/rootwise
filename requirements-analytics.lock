@@ -1,0 +1,15 @@
+# Hash-locked optional analytics dependencies for CPython 3.11-3.14 on Windows x86-64.
+duckdb==1.5.5 \
+    --hash=sha256:9f4287f97ccf0c1f3d471e7115be2b067cbf99627e2d34bffd462dd64703cddc \
+    --hash=sha256:ddfbdb096c11d51ee22492397d342c90a82e62c5d09961477895934d0a25372f \
+    --hash=sha256:6826504277dba513c0c5d71d828456c94d729c9d2482f94b2e289f90a9167e28 \
+    --hash=sha256:9dc826c4b50e64f6c4e4d07a3a9cb075ef70ba3899dc43ec5493dc3d7b04b353
+polars==1.43.2 \
+    --hash=sha256:22aa0cb92a1ee2d60d6a15a638b2e8e0dd99aea21ac0cd8fb29da8e382e075a9
+polars-runtime-32==1.43.2 \
+    --hash=sha256:00e33c28e321410c8d66e814a90043101e3bdd9ed2c6dabda07565aa8adbbdf1
+pyarrow==25.0.0 \
+    --hash=sha256:161649d60a7a46c613a19fd795763ea8a88c36ba997dd99d9bc66e6794ee36e8 \
+    --hash=sha256:3f356afe61186395c861d5cd63dc21ff7d5fa335012a4668d979257df7fea0f5 \
+    --hash=sha256:77c8d1ae46a44b4006e8db1cc977bbcc6ce4873c92f74137d68e45503b97fb18 \
+    --hash=sha256:2e093efbecb5317372f819228fa4b4e6157eee48d3f0a7b0303705ebf81a7104

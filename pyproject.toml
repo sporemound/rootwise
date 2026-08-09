@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "paretodrive"
-version = "0.4.0a0"
-description = "Audit-first filesystem inventory, review, and structural analytics"
+version = "0.5.0a0"
+description = "Audit-first inventory, structural analytics, and robust Pareto review"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
@@ -13,11 +13,13 @@ dependencies = []
 
 [project.optional-dependencies]
 viewer = ["PySide6==6.10.2"]
+analytics = ["duckdb==1.5.5", "polars==1.43.2", "pyarrow==25.0.0"]
 
 [project.scripts]
 paretodrive = "paretodrive.cli:main"
 paretodrive-view = "paretodrive_view.cli:main"
 paretodrive-analyze = "paretodrive_analytics.cli:main"
+paretodrive-rank = "paretodrive_analytics.ranking_cli:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

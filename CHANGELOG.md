@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.0-alpha - unreleased
+
+- Added DuckDB/Polars directory feature materialization from completed 0.4 analysis snapshots.
+- Added independent uncertainty intervals, cohort-local robust Pareto fronts, and bounded review
+  batches without collapsing objectives into one importance score.
+
 ## 0.4.0-alpha - unreleased
 
 - Added snapshot-only deterministic structural analytics in a separate package.
