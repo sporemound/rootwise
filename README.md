@@ -1,4 +1,4 @@
-# ParetoDrive 0.3.0-alpha
+# ParetoDrive 0.4.0-alpha
 
 ParetoDrive contains a deliberately narrow, metadata-only filesystem inventory scanner and a
 separate 0.3 read-only review interface.
@@ -73,3 +73,20 @@ python -m paretodrive_view.cli gui `
 
 Search pages are capped at 500 rows. The current SQLite path search is functionally tested on the
 deterministic corpus but is not yet benchmarked at tens of millions of observations.
+
+## Structural analytics
+
+Run deterministic metadata-only analysis against a completed inventory. The analysis database must
+be a new file beside the inventory database:
+
+```powershell
+$ErrorActionPreference = "Stop"
+$env:PYTHONPATH = "E:\Python Scripts\paretodrive\src"
+python -m paretodrive_analytics.cli `
+    --inventory "E:\inventories\inventory.db" `
+    --analysis "E:\inventories\analysis.db"
+```
+
+The output contains explainable file roles, recursive directory totals, project-marker boundaries,
+structural relationship evidence, and per-stage provenance. It does not read observed source paths
+or produce archive/delete instructions.

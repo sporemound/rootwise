@@ -1,19 +1,27 @@
 # Release Status
 
-Version: `0.3.0-alpha` (unreleased source milestone)
+Version: `0.4.0-alpha` (unreleased source milestone)
 
 - Designed: metadata-only scanner boundary and staged release gates.
 - Implemented: volume identity, guarded outputs, handle-bound traversal, SQLite sessions,
   cancellation/resume, structured errors, and deterministic canonical export.
 - Viewer implemented: query-only inventory reader, bounded search, separate revisioned decisions,
   headless CLI, and optional PySide6 table interface.
-- Tested locally: 37 synthetic/unit/static tests pass on CPython 3.14.3, including construction of
+- Structural analytics implemented: snapshot-only deterministic roles, recursive directory totals,
+  project-marker boundaries, structural relationships, and per-stage provenance.
+- Tested locally: 41 synthetic/unit/static tests pass on CPython 3.14.3, including construction of
   the real PySide6 6.10.2 window using the offscreen Qt platform. Ruff and strict mypy pass across
-  17 source files under the hash-locked CPython 3.12 development environment.
+  23 source files under the hash-locked CPython 3.12 development environment.
 - GUI interaction and visual layout: constructed and event-processed offscreen; not yet manually
   reviewed in a visible desktop session.
 - Search scale: functionally tested with bounded pages; not benchmarked at millions of rows and
   not an Everything-performance claim.
+- Analytics scale: deterministic fixture behavior is tested; multi-million-row memory, latency,
+  and temporary-space behavior are not benchmarked or accepted for the real source.
+- Installed analytics integration: passed against the retained 30-observation synthetic exFAT
+  inventory after VHDX detachment, producing 15 roles, 16 aggregate nodes, one project, six
+  relationships, and four `COMPLETE` stages while leaving the inventory byte-identical. Output
+  digest: `7f600018bf172c3d7f2da2b39ea0af97749868fa8da6fa3232a2b8e444f935d1`.
 - Windows acceptance: passed locally on Windows 10 Home for source commit `018435d`; this was not
   an independent build or replication.
 - exFAT VHDX: passed using a new 512 MiB disposable VHDX resolved only from its exact workspace

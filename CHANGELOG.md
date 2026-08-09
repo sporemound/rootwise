@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.0-alpha - unreleased
+
+- Added snapshot-only deterministic structural analytics in a separate package.
+- Added explainable metadata role rules, bottom-up directory aggregation, project markers, and
+  structural relationship evidence.
+- Added a separate analysis database with per-stage input, configuration, output, code, and state
+  provenance.
+
 ## 0.3.0-alpha - unreleased
 
 - Added a separate `paretodrive_view` package with query-only inventory access.
