@@ -30,10 +30,21 @@ The following require a disposable Windows host and are not satisfied by unit te
 
 No tool may infer or select a physical disk, the real source drive, or an existing VHD/VHDX.
 
+### Recorded local result
+
+These gates passed on 2026-08-09 using Windows 10 Home and source commit `018435d`. The harness
+used its `storage_diskpart` backend to create only a new workspace-contained 512 MiB VHDX, then
+resolved the mounted disk from that exact image path. The exFAT fixture was OS-enforced read-only
+during the scanner run. Cancellation and same-session resume produced lifecycle events `STARTED`,
+`STOPPED`, `RESUMED`, and `COMPLETE`; the session recorded 30 observations and zero errors.
+Content-hashed pre/post manifests were identical. The VHDX was then verified detached and retained.
+
+This is a local platform acceptance result, not independent replication and not evidence from the
+real 3.9+ TB source. Generated details are recorded in `artifacts/TEST-EXFAT-VHDX.json`.
+
 ## Thermal claim boundary
 
 Audit.2 does not claim access to reliable cross-platform temperature sensors. Instead it provides
 deterministic workload pacing: file-rate limiting, bounded batches, active-window limits, cooldown
 periods, and an RSS ceiling. Actual temperature and shutdown resistance remain acceptance-test
 observations, not inferred safety properties.
-
