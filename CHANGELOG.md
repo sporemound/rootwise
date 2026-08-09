@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.9.0-alpha - unreleased
+
+- Added a query-only plans-to-inventory provenance-chain validator.
+- Added bounded metadata-only enumeration and reconciliation of proposed archive members.
+- Added canonical executor-preflight manifests that authorize no content reads or filesystem
+  actions and reject scan-error regions.
+
 ## 0.8.0-alpha - unreleased
 
 - Added strict, digest-bound human plan-selection declarations.

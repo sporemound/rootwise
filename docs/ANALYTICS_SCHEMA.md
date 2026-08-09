@@ -67,3 +67,13 @@ objectives and actions plus a logical digest over the consumed plan records.
 
 The receipt state is `PLAN_SELECTED_FOR_FUTURE_EXECUTOR_REVIEW`. Its execution, archive-creation,
 and original-removal authorizations are all `false`; it is not executor input.
+
+## 0.9 executor-preflight manifest
+
+Stage 0.9 creates a canonical JSON member manifest after tracing the selected plan through the
+recorded ranking and analysis runs to a complete inventory session. Each proposed archive group
+contains its reconciled regular-file observations: relative path, logical bytes, creation and
+modification times, and attributes.
+
+The manifest state is `PREFLIGHT_ONLY_NON_EXECUTABLE`. Source-content-read, execution,
+archive-creation, and original-removal authorizations are all `false`.

@@ -1,6 +1,6 @@
 # Release Status
 
-Version: `0.8.0-alpha` (unreleased source milestone)
+Version: `0.9.0-alpha` (unreleased source milestone)
 
 - Designed: metadata-only scanner boundary and staged release gates.
 - Implemented: volume identity, guarded outputs, handle-bound traversal, SQLite sessions,
@@ -21,9 +21,12 @@ Version: `0.8.0-alpha` (unreleased source milestone)
 - Non-executing plan approval implemented: strict digest-bound declarations, query-only plan
   consumption, independent selected-plan revalidation, bounded canonical receipt export, and
   explicit false execution/archive/removal authorization fields.
-- Tested locally: 62 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
+- Metadata-only executor preflight implemented: full plans/ranking/analysis/inventory provenance
+  tracing, bounded regular-member enumeration, exact count/byte reconciliation, scan-error-region
+  rejection, and explicit false content-read/execution/archive/removal authorization fields.
+- Tested locally: 66 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
   including construction of the real PySide6 6.10.2 window using the offscreen Qt platform. Ruff
-  and strict mypy pass across 41 source files under the hash-locked CPython 3.12 environment.
+  and strict mypy pass across 45 source files under the hash-locked CPython 3.12 environment.
 - GUI interaction and visual layout: constructed and event-processed offscreen; not yet manually
   reviewed in a visible desktop session.
 - Search scale: functionally tested with bounded pages; not benchmarked at millions of rows and
@@ -44,6 +47,10 @@ Version: `0.8.0-alpha` (unreleased source milestone)
   mismatch, candidate bounds, deterministic receipt output, and unchanged inputs are covered. The
   operator label is not authenticated, receipts are not digitally signed, and no executor consumes
   them.
+- Preflight scale: only small synthetic inventories are tested. Provenance tampering, scan-error
+  intersections, member bounds, count/byte reconciliation, deterministic output, and unchanged
+  source contents are covered. Current source observations and destination capacity are not
+  checked, and the output is intentionally non-executable.
 - Installed analytics integration: passed against the retained 30-observation synthetic exFAT
   inventory after VHDX detachment, producing 15 roles, 16 aggregate nodes, one project, six
   relationships, and four `COMPLETE` stages while leaving the inventory byte-identical. Output
@@ -69,6 +76,10 @@ Version: `0.8.0-alpha` (unreleased source milestone)
   synthetic plan-selection export, independently revalidated an archive-bearing proposal, left the
   plans database and declaration SHA-256-identical, and emitted a receipt with all three action
   authorizations false. This did not open source content or create an archive.
+- Installed preflight integration: `paretodrive-preflight` traced that same temporary approval
+  through the synthetic plan, ranking, analysis, and inventory; enumerated and reconciled the
+  archive members; left all inputs and source contents SHA-256-identical; and emitted four false
+  authorization fields. No archive or destination artifact other than the manifest was created.
 - Windows acceptance: passed locally on Windows 10 Home for source commit `018435d`; this was not
   an independent build or replication.
 - exFAT VHDX: passed using a new 512 MiB disposable VHDX resolved only from its exact workspace

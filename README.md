@@ -1,9 +1,10 @@
-# ParetoDrive 0.8.0-alpha
+# ParetoDrive 0.9.0-alpha
 
 ParetoDrive contains a deliberately narrow, metadata-only filesystem inventory scanner, a
 separate read-only review interface, structural analytics, robust Pareto review ranking, a
 proposal-only hierarchical optimizer, and explicitly permissioned content enrichment.
 Stage 0.8 also records an explicit plan selection as a non-executable canonical approval receipt.
+Stage 0.9 compiles a bounded metadata-only executor-preflight manifest from that receipt.
 The core scanner records directory entries and metadata in an external SQLite database and can
 stream a canonical NDJSON representation. Only the separate Stage 0.7 enrichment command reads
 selected source-file contents, and only with an explicit acknowledgement and immutable selection
@@ -208,3 +209,23 @@ python -m paretodrive_approval.cli `
 The receipt selects a directory-level proposal for future executor review. It is not an archive
 member manifest and explicitly records `false` for execution, archive creation, and original
 removal authorization. See `docs/APPROVAL_CONTRACT.md` for the exact declaration schema.
+
+## Metadata-only executor preflight
+
+Stage 0.9 traces the selected plan through its ranking and analysis provenance to one complete
+inventory snapshot, then enumerates the observed regular-file members of each selected archive
+group. All artifacts must be distinct siblings in the external inventory directory:
+
+```powershell
+$ErrorActionPreference = "Stop"
+$env:PYTHONPATH = "E:\Python Scripts\paretodrive\src"
+python -m paretodrive_preflight.cli `
+    --plans "E:\inventories\plans.db" `
+    --approval-receipt "E:\inventories\approval-receipt.json" `
+    --inventory "E:\inventories\inventory.db" `
+    --manifest "E:\inventories\preflight-manifest.json"
+```
+
+The preflight manifest contains inventory observations, not current source validation. It records
+`false` for source-content reads, execution, archive creation, and original removal. No archive is
+created. See `docs/PREFLIGHT_CONTRACT.md`.
