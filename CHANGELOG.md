@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.8.0-alpha - unreleased
+
+- Added strict, digest-bound human plan-selection declarations.
+- Added query-only independent revalidation of a selected proposal before receipt export.
+- Added canonical approval receipts that explicitly authorize neither execution, archive creation,
+  nor original removal.
+
 ## 0.7.0-alpha - unreleased
 
 - Added an explicitly acknowledged, selection-bound content-reading enrichment package.

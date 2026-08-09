@@ -1,8 +1,9 @@
-# ParetoDrive 0.7.0-alpha
+# ParetoDrive 0.8.0-alpha
 
 ParetoDrive contains a deliberately narrow, metadata-only filesystem inventory scanner, a
 separate read-only review interface, structural analytics, robust Pareto review ranking, a
 proposal-only hierarchical optimizer, and explicitly permissioned content enrichment.
+Stage 0.8 also records an explicit plan selection as a non-executable canonical approval receipt.
 The core scanner records directory entries and metadata in an external SQLite database and can
 stream a canonical NDJSON representation. Only the separate Stage 0.7 enrichment command reads
 selected source-file contents, and only with an explicit acknowledgement and immutable selection
@@ -188,3 +189,22 @@ D2 is sampled candidate evidence only. D3 and D4 confirm identical bytes for the
 but no evidence level implies that a file may be moved, archived, or deleted. Content reads can
 update access-time metadata depending on the filesystem and mount policy. See
 `docs/ENRICHMENT_CONTRACT.md` before using this command.
+
+## Non-executing plan approval
+
+Stage 0.8 accepts a strict declaration that identifies one complete plan run and one validated
+proposal by their recorded digests. It independently recomputes the selected plan before writing a
+new canonical receipt. The declaration, plans database, and receipt must be distinct siblings.
+
+```powershell
+$ErrorActionPreference = "Stop"
+$env:PYTHONPATH = "E:\Python Scripts\paretodrive\src"
+python -m paretodrive_approval.cli `
+    --plans "E:\inventories\plans.db" `
+    --declaration "E:\inventories\approval-declaration.json" `
+    --receipt "E:\inventories\approval-receipt.json"
+```
+
+The receipt selects a directory-level proposal for future executor review. It is not an archive
+member manifest and explicitly records `false` for execution, archive creation, and original
+removal authorization. See `docs/APPROVAL_CONTRACT.md` for the exact declaration schema.

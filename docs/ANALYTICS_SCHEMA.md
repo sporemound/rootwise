@@ -57,3 +57,13 @@ identity.
 - `enrichment_errors` records fail-closed run errors.
 
 Evidence is not an approval, plan, archive manifest, or executor input.
+
+## 0.8 plan-selection approval artifacts
+
+Stage 0.8 creates canonical JSON rather than another mutable database. A strict declaration binds
+an operator label, timestamp, acknowledgement set, complete plan run, selected plan ID, plan
+output digest, and decision digest. The resulting receipt includes independently recomputed
+objectives and actions plus a logical digest over the consumed plan records.
+
+The receipt state is `PLAN_SELECTED_FOR_FUTURE_EXECUTOR_REVIEW`. Its execution, archive-creation,
+and original-removal authorizations are all `false`; it is not executor input.

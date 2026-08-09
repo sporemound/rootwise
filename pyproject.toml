@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "paretodrive"
-version = "0.7.0a0"
-description = "Audit-first inventory, review analytics, and permissioned content evidence"
+version = "0.8.0a0"
+description = "Audit-first inventory, review analytics, and non-executing plan approval"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
@@ -24,6 +24,7 @@ paretodrive-analyze = "paretodrive_analytics.cli:main"
 paretodrive-rank = "paretodrive_analytics.ranking_cli:main"
 paretodrive-optimize = "paretodrive_analytics.optimizer_cli:main"
 paretodrive-enrich = "paretodrive_enrich.cli:main"
+paretodrive-approve = "paretodrive_approval.cli:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

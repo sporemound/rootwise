@@ -117,6 +117,9 @@ def main() -> int:
         }
     test = execute([sys.executable, "-m", "pytest", "-q"], "pytest")
     fixture = execute([sys.executable, "tools/generate_fixture_evidence.py"], "canonical_fixture")
+    approval = execute(
+        [sys.executable, "tools/generate_approval_evidence.py"], "installed_approval_fixture"
+    )
     after = source_manifest()
     unchanged = before == after
     fixture_value: dict[str, object] | None = None
@@ -125,14 +128,24 @@ def main() -> int:
             fixture_value = json.loads(str(fixture["stdout"]))
         except json.JSONDecodeError:
             fixture["passed"] = False
-    overall = bool(revision["passed"] and test["passed"] and fixture["passed"] and unchanged)
+    approval_value: dict[str, object] | None = None
+    if approval["passed"]:
+        try:
+            approval_value = json.loads(str(approval["stdout"]))
+        except json.JSONDecodeError:
+            approval["passed"] = False
+    overall = bool(
+        revision["passed"] and test["passed"] and fixture["passed"]
+        and approval["passed"] and unchanged
+    )
     host_name = "TEST-WINDOWS.json" if os.name == "nt" else "TEST-LINUX.json"
     write_json("SOURCE_MANIFEST.json", {"algorithm": "sha256", "files": before})
     write_json(host_name, {
-        "status": "PASS" if overall else "FAIL", "version": "0.7.0-alpha",
+        "status": "PASS" if overall else "FAIL", "version": "0.8.0-alpha",
         "platform": platform.platform(),
         "dependencies": versions(), "tests": test, "fixture": fixture,
-        "canonical_fixture": fixture_value, "source_unchanged": unchanged,
+        "canonical_fixture": fixture_value, "approval_fixture": approval,
+        "installed_approval": approval_value, "source_unchanged": unchanged,
     })
     write_json("SAFETY-AUDIT.json", {
         "status": "PASS" if test["passed"] else "FAIL",
@@ -201,7 +214,8 @@ def main() -> int:
         })
     write_checksums()
     summary = {"status": "PASS" if overall else "FAIL", "test": test["passed"],
-               "fixture": fixture["passed"], "source_unchanged": unchanged}
+               "fixture": fixture["passed"], "approval": approval["passed"],
+               "source_unchanged": unchanged}
     print(json.dumps(summary, sort_keys=True))
     return 0 if overall else 1
 

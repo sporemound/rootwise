@@ -1,6 +1,6 @@
 # Release Status
 
-Version: `0.7.0-alpha` (unreleased source milestone)
+Version: `0.8.0-alpha` (unreleased source milestone)
 
 - Designed: metadata-only scanner boundary and staged release gates.
 - Implemented: volume identity, guarded outputs, handle-bound traversal, SQLite sessions,
@@ -18,9 +18,12 @@ Version: `0.7.0-alpha` (unreleased source milestone)
   BLAKE3, D4 full SHA-256, bounded/rate-limited reads, path and metadata revalidation, and a
   separate evidence database. D2 groups remain `CANDIDATE`; D3/D4 groups are byte-equality
   evidence only and authorize no action.
-- Tested locally: 58 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
+- Non-executing plan approval implemented: strict digest-bound declarations, query-only plan
+  consumption, independent selected-plan revalidation, bounded canonical receipt export, and
+  explicit false execution/archive/removal authorization fields.
+- Tested locally: 62 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
   including construction of the real PySide6 6.10.2 window using the offscreen Qt platform. Ruff
-  and strict mypy pass across 37 source files under the hash-locked CPython 3.12 environment.
+  and strict mypy pass across 41 source files under the hash-locked CPython 3.12 environment.
 - GUI interaction and visual layout: constructed and event-processed offscreen; not yet manually
   reviewed in a visible desktop session.
 - Search scale: functionally tested with bounded pages; not benchmarked at millions of rows and
@@ -37,6 +40,10 @@ Version: `0.7.0-alpha` (unreleased source milestone)
   stopping, duplicate status, unchanged file contents, and same-volume rejection are covered;
   large selections, throughput, thermal behavior, and hostile concurrent replacement are not
   accepted. Content reads may update access-time metadata depending on the filesystem.
+- Approval scale: only small synthetic plan databases are tested. Plan tampering, declaration
+  mismatch, candidate bounds, deterministic receipt output, and unchanged inputs are covered. The
+  operator label is not authenticated, receipts are not digitally signed, and no executor consumes
+  them.
 - Installed analytics integration: passed against the retained 30-observation synthetic exFAT
   inventory after VHDX detachment, producing 15 roles, 16 aggregate nodes, one project, six
   relationships, and four `COMPLETE` stages while leaving the inventory byte-identical. Output
@@ -58,6 +65,10 @@ Version: `0.7.0-alpha` (unreleased source milestone)
   test volume resolver. The production resolver refuses a same-volume source/evidence setup before
   creating evidence or reading selected content. No distinct mounted disposable source is
   currently available for a successful installed-CLI content-read acceptance run.
+- Installed approval integration: the `paretodrive-approve` entry point completed a temporary
+  synthetic plan-selection export, independently revalidated an archive-bearing proposal, left the
+  plans database and declaration SHA-256-identical, and emitted a receipt with all three action
+  authorizations false. This did not open source content or create an archive.
 - Windows acceptance: passed locally on Windows 10 Home for source commit `018435d`; this was not
   an independent build or replication.
 - exFAT VHDX: passed using a new 512 MiB disposable VHDX resolved only from its exact workspace
