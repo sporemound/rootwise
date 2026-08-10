@@ -32,7 +32,7 @@ No tool may infer or select a physical disk, the real source drive, or an existi
 
 ### Recorded local result
 
-These gates passed on 2026-08-09 using Windows 10 Home and source commit `018435d`. The harness
+These gates passed on 2026-08-09 using Windows 10 Home and rewritten source commit `2aeae1e`. The harness
 used its `storage_diskpart` backend to create only a new workspace-contained 512 MiB VHDX, then
 resolved the mounted disk from that exact image path. The exFAT fixture was OS-enforced read-only
 during the scanner run. Cancellation and same-session resume produced lifecycle events `STARTED`,

@@ -146,7 +146,7 @@ Version: `0.15.0-alpha` (unreleased source milestone)
   install restored every console entry point. Stale 0.9 metadata from the interrupted uninstall was
   moved—not deleted—to `.tool-tmp/stale-install-quarantine`; `pip show` now reports 0.11.0a0 without
   the invalid-distribution warning.
-- Windows acceptance: passed locally on Windows 10 Home for source commit `018435d`; this was not
+- Windows acceptance: passed locally on Windows 10 Home for rewritten source commit `2aeae1e`; this was not
   an independent build or replication.
 - exFAT VHDX: passed using a new 512 MiB disposable VHDX resolved only from its exact workspace
   image path. The retained VHDX was verified detached after the test.
