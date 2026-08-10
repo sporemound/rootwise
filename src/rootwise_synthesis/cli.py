@@ -12,8 +12,8 @@ from typing import Sequence
 from .pipeline import run_synthesis
 
 
-def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="rootwise-synthesize-evidence")
+def main(argv: Sequence[str] | None = None, *, prog: str = "rootwise-synthesize-evidence") -> int:
+    parser = argparse.ArgumentParser(prog=prog)
     parser.add_argument("--ranking", required=True)
     parser.add_argument("--fusion", required=True)
     parser.add_argument("--dependency", required=True)
@@ -33,4 +33,3 @@ def main(argv: Sequence[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

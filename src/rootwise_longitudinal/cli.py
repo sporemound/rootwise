@@ -12,8 +12,8 @@ from typing import Sequence
 from .pipeline import run_longitudinal
 
 
-def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="rootwise-longitudinal")
+def main(argv: Sequence[str] | None = None, *, prog: str = "rootwise-longitudinal") -> int:
+    parser = argparse.ArgumentParser(prog=prog)
     parser.add_argument("--baseline-analysis", required=True)
     parser.add_argument("--current-analysis", required=True)
     parser.add_argument("--output", required=True)

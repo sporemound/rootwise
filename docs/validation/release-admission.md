@@ -44,7 +44,7 @@ inconsistent, reused, changing, or oversized inputs are rejected before output i
 ## Create an admission receipt
 
 ```powershell
-rootwise-acceptance admit `
+rootwise verify acceptance admit `
     --report "E:\acceptance\report.json" `
     --archive "E:\rootwise-release\rootwise-0.23.0-alpha-source.zip" `
     --provenance "E:\rootwise-release\BUILD_PROVENANCE.json" `
@@ -61,7 +61,7 @@ The receipt explicitly records `filesystem_execution_authorized: false`.
 ## Verify the complete chain
 
 ```powershell
-rootwise-acceptance verify-admission `
+rootwise verify acceptance verify-admission `
     --receipt "E:\acceptance\rootwise-admission.json" `
     --report "E:\acceptance\report.json" `
     --archive "E:\rootwise-release\rootwise-0.23.0-alpha-source.zip" `

@@ -12,8 +12,8 @@ from typing import Sequence
 from .optimizer_pipeline import run_optimization
 
 
-def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="rootwise-optimize")
+def main(argv: Sequence[str] | None = None, *, prog: str = "rootwise-optimize") -> int:
+    parser = argparse.ArgumentParser(prog=prog)
     parser.add_argument("--ranking", required=True)
     parser.add_argument("--decisions", required=True)
     parser.add_argument("--plans", required=True)

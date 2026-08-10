@@ -85,15 +85,13 @@ def main() -> int:
         entrypoint_directory = Path(
             os.environ.get("ROOTWISE_ENTRYPOINT_DIR", str(Path(sys.executable).parent))
         )
-        executable = entrypoint_directory / (
-            "rootwise-approve.exe" if os.name == "nt" else "rootwise-approve"
-        )
+        executable = entrypoint_directory / ("rootwise.exe" if os.name == "nt" else "rootwise")
         if not executable.is_file():
             raise RuntimeError(f"installed approval entry point is missing: {executable}")
         receipt = root / "approval-receipt.json"
         completed = subprocess.run(
-            [str(executable), "--plans", str(plans), "--declaration", str(declaration),
-             "--receipt", str(receipt)],
+            [str(executable), "plan", "approve", "--plans", str(plans),
+             "--declaration", str(declaration), "--receipt", str(receipt)],
             cwd=root,
             capture_output=True,
             text=True,
@@ -117,15 +115,14 @@ def main() -> int:
         }
         if before != after_approval:
             raise RuntimeError("installed approval CLI modified an input")
-        preflight_executable = entrypoint_directory / (
-            "rootwise-preflight.exe" if os.name == "nt" else "rootwise-preflight"
-        )
+        preflight_executable = executable
         if not preflight_executable.is_file():
             raise RuntimeError(f"installed preflight entry point is missing: {preflight_executable}")
         manifest = root / "preflight-manifest.json"
         preflight = subprocess.run(
-            [str(preflight_executable), "--plans", str(plans), "--approval-receipt", str(receipt),
-             "--inventory", str(inventory), "--manifest", str(manifest)],
+            [str(preflight_executable), "plan", "preflight", "--plans", str(plans),
+             "--approval-receipt", str(receipt), "--inventory", str(inventory),
+             "--manifest", str(manifest)],
             cwd=root,
             capture_output=True,
             text=True,

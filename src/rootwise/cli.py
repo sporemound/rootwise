@@ -1,125 +1,198 @@
-"""Minimal command-line interface for scanning, export, and read-only reports."""
+"""Lazy command facade for the six public Rootwise domains."""
 
 from __future__ import annotations
 
 import argparse
-import json
-import signal
 import sys
-from pathlib import Path
 from typing import Sequence
 
-from .canonicalize import export_canonical
-from .capabilities import detect_capabilities
-from .database import InventoryDatabase
-from .models import ScanConfig, VolumeInfo
-from .reporting import session_report
-from .scanner import CancellationToken, MetadataScanner
-from .volume import resolve_volume
-from .write_guard import WriteGuard
+
+GROUPS = (
+    ("scan", "inventory source metadata and inspect Core artifacts"),
+    ("view", "browse a completed inventory and record decisions"),
+    ("analyze", "derive structural, ranking, temporal, and fused evidence"),
+    ("plan", "create and review non-executable proposals"),
+    ("evidence", "run explicitly bounded evidence workflows"),
+    ("verify", "evaluate acceptance and release evidence"),
+)
 
 
 def parser() -> argparse.ArgumentParser:
-    root = argparse.ArgumentParser(prog="rootwise")
-    commands = root.add_subparsers(dest="command", required=True)
-    scan = commands.add_parser("scan")
-    scan.add_argument("--source", required=True)
-    scan.add_argument("--database", required=True)
-    scan.add_argument("--max-files-per-second", type=float, default=250.0)
-    scan.add_argument("--batch-size", type=int, default=256)
-    scan.add_argument("--sleep-ms-per-batch", type=int, default=25)
-    scan.add_argument("--stop-after", type=int)
-    scan.add_argument("--resume", action="store_true")
-    scan.add_argument("--dry-run", action="store_true")
-    scan.add_argument("--canonical-export")
-    scan.add_argument("--error-log")
-    scan.add_argument("--max-rss-mib", type=int, default=512, help="0 disables the RSS ceiling")
-    scan.add_argument(
-        "--min-free-destination-mib", type=int, default=1024,
-        help="0 disables the destination free-space floor",
+    root = argparse.ArgumentParser(
+        prog="rootwise",
+        description="Audit-first filesystem inventory and evidence-based planning.",
     )
-    scan.add_argument("--active-window-seconds", type=float, default=30.0)
-    scan.add_argument("--cooldown-seconds", type=float, default=2.0)
-    export = commands.add_parser("export")
-    export.add_argument("--source", required=True, help="source root used for volume boundary")
-    export.add_argument("--database", required=True)
-    export.add_argument("--session", required=True)
-    export.add_argument("--output", required=True)
-    report = commands.add_parser("report")
-    report.add_argument("--database", required=True)
-    capabilities = commands.add_parser("capabilities")
-    capabilities.add_argument("--path", required=True)
+    commands = root.add_subparsers(dest="command", metavar="COMMAND")
+    for name, help_text in GROUPS:
+        commands.add_parser(name, add_help=False, help=help_text)
     return root
 
 
-def _boundaries(source: Path, database_path: Path) -> tuple[WriteGuard, VolumeInfo]:
-    if not source.is_dir():
-        raise ValueError(f"source is not a directory: {source}")
-    database_path.parent.resolve(strict=True)
-    source_volume = resolve_volume(source)
-    guard = WriteGuard(source_volume, database_path.parent)
-    guard.authorize(database_path)
-    return guard, source_volume
+def _operation_parser(
+    group: str, description: str, operations: tuple[tuple[str, str], ...]
+) -> argparse.ArgumentParser:
+    result = argparse.ArgumentParser(prog=f"rootwise {group}", description=description)
+    commands = result.add_subparsers(dest="operation", metavar="OPERATION")
+    for name, help_text in operations:
+        commands.add_parser(name, add_help=False, help=help_text)
+    return result
+
+
+def _operation(
+    group: str,
+    values: list[str],
+    description: str,
+    operations: tuple[tuple[str, str], ...],
+) -> tuple[str, list[str]] | None:
+    operation_parser = _operation_parser(group, description, operations)
+    if not values or values[0] in {"-h", "--help"}:
+        operation_parser.print_help()
+        return None
+    allowed = {name for name, _ in operations}
+    if values[0] not in allowed:
+        operation_parser.error(f"unknown {group} operation: {values[0]}")
+    return values[0], values[1:]
+
+
+def _deprecation(old: str, new: str) -> None:
+    print(
+        f"DEPRECATION: '{old}' is a compatibility alias; use '{new}'.",
+        file=sys.stderr,
+    )
+
+
+def _run_core(argv: list[str], *, prog: str = "rootwise") -> int:
+    from .core_cli import main as core_main
+
+    return core_main(argv, prog=prog)
+
+
+def _scan(values: list[str]) -> int:
+    auxiliary = {"export", "report", "capabilities"}
+    if values and values[0] in auxiliary:
+        return _run_core(values, prog="rootwise scan")
+    return _run_core(["scan", *values])
+
+
+def _view(values: list[str]) -> int:
+    from rootwise_view.cli import main as view_main
+
+    return view_main(values, prog="rootwise view")
+
+
+def _analyze(values: list[str]) -> int:
+    selected = _operation(
+        "analyze",
+        values,
+        "Derive new query-only analysis artifacts from completed snapshots.",
+        (
+            ("structural", "derive structural roles and relationships"),
+            ("rank", "derive objectives, Pareto fronts, and a review queue"),
+            ("fuse", "combine structural and content evidence"),
+            ("temporal", "compare two completed analysis snapshots"),
+            ("synthesize", "join validated evidence into review signals"),
+        ),
+    )
+    if selected is None:
+        return 0
+    operation, remaining = selected
+    if operation == "structural":
+        from rootwise_analytics.cli import main as command
+    elif operation == "rank":
+        from rootwise_analytics.ranking_cli import main as command
+    elif operation == "fuse":
+        from rootwise_fusion.cli import main as command
+    elif operation == "temporal":
+        from rootwise_longitudinal.cli import main as command
+    else:
+        from rootwise_synthesis.cli import main as command
+    return command(remaining, prog=f"rootwise analyze {operation}")
+
+
+def _plan(values: list[str]) -> int:
+    selected = _operation(
+        "plan",
+        values,
+        "Create and review proposals that carry no filesystem execution authority.",
+        (
+            ("optimize", "create validated unapproved proposals"),
+            ("approve", "record selection of one independently validated proposal"),
+            ("preflight", "compile a metadata-only proposal-member manifest"),
+        ),
+    )
+    if selected is None:
+        return 0
+    operation, remaining = selected
+    if operation == "optimize":
+        from rootwise_analytics.optimizer_cli import main as command
+    elif operation == "approve":
+        from rootwise_approval.cli import main as command
+    else:
+        from rootwise_preflight.cli import main as command
+    return command(remaining, prog=f"rootwise plan {operation}")
+
+
+def _evidence(values: list[str]) -> int:
+    selected = _operation(
+        "evidence",
+        values,
+        "Create explicitly scoped evidence without granting action authority.",
+        (
+            ("enrich", "read an explicitly selected bounded set of source contents"),
+            ("dependency", "import explicit project-dependency evidence"),
+            ("history", "derive evidence from a contiguous snapshot chain"),
+        ),
+    )
+    if selected is None:
+        return 0
+    operation, remaining = selected
+    if operation == "enrich":
+        from rootwise_enrich.cli import main as command
+    elif operation == "dependency":
+        from rootwise_dependency.cli import main as command
+    else:
+        from rootwise_history.cli import main as command
+    return command(remaining, prog=f"rootwise evidence {operation}")
+
+
+def _verify(values: list[str]) -> int:
+    selected = _operation(
+        "verify",
+        values,
+        "Evaluate canonical acceptance and release-admission evidence.",
+        (("acceptance", "guide, record, evaluate, inspect, admit, or verify evidence"),),
+    )
+    if selected is None:
+        return 0
+    _, remaining = selected
+    from rootwise_acceptance.cli import main as acceptance_main
+
+    return acceptance_main(remaining, prog="rootwise verify acceptance")
 
 
 def main(argv: Sequence[str] | None = None) -> int:
-    args = parser().parse_args(argv)
-    if args.command == "capabilities":
-        print(json.dumps(detect_capabilities(args.path).to_dict(), indent=2, sort_keys=True))
+    values = list(sys.argv[1:] if argv is None else argv)
+    if not values or values[0] in {"-h", "--help"}:
+        parser().print_help()
         return 0
-    if args.command == "report":
-        print(json.dumps(session_report(args.database), indent=2, sort_keys=True))
-        return 0
-    source = Path(args.source).expanduser().resolve(strict=True)
-    database_path = Path(args.database).expanduser().resolve(strict=False)
-    guard, source_volume = _boundaries(source, database_path)
-    if args.command == "export":
-        with InventoryDatabase(database_path, guard) as database:
-            digest, records = export_canonical(database, guard, args.session, args.output)
-        print(json.dumps({"sha256": digest, "records": records}, sort_keys=True))
-        return 0
-    if args.dry_run:
-        print(json.dumps({"boundary": "validated", "source_volume": source_volume.identity}))
-        return 0
-    config = ScanConfig(
-        source=str(source), database=str(database_path),
-        max_files_per_second=args.max_files_per_second, batch_size=args.batch_size,
-        sleep_ms_per_batch=args.sleep_ms_per_batch, stop_after=args.stop_after,
-        max_rss_mib=None if args.max_rss_mib == 0 else args.max_rss_mib,
-        min_free_destination_mib=(
-            None if args.min_free_destination_mib == 0 else args.min_free_destination_mib
-        ),
-        active_window_seconds=args.active_window_seconds,
-        cooldown_seconds=args.cooldown_seconds,
-    )
-    cancellation = CancellationToken()
-    error_log = guard.authorize(args.error_log) if args.error_log else None
-    previous = signal.getsignal(signal.SIGINT)
-    signal.signal(signal.SIGINT, lambda *_: cancellation.cancel())
-    try:
-        with InventoryDatabase(database_path, guard) as database:
-            scanner = MetadataScanner(source, source_volume, database, config, cancellation)
-            session_id, state = scanner.run(resume=args.resume)
-            result: dict[str, object] = {"session": session_id, "state": state.value}
-            if args.canonical_export and state.value == "COMPLETE":
-                digest, records = export_canonical(
-                    database, guard, session_id, args.canonical_export
-                )
-                result.update({"sha256": digest, "records": records})
-        print(json.dumps(result, sort_keys=True))
-        return 0 if state.value == "COMPLETE" else 2
-    except Exception as exc:
-        if error_log is not None:
-            payload = (json.dumps(
-                {"error_type": type(exc).__name__, "message": str(exc), "operation": "scan"},
-                sort_keys=True,
-            ) + "\n").encode("utf-8")
-            with guard.open_new_binary(error_log) as (_, stream):
-                stream.write(payload)
-        print(f"{type(exc).__name__}: {exc}", file=sys.stderr)
-        return 1
-    finally:
-        signal.signal(signal.SIGINT, previous)
+    group = values[0]
+    remaining = values[1:]
+    if group in {"export", "report", "capabilities"}:
+        _deprecation(f"rootwise {group}", f"rootwise scan {group}")
+        return _run_core(values)
+    if group == "scan":
+        return _scan(remaining)
+    if group == "view":
+        return _view(remaining)
+    if group == "analyze":
+        return _analyze(remaining)
+    if group == "plan":
+        return _plan(remaining)
+    if group == "evidence":
+        return _evidence(remaining)
+    if group == "verify":
+        return _verify(remaining)
+    parser().error(f"unknown command: {group}")
 
 
 if __name__ == "__main__":

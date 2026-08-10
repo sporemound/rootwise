@@ -30,13 +30,11 @@ def main() -> int:
         entrypoint_directory = Path(
             os.environ.get("ROOTWISE_ENTRYPOINT_DIR", str(Path(sys.executable).parent))
         )
-        executable = entrypoint_directory / (
-            "rootwise-longitudinal.exe" if os.name == "nt" else "rootwise-longitudinal"
-        )
+        executable = entrypoint_directory / ("rootwise.exe" if os.name == "nt" else "rootwise")
         if not executable.is_file():
             raise RuntimeError(f"installed longitudinal entry point is missing: {executable}")
         completed = subprocess.run(
-            [str(executable), "--baseline-analysis", str(baseline),
+            [str(executable), "analyze", "temporal", "--baseline-analysis", str(baseline),
              "--current-analysis", str(current), "--output", str(output),
              "--baseline-run", baseline_run, "--current-run", current_run,
              "--shared-extension-threshold", "0.2"],

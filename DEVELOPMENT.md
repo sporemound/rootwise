@@ -35,12 +35,14 @@ py -3.12 tools\bootstrap.py
 $Python = (Resolve-Path ".\.venv\Scripts\python.exe").Path
 
 & $Python -m pip install --no-deps --editable .
+$Rootwise = (Resolve-Path ".\.venv\Scripts\rootwise.exe").Path
+& $Rootwise --help
 ```
 
-On a supported Linux host, use `python3.12 tools/bootstrap.py` and
-`./.venv/bin/python -m pip install --no-deps --editable .`. The checked-in Viewer lock is currently
-Windows-specific, so a complete GUI environment on Linux requires a separately reviewed platform
-lock.
+On a supported Linux host, use `python3.12 tools/bootstrap.py`,
+`./.venv/bin/python -m pip install --no-deps --editable .`, and `./.venv/bin/rootwise --help`. The
+checked-in Viewer lock is currently Windows-specific, so a complete GUI environment on Linux
+requires a separately reviewed platform lock.
 
 Install only the optional domains needed for a narrow change. On the Windows reference platform,
 install all four for the full test and repository-verification workflow:
@@ -103,6 +105,7 @@ The drive letters are examples, not targets Rootwise chooses for you.
 $ErrorActionPreference = "Stop"
 $Repo = "E:\Python Scripts\rootwise"
 $Python = (Resolve-Path (Join-Path $Repo ".venv\Scripts\python.exe")).Path
+$Rootwise = (Resolve-Path (Join-Path $Repo ".venv\Scripts\rootwise.exe")).Path
 $SourceRoot = "D:\rootwise-dev-source"
 $ArtifactRoot = Join-Path $Repo ".tool-tmp\dev-workflow-01"
 
@@ -126,14 +129,14 @@ New-Item -ItemType Directory -Path $ArtifactRoot | Out-Null
 $Inventory = Join-Path $ArtifactRoot "inventory.db"
 $Export = Join-Path $ArtifactRoot "inventory.ndjson"
 
-& $Python -m rootwise.cli capabilities --path $SourceRoot
-& $Python -m rootwise.cli scan `
+& $Rootwise scan capabilities --path $SourceRoot
+& $Rootwise scan `
     --source $SourceRoot `
     --database $Inventory `
     --canonical-export $Export `
     --max-files-per-second 100 `
     --batch-size 25
-& $Python -m rootwise.cli report --database $Inventory
+& $Rootwise scan report --database $Inventory
 ```
 
 Rootwise performs the authoritative OS-volume check. A successful scan ends with a `COMPLETE`
@@ -152,7 +155,7 @@ database must be a distinct sibling of the inventory database:
 ```powershell
 $Decisions = Join-Path $ArtifactRoot "decisions.db"
 
-& $Python -m rootwise_view.cli gui `
+& $Rootwise view gui `
     --inventory $Inventory `
     --decisions $Decisions
 ```
@@ -160,7 +163,7 @@ $Decisions = Join-Path $ArtifactRoot "decisions.db"
 For a headless query:
 
 ```powershell
-& $Python -m rootwise_view.cli search `
+& $Rootwise view search `
     --inventory $Inventory `
     --query "project" `
     --limit 50
@@ -177,11 +180,11 @@ Install `requirements-analytics.lock`, then create new sibling artifacts:
 $Analysis = Join-Path $ArtifactRoot "analysis.db"
 $Ranking = Join-Path $ArtifactRoot "ranking.db"
 
-& $Python -m rootwise_analytics.cli `
+& $Rootwise analyze structural `
     --inventory $Inventory `
     --analysis $Analysis
 
-& $Python -m rootwise_analytics.ranking_cli `
+& $Rootwise analyze rank `
     --analysis $Analysis `
     --ranking $Ranking `
     --review-limit 50
@@ -196,7 +199,7 @@ Planning requires at least one directory with an explicit `ARCHIVE_ELIGIBLE` dec
 review input, not authorization to archive anything:
 
 ```powershell
-& $Python -m rootwise_view.cli decide `
+& $Rootwise view decide `
     --inventory $Inventory `
     --decisions $Decisions `
     --path "project/src" `
@@ -204,7 +207,7 @@ review input, not authorization to archive anything:
     --note "Synthetic planning exercise only"
 
 $Plans = Join-Path $ArtifactRoot "plans.db"
-& $Python -m rootwise_analytics.optimizer_cli `
+& $Rootwise plan optimize `
     --ranking $Ranking `
     --decisions $Decisions `
     --plans $Plans `
@@ -298,8 +301,9 @@ changing safety semantics.
 
 ## Troubleshooting
 
-- **Editable command is missing:** activate the intended environment or invoke its Python by exact
-  path, then rerun `python -m pip install --no-deps --editable .`.
+- **The `rootwise` command is missing:** invoke the intended environment's Python by exact path,
+  rerun `python -m pip install --no-deps --editable .`, and use that environment's `rootwise`
+  executable.
 - **`PySide6 is required`:** install `requirements-viewer.lock` into the same environment used to
   launch the command.
 - **Optional import is missing:** install the matching analytics, optimizer, or enrichment lock;

@@ -12,8 +12,8 @@ from typing import Sequence
 from .compiler import compile_preflight_manifest
 
 
-def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="rootwise-preflight")
+def main(argv: Sequence[str] | None = None, *, prog: str = "rootwise-preflight") -> int:
+    parser = argparse.ArgumentParser(prog=prog)
     parser.add_argument("--plans", required=True)
     parser.add_argument("--approval-receipt", required=True)
     parser.add_argument("--inventory", required=True)

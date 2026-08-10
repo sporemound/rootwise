@@ -12,8 +12,8 @@ from typing import Sequence
 from .pipeline import run_history_analysis
 
 
-def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="rootwise-history")
+def main(argv: Sequence[str] | None = None, *, prog: str = "rootwise-history") -> int:
+    parser = argparse.ArgumentParser(prog=prog)
     parser.add_argument("--chain-manifest", required=True)
     parser.add_argument("--output", required=True)
     args = parser.parse_args(argv)
@@ -28,4 +28,3 @@ def main(argv: Sequence[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

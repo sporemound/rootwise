@@ -12,8 +12,8 @@ from typing import Sequence
 from .pipeline import run_dependency_analysis
 
 
-def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="rootwise-dependency-graph")
+def main(argv: Sequence[str] | None = None, *, prog: str = "rootwise-dependency-graph") -> int:
+    parser = argparse.ArgumentParser(prog=prog)
     parser.add_argument("--longitudinal", required=True)
     parser.add_argument("--evidence-manifest", required=True)
     parser.add_argument("--output", required=True)
@@ -35,4 +35,3 @@ def main(argv: Sequence[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
