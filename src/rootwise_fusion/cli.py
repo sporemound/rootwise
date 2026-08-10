@@ -12,8 +12,8 @@ from typing import Sequence
 from .pipeline import run_fusion
 
 
-def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="rootwise-fuse-evidence")
+def main(argv: Sequence[str] | None = None, *, prog: str = "rootwise-fuse-evidence") -> int:
+    parser = argparse.ArgumentParser(prog=prog)
     parser.add_argument("--analysis", required=True)
     parser.add_argument("--evidence", required=True)
     parser.add_argument("--fusion", required=True)

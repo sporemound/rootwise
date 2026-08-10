@@ -1,6 +1,7 @@
 # 0.3 Viewer Trust Model
 
-`rootwise-view` is a separate package and process from the source-facing scanner. It receives
+`rootwise view` dispatches lazily to the separate Viewer package without importing or constructing
+the source-facing scanner implementation. The Viewer receives
 an existing inventory database; it does not receive or traverse the source root.
 
 ## Boundaries

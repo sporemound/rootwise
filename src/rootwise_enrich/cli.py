@@ -15,8 +15,8 @@ from .pipeline import run_enrichment
 from .reader import ReadPolicy
 
 
-def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="rootwise-enrich")
+def main(argv: Sequence[str] | None = None, *, prog: str = "rootwise-enrich") -> int:
+    parser = argparse.ArgumentParser(prog=prog)
     parser.add_argument("--inventory", required=True)
     parser.add_argument("--source", required=True)
     parser.add_argument("--selection", required=True)

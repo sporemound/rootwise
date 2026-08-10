@@ -29,16 +29,13 @@ def main() -> int:
         entrypoint_directory = Path(
             os.environ.get("ROOTWISE_ENTRYPOINT_DIR", str(Path(sys.executable).parent))
         )
-        executable = entrypoint_directory / (
-            "rootwise-synthesize-evidence.exe" if os.name == "nt"
-            else "rootwise-synthesize-evidence"
-        )
+        executable = entrypoint_directory / ("rootwise.exe" if os.name == "nt" else "rootwise")
         if not executable.is_file():
             raise RuntimeError(f"installed synthesis entry point is missing: {executable}")
         completed = subprocess.run(
-            [str(executable), "--ranking", str(inputs[1]), "--fusion", str(inputs[2]),
-             "--dependency", str(inputs[3]), "--history", str(inputs[4]),
-             "--output", str(output)],
+            [str(executable), "analyze", "synthesize", "--ranking", str(inputs[1]),
+             "--fusion", str(inputs[2]), "--dependency", str(inputs[3]),
+             "--history", str(inputs[4]), "--output", str(output)],
             cwd=root, capture_output=True, text=True, encoding="utf-8", errors="replace",
             timeout=150, check=False,
         )

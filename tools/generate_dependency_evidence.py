@@ -52,13 +52,11 @@ def main() -> int:
         entrypoint_directory = Path(
             os.environ.get("ROOTWISE_ENTRYPOINT_DIR", str(Path(sys.executable).parent))
         )
-        executable = entrypoint_directory / (
-            "rootwise-dependency-graph.exe" if os.name == "nt" else "rootwise-dependency-graph"
-        )
+        executable = entrypoint_directory / ("rootwise.exe" if os.name == "nt" else "rootwise")
         if not executable.is_file():
             raise RuntimeError(f"installed dependency entry point is missing: {executable}")
         completed = subprocess.run(
-            [str(executable), "--longitudinal", str(longitudinal),
+            [str(executable), "evidence", "dependency", "--longitudinal", str(longitudinal),
              "--evidence-manifest", str(manifest), "--output", str(output)],
             cwd=root, capture_output=True, text=True, encoding="utf-8", errors="replace",
             timeout=120, check=False,

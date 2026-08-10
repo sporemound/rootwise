@@ -11,8 +11,8 @@ from typing import Sequence
 from .ranking_pipeline import run_ranking
 
 
-def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="rootwise-rank")
+def main(argv: Sequence[str] | None = None, *, prog: str = "rootwise-rank") -> int:
+    parser = argparse.ArgumentParser(prog=prog)
     parser.add_argument("--analysis", required=True)
     parser.add_argument("--ranking", required=True)
     parser.add_argument("--analysis-run")

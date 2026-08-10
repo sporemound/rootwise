@@ -15,8 +15,8 @@ from .recording import record_gate
 from .workflow import gate_guide, initialize_manifest, inspect_report
 
 
-def _legacy(argv: list[str]) -> int:
-    parser = argparse.ArgumentParser(prog="rootwise-acceptance")
+def _legacy(argv: list[str], *, prog: str) -> int:
+    parser = argparse.ArgumentParser(prog=prog)
     parser.add_argument("--manifest", required=True)
     parser.add_argument("--report", required=True)
     args = parser.parse_args(argv)
@@ -25,8 +25,8 @@ def _legacy(argv: list[str]) -> int:
     return 0 if result.status == "PASS" else 2
 
 
-def _parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="rootwise-acceptance")
+def _parser(prog: str) -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(prog=prog)
     commands = parser.add_subparsers(dest="command", required=True)
     initialize = commands.add_parser("init", help="create a canonical empty evidence manifest")
     initialize.add_argument("--output", required=True)
@@ -64,10 +64,10 @@ def _parser() -> argparse.ArgumentParser:
     return parser
 
 
-def _run(argv: list[str]) -> int:
+def _run(argv: list[str], *, prog: str) -> int:
     if argv and argv[0].startswith("--"):
-        return _legacy(argv)
-    args = _parser().parse_args(argv)
+        return _legacy(argv, prog=prog)
+    args = _parser(prog).parse_args(argv)
     if args.command == "init":
         initialization = initialize_manifest(
             args.output,
@@ -117,9 +117,9 @@ def _run(argv: list[str]) -> int:
     raise AssertionError("unreachable acceptance command")
 
 
-def main(argv: Sequence[str] | None = None) -> int:
+def main(argv: Sequence[str] | None = None, *, prog: str = "rootwise-acceptance") -> int:
     try:
-        return _run(list(sys.argv[1:] if argv is None else argv))
+        return _run(list(sys.argv[1:] if argv is None else argv), prog=prog)
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         print(f"{type(exc).__name__}: {exc}", file=sys.stderr)
         return 1

@@ -4,7 +4,7 @@ import ast
 from pathlib import Path
 
 
-def test_inventory_reader_contains_no_mutating_sql_and_scanner_does_not_import_viewer() -> None:
+def test_inventory_reader_is_query_only_and_core_modules_do_not_import_viewer() -> None:
     root = Path(__file__).parents[1]
     inventory = (root / "src" / "rootwise_view" / "inventory.py").read_text(encoding="utf-8")
     upper = inventory.upper()
@@ -14,7 +14,13 @@ def test_inventory_reader_contains_no_mutating_sql_and_scanner_does_not_import_v
     assert "PRAGMA query_only=ON" in inventory
 
     violations: list[str] = []
-    for path in (root / "src" / "rootwise").glob("*.py"):
+    command_facades = {"cli.py", "legacy_cli.py"}
+    core_modules = [
+        path
+        for path in (root / "src" / "rootwise").glob("*.py")
+        if path.name not in command_facades
+    ]
+    for path in core_modules:
         tree = ast.parse(path.read_text(encoding="utf-8"))
         for node in ast.walk(tree):
             if isinstance(node, ast.Import):

@@ -56,14 +56,12 @@ def main() -> int:
         entrypoint_directory = Path(
             os.environ.get("ROOTWISE_ENTRYPOINT_DIR", str(Path(sys.executable).parent))
         )
-        executable = entrypoint_directory / (
-            "rootwise-fuse-evidence.exe" if os.name == "nt" else "rootwise-fuse-evidence"
-        )
+        executable = entrypoint_directory / ("rootwise.exe" if os.name == "nt" else "rootwise")
         if not executable.is_file():
             raise RuntimeError(f"installed fusion entry point is missing: {executable}")
         completed = subprocess.run(
-            [str(executable), "--analysis", str(analysis), "--evidence", str(evidence),
-             "--fusion", str(fusion)],
+            [str(executable), "analyze", "fuse", "--analysis", str(analysis),
+             "--evidence", str(evidence), "--fusion", str(fusion)],
             cwd=root,
             capture_output=True,
             text=True,

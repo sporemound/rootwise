@@ -13,8 +13,8 @@ from .decisions import DECISIONS, DecisionConflictError, DecisionStore
 from .inventory import InventoryReadError, InventoryReader
 
 
-def parser() -> argparse.ArgumentParser:
-    root = argparse.ArgumentParser(prog="rootwise-view")
+def parser(prog: str = "rootwise-view") -> argparse.ArgumentParser:
+    root = argparse.ArgumentParser(prog=prog)
     commands = root.add_subparsers(dest="command", required=True)
 
     search = commands.add_parser("search", help="query one completed inventory session")
@@ -52,8 +52,8 @@ def _session(reader: InventoryReader, supplied: str | None) -> str:
     return supplied if supplied is not None else reader.latest_complete_session()
 
 
-def main(argv: Sequence[str] | None = None) -> int:
-    args = parser().parse_args(argv)
+def main(argv: Sequence[str] | None = None, *, prog: str = "rootwise-view") -> int:
+    args = parser(prog).parse_args(argv)
     try:
         if args.command == "search":
             with InventoryReader(args.inventory) as reader:

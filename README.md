@@ -58,31 +58,38 @@ $ErrorActionPreference = "Stop"
 py -3.12 tools\bootstrap.py
 $Python = (Resolve-Path ".\.venv\Scripts\python.exe").Path
 & $Python -m pip install --no-deps --editable .
-& $Python -m rootwise.cli --help
+$Rootwise = (Resolve-Path ".\.venv\Scripts\rootwise.exe").Path
+& $Rootwise --help
 ```
 
 The core runtime has no third-party dependencies. Viewer, analytics, optimizer, and enrichment
 dependencies are separately hash-locked. Follow [DEVELOPMENT.md](DEVELOPMENT.md) for the complete
 environment, tests, and synthetic end-to-end workflow.
 
-## Current commands
+## Command hierarchy
 
-The consolidated `rootwise scan|view|analyze|plan|evidence|verify` hierarchy is the architectural
-target. Until that interface is implemented, the installed alpha commands are:
+One `rootwise` command exposes the six architectural domains:
 
-| Task | Current command |
+| Task | Command |
 |---|---|
-| Scan, export, report, capabilities | `rootwise` |
-| Search, decisions, GUI | `rootwise-view` |
-| Structural analysis and ranking | `rootwise-analyze`, `rootwise-rank` |
-| Proposal generation | `rootwise-optimize` |
-| Permissioned content evidence | `rootwise-enrich` |
-| Proposal review records | `rootwise-approve`, `rootwise-preflight` |
-| Derived evidence workflows | `rootwise-fuse-evidence`, `rootwise-longitudinal`, `rootwise-dependency-graph`, `rootwise-history`, `rootwise-synthesize-evidence` |
-| Acceptance and release admission | `rootwise-acceptance` |
+| Scan, export, report, capabilities | `rootwise scan ...` |
+| Search, decisions, GUI | `rootwise view ...` |
+| Structural, ranking, temporal, and fused analysis | `rootwise analyze ...` |
+| Optimize, approve, and inspect proposals | `rootwise plan ...` |
+| Permissioned and declared evidence | `rootwise evidence ...` |
+| Acceptance and release evidence | `rootwise verify ...` |
 
-Run any command with `--help` before supplying paths. Existing commands remain compatibility
-surfaces until a reviewed CLI migration is complete.
+```powershell
+rootwise scan --help
+rootwise view --help
+rootwise analyze --help
+rootwise plan --help
+rootwise evidence --help
+rootwise verify --help
+```
+
+Run the relevant group or operation with `--help` before supplying paths. Compatibility scripts
+remain installed temporarily and print their canonical replacement when invoked.
 
 ## Safety boundary
 

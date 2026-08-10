@@ -1,6 +1,17 @@
 # Changelog
 
 
+## Consolidated command hierarchy - unreleased
+
+- Added the six-domain `rootwise scan`, `view`, `analyze`, `plan`, `evidence`, and `verify` command
+  hierarchy with lazy dispatch into existing implementations.
+- Nested structural/ranking/fusion/temporal/synthesis analysis, proposal planning, permissioned
+  evidence, and acceptance workflows without changing their arguments, outputs, or exit codes.
+- Retained all earlier console scripts as explicit compatibility wrappers with deprecation notices.
+- Migrated installed synthetic verification workflows and active documentation to the canonical
+  command hierarchy.
+
+
 ## Engineering legibility documentation consolidation - unreleased
 
 - Established `README.md`, `ARCHITECTURE.md`, and `DEVELOPMENT.md` as the three-document developer

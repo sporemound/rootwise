@@ -12,8 +12,8 @@ from typing import Sequence
 from .receipt import export_approval_receipt
 
 
-def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="rootwise-approve")
+def main(argv: Sequence[str] | None = None, *, prog: str = "rootwise-approve") -> int:
+    parser = argparse.ArgumentParser(prog=prog)
     parser.add_argument("--plans", required=True)
     parser.add_argument("--declaration", required=True)
     parser.add_argument("--receipt", required=True)

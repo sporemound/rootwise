@@ -29,7 +29,7 @@ budgets and raw evidence remain review material.
 ## Discover the schema
 
 ```powershell
-rootwise-acceptance guide
+rootwise verify acceptance guide
 ```
 
 The command prints every gate and its exact required measurement fields. It does not suggest
@@ -41,7 +41,7 @@ Initialization requires explicit identity and time values so Rootwise neither in
 silently discloses host/account data:
 
 ```powershell
-rootwise-acceptance init `
+rootwise verify acceptance init `
     --output "E:\acceptance\evidence-empty.json" `
     --subject-revision "0123456789abcdef0123456789abcdef01234567" `
     --producer "manual-review" `
@@ -66,7 +66,7 @@ sorted keys, compact separators, and one trailing newline. For a confirmed visib
 Record the external evidence, measurements, and notes into a new manifest revision:
 
 ```powershell
-rootwise-acceptance record `
+rootwise verify acceptance record `
     --manifest "E:\acceptance\evidence-empty.json" `
     --evidence "E:\acceptance\visible-gui-review.json" `
     --measurements "E:\acceptance\visible-gui-measurements.json" `
@@ -83,11 +83,11 @@ preserves an explicit `FAIL`.
 ## Evaluate and inspect
 
 ```powershell
-rootwise-acceptance evaluate `
+rootwise verify acceptance evaluate `
     --manifest "E:\acceptance\evidence.json" `
     --report "E:\acceptance\report.json"
 
-rootwise-acceptance inspect `
+rootwise verify acceptance inspect `
     --report "E:\acceptance\report.json"
 ```
 

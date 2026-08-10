@@ -19,19 +19,19 @@ enrichment = ["blake3==1.0.9"]
 
 [project.scripts]
 rootwise = "rootwise.cli:main"
-rootwise-view = "rootwise_view.cli:main"
-rootwise-analyze = "rootwise_analytics.cli:main"
-rootwise-rank = "rootwise_analytics.ranking_cli:main"
-rootwise-optimize = "rootwise_analytics.optimizer_cli:main"
-rootwise-enrich = "rootwise_enrich.cli:main"
-rootwise-approve = "rootwise_approval.cli:main"
-rootwise-preflight = "rootwise_preflight.cli:main"
-rootwise-fuse-evidence = "rootwise_fusion.cli:main"
-rootwise-longitudinal = "rootwise_longitudinal.cli:main"
-rootwise-dependency-graph = "rootwise_dependency.cli:main"
-rootwise-history = "rootwise_history.cli:main"
-rootwise-synthesize-evidence = "rootwise_synthesis.cli:main"
-rootwise-acceptance = "rootwise_acceptance.cli:main"
+rootwise-view = "rootwise.legacy_cli:view"
+rootwise-analyze = "rootwise.legacy_cli:analyze"
+rootwise-rank = "rootwise.legacy_cli:rank"
+rootwise-optimize = "rootwise.legacy_cli:optimize"
+rootwise-enrich = "rootwise.legacy_cli:enrich"
+rootwise-approve = "rootwise.legacy_cli:approve"
+rootwise-preflight = "rootwise.legacy_cli:preflight"
+rootwise-fuse-evidence = "rootwise.legacy_cli:fuse"
+rootwise-longitudinal = "rootwise.legacy_cli:temporal"
+rootwise-dependency-graph = "rootwise.legacy_cli:dependency"
+rootwise-history = "rootwise.legacy_cli:history"
+rootwise-synthesize-evidence = "rootwise.legacy_cli:synthesize"
+rootwise-acceptance = "rootwise.legacy_cli:acceptance"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
