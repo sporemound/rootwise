@@ -23,3 +23,15 @@ an existing inventory database; it does not receive or traverse the source root.
 The initial search implementation is a bounded parameterized SQLite query over inventory paths.
 It is functionally tested, but has not been benchmarked at tens of millions of rows and is not an
 Everything-performance claim. The GUI is not a file manager and cannot execute a decision.
+
+## Stage 0.21a decision visibility
+
+Each bounded result page receives one parameterized lookup of current decisions from the separate
+decision database. Decision, revision, and note are displayed beside their inventory subject;
+recorded rows use bold text and an explicit `RECORDED:` label without supplying custom foreground
+or background colors, while undecided rows remain explicit. Selecting a row synchronizes the editor
+with the displayed current revision, and a successful write refreshes that row immediately.
+Functional File, View, Decisions, and Help menus expose only existing bounded review operations,
+including current decision history and explicit safety information. These presentation changes do
+not join the decision database into the inventory connection, make the inventory writable, open an
+observed path, or add filesystem execution capability.

@@ -25,6 +25,9 @@ def test_decisions_are_separate_revisioned_and_append_audited(tmp_path: Path) ->
         first = store.set_decision("session-1", "project", "PROTECT", note="original")
         assert first.revision == 1
         assert store.current("session-1", "project") == first
+        assert store.current_for_paths("session-1", ["project", "missing"]) == {
+            "project": first
+        }
         with pytest.raises(DecisionConflictError, match="expected revision"):
             store.set_decision("session-1", "project", "KEEP")
         second = store.set_decision(
