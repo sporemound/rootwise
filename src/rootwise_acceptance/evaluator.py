@@ -10,7 +10,7 @@ from typing import Callable
 
 SCHEMA_ID = "rootwise-acceptance-evidence-v1"
 REPORT_SCHEMA_ID = "rootwise-acceptance-report-v1"
-CODE_VERSION = "0.16.0-alpha"
+CODE_VERSION = "0.17.0-alpha"
 MAX_MANIFEST_BYTES = 1_048_576
 SHA256_LENGTH = 64
 
@@ -120,6 +120,42 @@ VALIDATORS: dict[str, Callable[[dict[str, object]], list[str]]] = {
     ),
 }
 REQUIRED_GATES = tuple(VALIDATORS)
+GATE_MEASUREMENT_FIELDS: dict[str, tuple[str, ...]] = {
+    "scanner_scale": (
+        "completed", "duration_seconds", "inputs_unchanged", "maximum_duration_seconds",
+        "maximum_peak_rss_bytes", "maximum_temporary_bytes", "minimum_entry_count",
+        "observed_entry_count", "peak_rss_bytes", "temporary_bytes",
+    ),
+    "viewer_search_scale": (
+        "completed", "duration_seconds", "inputs_unchanged", "maximum_duration_seconds",
+        "maximum_p95_query_seconds", "maximum_peak_rss_bytes", "maximum_temporary_bytes",
+        "minimum_entry_count", "observed_entry_count", "p95_query_seconds", "peak_rss_bytes",
+        "query_count", "query_only", "temporary_bytes",
+    ),
+    "snapshot_pipeline_scale": (
+        "completed", "duration_seconds", "inputs_unchanged", "maximum_duration_seconds",
+        "maximum_peak_rss_bytes", "maximum_temporary_bytes", "minimum_entry_count",
+        "observed_entry_count", "peak_rss_bytes", "temporary_bytes",
+    ),
+    "enrichment_distinct_volume": (
+        "access_time_risk_acknowledged", "completed", "distinct_os_volumes",
+        "selection_immutable", "source_contents_unchanged",
+    ),
+    "forced_interruption_recovery": (
+        "interruption_observed", "resume_completed", "source_contents_unchanged",
+        "stopped_state_recorded",
+    ),
+    "database_corruption": ("corruption_detected", "failed_closed"),
+    "metadata_edge_cases": (
+        "concurrent_mutation_tested", "failed_closed", "invalid_metadata_tested",
+        "long_paths_tested", "permission_errors_tested",
+    ),
+    "visible_gui_review": ("no_critical_defects", "review_completed", "visible_session"),
+    "independent_replication": (
+        "fresh_clone", "independent_host", "mandatory_tests_passed", "revision_matched",
+        "source_contents_unchanged",
+    ),
+}
 
 
 def _load_manifest(path: Path) -> tuple[dict[str, object], str]:

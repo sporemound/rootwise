@@ -1,4 +1,4 @@
-# Rootwise 0.16.0-alpha
+# Rootwise 0.17.0-alpha
 
 Rootwise contains a deliberately narrow, metadata-only filesystem inventory scanner, a
 separate read-only review interface, structural analytics, robust Pareto review ranking, a
@@ -13,6 +13,10 @@ schemas, release artifacts, GUI labels, and documentation now use only the Rootw
 Stage 0.16 turns scale, recovery, edge-case, visible-GUI, distinct-volume enrichment, and
 independent-replication evidence into one canonical fail-closed acceptance report. It evaluates
 external evidence but does not perform scans or authenticate evidence producers.
+Stage 0.17 adds deterministic empty-manifest initialization, machine-readable gate guidance, and
+tamper-detecting report inspection while retaining the Stage 0.16 evaluation syntax. Guided
+initialization never pre-populates a passing evidence claim. See `docs/ACCEPTANCE_WORKFLOW.md`.
+
 Stage 0.11 compares two immutable snapshots and builds a conservative project relationship graph.
 The core scanner records directory entries and metadata in an external SQLite database and can
 stream a canonical NDJSON representation. Only the separate Stage 0.7 enrichment command reads
@@ -348,3 +352,27 @@ python -m rootwise_acceptance.cli `
 The command exits `0` only for a complete `PASS`, `2` for a valid `FAIL` or `INCOMPLETE` report,
 and `1` for a rejected contract. Missing evidence is never treated as passing. See
 `docs/ACCEPTANCE_CONTRACT.md`.
+
+## Guided acceptance workflow
+
+Discover the exact gate measurement fields without suggested passing values:
+
+```powershell
+python -m rootwise_acceptance.cli guide
+```
+
+Create a deterministic evidence-empty manifest with explicit, non-discovered identity fields:
+
+```powershell
+python -m rootwise_acceptance.cli init `
+    --output "E:\acceptance\evidence-empty.json" `
+    --subject-revision "0123456789abcdef0123456789abcdef01234567" `
+    --producer "manual-review" `
+    --created-at "2026-08-09T00:00:00Z" `
+    --host-id "review-host" `
+    --os "Windows 10" `
+    --python "3.14.3"
+```
+
+Use `evaluate` to produce a report and `inspect` to recompute its digest, gate semantics, and
+aggregate status. See `docs/ACCEPTANCE_WORKFLOW.md` for the full workflow and exit codes.
