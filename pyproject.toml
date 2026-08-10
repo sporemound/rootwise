@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "paretodrive"
-version = "0.13.0a0"
-description = "Audit-first inventory and multi-snapshot temporal analytics"
+version = "0.14.0a0"
+description = "Audit-first inventory and lineage-safe multi-evidence review synthesis"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
@@ -30,6 +30,7 @@ paretodrive-fuse-evidence = "paretodrive_fusion.cli:main"
 paretodrive-longitudinal = "paretodrive_longitudinal.cli:main"
 paretodrive-dependency-graph = "paretodrive_dependency.cli:main"
 paretodrive-history = "paretodrive_history.cli:main"
+paretodrive-synthesize-evidence = "paretodrive_synthesis.cli:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

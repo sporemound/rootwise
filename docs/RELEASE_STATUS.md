@@ -1,6 +1,6 @@
 # Release Status
 
-Version: `0.13.0-alpha` (unreleased source milestone)
+Version: `0.14.0-alpha` (unreleased source milestone)
 
 - Designed: metadata-only scanner boundary and staged release gates.
 - Implemented: volume identity, guarded outputs, handle-bound traversal, SQLite sessions,
@@ -36,9 +36,12 @@ Version: `0.13.0-alpha` (unreleased source milestone)
 - Multi-snapshot history implemented: canonical contiguous-chain manifests, independent
   longitudinal table/digest validation, ordinal file observation and stability, directory churn,
   project activity, and explicit non-value/non-action semantics.
-- Tested locally: 84 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
+- Multi-evidence review synthesis implemented: exact ranking/fusion/dependency/history lineage,
+  independently recomputed logical table digests, candidate-level separated evidence dimensions,
+  and named review signals without score/rank mutation or action semantics.
+- Tested locally: 87 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
   including construction of the real PySide6 6.10.2 window using the offscreen Qt platform. Ruff
-  and strict mypy pass across 57 source files under the hash-locked CPython 3.12 environment.
+  and strict mypy pass across 60 source files under the hash-locked CPython 3.12 environment.
 - GUI interaction and visual layout: constructed and event-processed offscreen; not yet manually
   reviewed in a visible desktop session.
 - Search scale: functionally tested with bounded pages; not benchmarked at millions of rows and
@@ -82,6 +85,11 @@ Version: `0.13.0-alpha` (unreleased source milestone)
   metadata change, stable transitions, and unchanged input/source behavior are covered. Timestamp
   duration, rename detection, long-chain resource use, and multi-million-path performance are not
   implemented or accepted.
+- Synthesis scale: only a unified synthetic three-snapshot chain with D3 evidence and two projects
+  is tested. Logical tampering, wrong analysis lineage, exact directory/project joins, separate
+  evidence fields, dimension signals, deterministic output, and unchanged inputs/source are
+  covered. Partial or optional evidence inputs, signal calibration, large candidate sets, and
+  multi-million-row performance are not implemented or accepted.
 - Installed analytics integration: passed against the retained 30-observation synthetic exFAT
   inventory after VHDX detachment, producing 15 roles, 16 aggregate nodes, one project, six
   relationships, and four `COMPLETE` stages while leaving the inventory byte-identical. Output
@@ -128,6 +136,10 @@ Version: `0.13.0-alpha` (unreleased source milestone)
   longitudinal runs representing three snapshots, recorded two metadata changes for a retained
   source path and a `NOT_OBSERVED` current state for one removed path, and left the inventory, chain
   manifest, longitudinal inputs, and source contents SHA-256-identical.
+- Installed synthesis integration: `paretodrive-synthesize-evidence` joined a temporary ranking,
+  D3 fusion, explicit dependency graph, and three-snapshot history sharing one current analysis;
+  emitted confirmed-duplicate and churn signals while leaving every input and source content
+  SHA-256-identical.
 - CPython 3.14 installation recovery: after the operator closed the viewer, the 0.11 editable
   install restored every console entry point. Stale 0.9 metadata from the interrupted uninstall was
   moved—not deleted—to `.tool-tmp/stale-install-quarantine`; `pip show` now reports 0.11.0a0 without

@@ -1,4 +1,4 @@
-# ParetoDrive 0.13.0-alpha
+# ParetoDrive 0.14.0-alpha
 
 ParetoDrive contains a deliberately narrow, metadata-only filesystem inventory scanner, a
 separate read-only review interface, structural analytics, robust Pareto review ranking, a
@@ -304,3 +304,23 @@ python -m paretodrive_history.cli `
 The result describes file observation/stability, directory churn, and project activity by snapshot
 ordinal. It does not infer renames, content equality, value, or action safety. See
 `docs/HISTORY_CONTRACT.md`.
+
+## Multi-evidence review synthesis
+
+Stage 0.14 requires ranking, fusion, dependency, and history artifacts that all resolve to the
+same latest analysis and inventory session:
+
+```powershell
+$ErrorActionPreference = "Stop"
+$env:PYTHONPATH = "E:\Python Scripts\paretodrive\src"
+python -m paretodrive_synthesis.cli `
+    --ranking "E:\inventories\ranking.db" `
+    --fusion "E:\inventories\fusion.db" `
+    --dependency "E:\inventories\dependency.db" `
+    --history "E:\inventories\history.db" `
+    --output "E:\inventories\synthesis.db"
+```
+
+The output joins separate enrichment, dependency, and temporal dimensions to ranking candidate
+directories and emits named review signals. It does not create a combined score, alter Pareto
+ranks, or authorize action. See `docs/SYNTHESIS_CONTRACT.md`.

@@ -211,6 +211,13 @@ def _read_link(path: Path, requested_run: str, requested_digest: str) -> Link:
         connection.close()
 
 
+def validate_longitudinal_link(
+    path: str | Path, run_id: str, output_digest: str
+) -> Link:
+    """Independently validate and return one complete longitudinal link."""
+    return _read_link(Path(path).expanduser().resolve(strict=True), run_id, output_digest)
+
+
 def _load_chain(manifest: Path, output: Path) -> tuple[str, list[Link]]:
     raw = manifest.read_bytes()
     value = json.loads(raw)

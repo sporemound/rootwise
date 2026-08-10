@@ -138,6 +138,10 @@ def main() -> int:
         [sys.executable, "tools/generate_history_evidence.py"],
         "installed_history_fixture",
     )
+    synthesis = execute(
+        [sys.executable, "tools/generate_synthesis_evidence.py"],
+        "installed_synthesis_fixture",
+    )
     after = source_manifest()
     unchanged = before == after
     fixture_value: dict[str, object] | None = None
@@ -176,15 +180,21 @@ def main() -> int:
             history_value = json.loads(str(history["stdout"]))
         except json.JSONDecodeError:
             history["passed"] = False
+    synthesis_value: dict[str, object] | None = None
+    if synthesis["passed"]:
+        try:
+            synthesis_value = json.loads(str(synthesis["stdout"]))
+        except json.JSONDecodeError:
+            synthesis["passed"] = False
     overall = bool(
         revision["passed"] and test["passed"] and fixture["passed"]
         and approval["passed"] and fusion["passed"] and longitudinal["passed"]
-        and dependency["passed"] and history["passed"] and unchanged
+        and dependency["passed"] and history["passed"] and synthesis["passed"] and unchanged
     )
     host_name = "TEST-WINDOWS.json" if os.name == "nt" else "TEST-LINUX.json"
     write_json("SOURCE_MANIFEST.json", {"algorithm": "sha256", "files": before})
     write_json(host_name, {
-        "status": "PASS" if overall else "FAIL", "version": "0.13.0-alpha",
+        "status": "PASS" if overall else "FAIL", "version": "0.14.0-alpha",
         "platform": platform.platform(),
         "dependencies": versions(), "tests": test, "fixture": fixture,
         "canonical_fixture": fixture_value, "approval_fixture": approval,
@@ -192,7 +202,8 @@ def main() -> int:
         "installed_fusion": fusion_value, "longitudinal_fixture": longitudinal,
         "installed_longitudinal": longitudinal_value, "dependency_fixture": dependency,
         "installed_dependency": dependency_value, "history_fixture": history,
-        "installed_history": history_value, "source_unchanged": unchanged,
+        "installed_history": history_value, "synthesis_fixture": synthesis,
+        "installed_synthesis": synthesis_value, "source_unchanged": unchanged,
     })
     write_json("SAFETY-AUDIT.json", {
         "status": "PASS" if test["passed"] else "FAIL",
@@ -265,6 +276,7 @@ def main() -> int:
                "fusion": fusion["passed"], "longitudinal": longitudinal["passed"],
                "dependency": dependency["passed"],
                "history": history["passed"],
+               "synthesis": synthesis["passed"],
                "source_unchanged": unchanged}
     print(json.dumps(summary, sort_keys=True))
     return 0 if overall else 1

@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.14.0-alpha - unreleased
+
+- Added exact lineage validation across ranking, enrichment fusion, dependency, and history
+  artifacts tied to one current analysis session.
+- Added candidate-level enrichment, dependency, directory-history, and project-history evidence
+  fields without coverage extrapolation.
+- Added named dimension-specific review signals without a composite score, priority, Pareto-rank
+  mutation, or action semantics.
+
 ## 0.13.0-alpha - unreleased
 
 - Added canonical manifests for contiguous chains of independently validated longitudinal runs.

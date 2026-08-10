@@ -143,3 +143,18 @@ at least two contiguous, independently revalidated longitudinal transitions.
 
 Snapshot ordinal is not elapsed time, unchanged metadata is not content equality, and activity or
 stability does not imply value or action safety.
+
+## 0.14 multi-evidence review synthesis
+
+The synthesis database uses application ID `1346654816` and binds one complete ranking to fusion,
+dependency, and history inputs resolving to the same latest analysis run and inventory session.
+
+- `synthesis_runs` records every input/run identity, shared analysis/session lineage, digests,
+  candidate/signal counts, and state.
+- `synthesis_stages` records `validate`, `join_evidence`, and `review_signals` provenance.
+- `candidate_evidence` keeps enrichment coverage/duplicate members, dependency evaluation and
+  graph features, directory churn/ambiguity, and project activity/ambiguity as separate fields.
+- `review_signals` stores named signals and canonical dimension-specific evidence JSON.
+
+The schema intentionally has no composite score, priority, Pareto rank, archive eligibility, or
+action field.
