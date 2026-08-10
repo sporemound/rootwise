@@ -1,4 +1,4 @@
-# Rootwise 0.20.0-alpha
+# Rootwise 0.21.0-alpha
 
 Rootwise contains a deliberately narrow, metadata-only filesystem inventory scanner, a
 separate read-only review interface, structural analytics, robust Pareto review ranking, a
@@ -26,6 +26,10 @@ filesystem authority. See `docs/RELEASE_ADMISSION.md`.
 Stage 0.20 adds independent, read-only admission-chain verification. It recomputes the receipt
 digest and every report, provenance, archive, and fresh-extraction binding without creating a new
 artifact or granting execution authority. See `docs/ADMISSION_VERIFICATION.md`.
+Stage 0.21 replaces cached directory-entry metadata with a fresh non-following stat at observation
+time. Entries deleted after enumeration become structured errors instead of stale observations;
+stable siblings remain observable. See `docs/CONCURRENT_MUTATION_BOUNDARY.md`.
+
 
 
 
@@ -417,10 +421,10 @@ verification, bind those artifacts into a new immutable admission receipt:
 ```powershell
 python -m rootwise_acceptance.cli admit `
     --report "E:\acceptance\report.json" `
-    --archive "E:\Python Scripts\rootwise\artifacts\rootwise-0.20.0-alpha-source.zip" `
+    --archive "E:\Python Scripts\rootwise\artifacts\rootwise-0.21.0-alpha-source.zip" `
     --provenance "E:\Python Scripts\rootwise\artifacts\BUILD_PROVENANCE.json" `
     --verification "E:\Python Scripts\rootwise\artifacts\VERIFY-RELEASE.json" `
-    --output "E:\acceptance\rootwise-0.19-admission.json"
+    --output "E:\acceptance\rootwise-0.21-admission.json"
 ```
 
 Admission requires a canonical complete `PASS`, matching report/provenance revisions, verified
@@ -435,9 +439,9 @@ Independently re-check a receipt and every artifact it binds:
 
 ```powershell
 python -m rootwise_acceptance.cli verify-admission `
-    --receipt "E:\acceptance\rootwise-0.20-admission.json" `
+    --receipt "E:\acceptance\rootwise-0.21-admission.json" `
     --report "E:\acceptance\report.json" `
-    --archive "E:\Python Scripts\rootwise\artifacts\rootwise-0.20.0-alpha-source.zip" `
+    --archive "E:\Python Scripts\rootwise\artifacts\rootwise-0.21.0-alpha-source.zip" `
     --provenance "E:\Python Scripts\rootwise\artifacts\BUILD_PROVENANCE.json" `
     --verification "E:\Python Scripts\rootwise\artifacts\VERIFY-RELEASE.json"
 ```
@@ -448,3 +452,14 @@ artifact hashes, exact archive/extraction binding, and explicit false filesystem
 authorization. It writes no output file and does not authenticate or sign evidence. Rootwise's
 real external acceptance remains `INCOMPLETE`, so this workflow currently has no real admission
 receipt to verify. See `docs/ADMISSION_VERIFICATION.md`.
+
+## Concurrent metadata mutation
+
+The scanner performs a fresh `os.stat(..., follow_symlinks=False)` for each enumerated entry.
+A file or directory deleted between enumeration and observation is omitted and produces a
+structured `stat` error. Stable sibling entries continue to be recorded.
+
+This is a point-in-time metadata boundary, not a stable execution handle. Every future component
+that could act on a path must independently revalidate its own source observations. No Stage 0.21
+component reads source-file contents or authorizes archive, move, rename, or deletion operations.
+See `docs/CONCURRENT_MUTATION_BOUNDARY.md`.

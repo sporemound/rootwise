@@ -1,6 +1,15 @@
 # Changelog
 
 
+## 0.21.0-alpha - unreleased
+
+- Replaced cached `DirEntry.stat()` metadata with a fresh non-following stat at scanner observation
+  time.
+- Added deterministic file- and directory-deletion regression coverage proving disappeared entries
+  become structured errors while stable siblings remain observed.
+- Passed the disposable Windows metadata-edge campaign covering a 371-character path, restored
+  ACL denial, injected invalid metadata, and deletion between enumeration and observation.
+
 ## 0.20.0-alpha - unreleased
 
 - Added independent, read-only verification of canonical release-admission receipts and their

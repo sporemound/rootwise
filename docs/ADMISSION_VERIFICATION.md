@@ -11,9 +11,9 @@ contents.
 $ErrorActionPreference = "Stop"
 $env:PYTHONPATH = "E:\Python Scripts\rootwise\src"
 python -m rootwise_acceptance.cli verify-admission `
-    --receipt "E:\acceptance\rootwise-0.20-admission.json" `
+    --receipt "E:\acceptance\rootwise-0.21-admission.json" `
     --report "E:\acceptance\report.json" `
-    --archive "E:\Python Scripts\rootwise\artifacts\rootwise-0.20.0-alpha-source.zip" `
+    --archive "E:\Python Scripts\rootwise\artifacts\rootwise-0.21.0-alpha-source.zip" `
     --provenance "E:\Python Scripts\rootwise\artifacts\BUILD_PROVENANCE.json" `
     --verification "E:\Python Scripts\rootwise\artifacts\VERIFY-RELEASE.json"
 ```
