@@ -1,4 +1,4 @@
-# Rootwise 0.15.0-alpha
+# Rootwise 0.16.0-alpha
 
 Rootwise contains a deliberately narrow, metadata-only filesystem inventory scanner, a
 separate read-only review interface, structural analytics, robust Pareto review ranking, a
@@ -10,6 +10,9 @@ Stage 0.10 imports completed enrichment evidence into a new immutable analytical
 Stage 0.15 completes the Rootwise namespace migration. Commands, Python packages, manifest
 schemas, release artifacts, GUI labels, and documentation now use only the Rootwise name. See
 `docs/NAMESPACE_MIGRATION.md` for the alpha compatibility boundary.
+Stage 0.16 turns scale, recovery, edge-case, visible-GUI, distinct-volume enrichment, and
+independent-replication evidence into one canonical fail-closed acceptance report. It evaluates
+external evidence but does not perform scans or authenticate evidence producers.
 Stage 0.11 compares two immutable snapshots and builds a conservative project relationship graph.
 The core scanner records directory entries and metadata in an external SQLite database and can
 stream a canonical NDJSON representation. Only the separate Stage 0.7 enrichment command reads
@@ -328,3 +331,20 @@ python -m rootwise_synthesis.cli `
 The output joins separate enrichment, dependency, and temporal dimensions to ranking candidate
 directories and emits named review signals. It does not create a combined score, alter Pareto
 ranks, or authorize action. See `docs/SYNTHESIS_CONTRACT.md`.
+
+## Acceptance and scale evidence
+
+Stage 0.16 evaluates a canonical manifest containing all required readiness gates. The manifest
+and new report must be distinct sibling files:
+
+```powershell
+$ErrorActionPreference = "Stop"
+$env:PYTHONPATH = "E:\Python Scripts\rootwise\src"
+python -m rootwise_acceptance.cli `
+    --manifest "E:\acceptance\evidence.json" `
+    --report "E:\acceptance\report.json"
+```
+
+The command exits `0` only for a complete `PASS`, `2` for a valid `FAIL` or `INCOMPLETE` report,
+and `1` for a rejected contract. Missing evidence is never treated as passing. See
+`docs/ACCEPTANCE_CONTRACT.md`.

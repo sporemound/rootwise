@@ -1,6 +1,6 @@
 # Release Status
 
-Version: `0.15.0-alpha` (unreleased source milestone)
+Version: `0.16.0-alpha` (unreleased source milestone)
 
 - Designed: metadata-only scanner boundary and staged release gates.
 - Implemented: volume identity, guarded outputs, handle-bound traversal, SQLite sessions,
@@ -41,9 +41,14 @@ Version: `0.15.0-alpha` (unreleased source milestone)
   and named review signals without score/rank mutation or action semantics.
 - Rootwise namespace migration implemented: distribution, packages, commands, schema identifiers,
   artifacts, GUI labels, documentation, and tooling use the Rootwise name with no legacy aliases.
-- Tested locally: 89 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
+- Acceptance evidence evaluation implemented: canonical manifests and deterministic reports cover
+  million-entry resource budgets, recovery and corruption behavior, metadata edge cases,
+  distinct-volume enrichment, visible GUI review, and independent reproduction. Missing gates are
+  `INCOMPLETE`; supplied failures are `FAIL`; producer identities and evidence bytes remain
+  unauthenticated external claims.
+- Tested locally: 94 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
   including construction of the real PySide6 6.10.2 window using the offscreen Qt platform. Ruff
-  and strict mypy pass across 60 source files under the hash-locked CPython 3.12 environment.
+  and strict mypy pass across 63 source files under the hash-locked CPython 3.12 environment.
 - GUI interaction and visual layout: constructed and event-processed offscreen; not yet manually
   reviewed in a visible desktop session.
 - Search scale: functionally tested with bounded pages; not benchmarked at millions of rows and
@@ -92,6 +97,11 @@ Version: `0.15.0-alpha` (unreleased source milestone)
   evidence fields, dimension signals, deterministic output, and unchanged inputs/source are
   covered. Partial or optional evidence inputs, signal calibration, large candidate sets, and
   multi-million-row performance are not implemented or accepted.
+- Acceptance-report scale: the evaluator is tested with synthetic complete, failed, incomplete,
+  noncanonical, unknown-gate, duplicate-path, and over-budget declarations. No million-entry run,
+  visible GUI review, distinct-volume enrichment acceptance, hostile metadata campaign, or
+  independent replication has yet supplied all required 0.16 evidence; current real-world status
+  therefore remains `INCOMPLETE`, not `PASS`.
 - Installed analytics integration: passed against the retained 30-observation synthetic exFAT
   inventory after VHDX detachment, producing 15 roles, 16 aggregate nodes, one project, six
   relationships, and four `COMPLETE` stages while leaving the inventory byte-identical. Output
