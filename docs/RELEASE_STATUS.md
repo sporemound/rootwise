@@ -1,6 +1,6 @@
 # Release Status
 
-Version: `0.11.0-alpha` (unreleased source milestone)
+Version: `0.12.0-alpha` (unreleased source milestone)
 
 - Designed: metadata-only scanner boundary and staged release gates.
 - Implemented: volume identity, guarded outputs, handle-bound traversal, SQLite sessions,
@@ -30,9 +30,12 @@ Version: `0.11.0-alpha` (unreleased source milestone)
 - Longitudinal analytics implemented: two-snapshot logical validation, metadata-only file changes,
   error-aware ambiguity, directory churn/byte deltas, temporal project nodes, contextual graph
   edges, components, and explicit zero dependency-evidence coverage.
-- Tested locally: 74 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
+- Explicit dependency-evidence analytics implemented: strict longitudinal and canonical-manifest
+  validation, evaluated-project coverage, typed project relationships, deterministic dependency
+  degrees, weighted degrees, PageRank-style centrality, components, and component-split risk.
+- Tested locally: 79 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
   including construction of the real PySide6 6.10.2 window using the offscreen Qt platform. Ruff
-  and strict mypy pass across 51 source files under the hash-locked CPython 3.12 environment.
+  and strict mypy pass across 54 source files under the hash-locked CPython 3.12 environment.
 - GUI interaction and visual layout: constructed and event-processed offscreen; not yet manually
   reviewed in a visible desktop session.
 - Search scale: functionally tested with bounded pages; not benchmarked at millions of rows and
@@ -63,8 +66,14 @@ Version: `0.11.0-alpha` (unreleased source milestone)
   implemented or accepted.
 - Longitudinal scale: only two small synthetic sessions are tested. Added, removed,
   metadata-changed, metadata-unchanged, error-ambiguous, project-added, contextual edge, unchanged
-  input/source, and tampered-inventory behaviors are covered. Rename detection, dependency
-  extraction, long histories, and multi-million-row performance are not implemented or accepted.
+  input/source, and tampered-inventory behaviors are covered. Rename detection, automatic
+  dependency extraction, long histories, and multi-million-row performance are not implemented
+  or accepted.
+- Dependency-evidence scale: only a small synthetic two-project declaration is tested. Canonical
+  encoding, longitudinal/table tampering, unknown endpoints, explicit evaluated-project coverage,
+  deterministic graph output, and unchanged inputs/source are covered. ParetoDrive does not
+  generate or authenticate the supplied evidence, parse source manifests, or claim large-graph
+  performance.
 - Installed analytics integration: passed against the retained 30-observation synthetic exFAT
   inventory after VHDX detachment, producing 15 roles, 16 aggregate nodes, one project, six
   relationships, and four `COMPLETE` stages while leaving the inventory byte-identical. Output
@@ -103,6 +112,10 @@ Version: `0.11.0-alpha` (unreleased source milestone)
   snapshots and produced two additions, one removal, one metadata change, 13 metadata-unchanged
   observations, one contextual project edge, and zero dependency-evidence coverage while leaving
   all inputs and current synthetic source contents SHA-256-identical.
+- Installed dependency integration: `paretodrive-dependency-graph` consumed a canonical manifest
+  bound to a temporary complete longitudinal run, imported one explicit directed `DEPENDS_ON`
+  edge across two evaluated projects, reported coverage 1.0, and left the inventory,
+  longitudinal database, manifest, and source contents SHA-256-identical.
 - CPython 3.14 installation recovery: after the operator closed the viewer, the 0.11 editable
   install restored every console entry point. Stale 0.9 metadata from the interrupted uninstall was
   moved—not deleted—to `.tool-tmp/stale-install-quarantine`; `pip show` now reports 0.11.0a0 without

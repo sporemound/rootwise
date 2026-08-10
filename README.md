@@ -1,4 +1,4 @@
-# ParetoDrive 0.11.0-alpha
+# ParetoDrive 0.12.0-alpha
 
 ParetoDrive contains a deliberately narrow, metadata-only filesystem inventory scanner, a
 separate read-only review interface, structural analytics, robust Pareto review ranking, a
@@ -269,3 +269,21 @@ Results distinguish `ADDED`, `REMOVED`, `METADATA_CHANGED`, and `METADATA_UNCHAN
 does not mean content equality. Scan-error intersections make additions/removals ambiguous.
 Project edges record nested-project or shared-extension-profile evidence; shared extensions
 explicitly do not constitute a dependency claim. See `docs/LONGITUDINAL_CONTRACT.md`.
+
+## Explicit project-dependency evidence
+
+Stage 0.12 imports a strict evidence manifest bound to one complete longitudinal run. The
+longitudinal database, manifest, and new output database must be distinct siblings:
+
+```powershell
+$ErrorActionPreference = "Stop"
+$env:PYTHONPATH = "E:\Python Scripts\paretodrive\src"
+python -m paretodrive_dependency.cli `
+    --longitudinal "E:\inventories\longitudinal.db" `
+    --evidence-manifest "E:\inventories\dependency-evidence.json" `
+    --output "E:\inventories\dependency-graph.db"
+```
+
+Only projects listed as evaluated contribute to evidence coverage. Missing evidence remains
+unknown, and only explicit `DEPENDS_ON` records contribute to dependency degrees. This stage does
+not parse project files or open source content. See `docs/DEPENDENCY_EVIDENCE_CONTRACT.md`.

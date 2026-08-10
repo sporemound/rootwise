@@ -130,6 +130,10 @@ def main() -> int:
         [sys.executable, "tools/generate_longitudinal_evidence.py"],
         "installed_longitudinal_fixture",
     )
+    dependency = execute(
+        [sys.executable, "tools/generate_dependency_evidence.py"],
+        "installed_dependency_fixture",
+    )
     after = source_manifest()
     unchanged = before == after
     fixture_value: dict[str, object] | None = None
@@ -156,20 +160,28 @@ def main() -> int:
             longitudinal_value = json.loads(str(longitudinal["stdout"]))
         except json.JSONDecodeError:
             longitudinal["passed"] = False
+    dependency_value: dict[str, object] | None = None
+    if dependency["passed"]:
+        try:
+            dependency_value = json.loads(str(dependency["stdout"]))
+        except json.JSONDecodeError:
+            dependency["passed"] = False
     overall = bool(
         revision["passed"] and test["passed"] and fixture["passed"]
-        and approval["passed"] and fusion["passed"] and longitudinal["passed"] and unchanged
+        and approval["passed"] and fusion["passed"] and longitudinal["passed"]
+        and dependency["passed"] and unchanged
     )
     host_name = "TEST-WINDOWS.json" if os.name == "nt" else "TEST-LINUX.json"
     write_json("SOURCE_MANIFEST.json", {"algorithm": "sha256", "files": before})
     write_json(host_name, {
-        "status": "PASS" if overall else "FAIL", "version": "0.11.0-alpha",
+        "status": "PASS" if overall else "FAIL", "version": "0.12.0-alpha",
         "platform": platform.platform(),
         "dependencies": versions(), "tests": test, "fixture": fixture,
         "canonical_fixture": fixture_value, "approval_fixture": approval,
         "installed_approval": approval_value, "fusion_fixture": fusion,
         "installed_fusion": fusion_value, "longitudinal_fixture": longitudinal,
-        "installed_longitudinal": longitudinal_value, "source_unchanged": unchanged,
+        "installed_longitudinal": longitudinal_value, "dependency_fixture": dependency,
+        "installed_dependency": dependency_value, "source_unchanged": unchanged,
     })
     write_json("SAFETY-AUDIT.json", {
         "status": "PASS" if test["passed"] else "FAIL",
@@ -240,6 +252,7 @@ def main() -> int:
     summary = {"status": "PASS" if overall else "FAIL", "test": test["passed"],
                "fixture": fixture["passed"], "approval": approval["passed"],
                "fusion": fusion["passed"], "longitudinal": longitudinal["passed"],
+               "dependency": dependency["passed"],
                "source_unchanged": unchanged}
     print(json.dumps(summary, sort_keys=True))
     return 0 if overall else 1

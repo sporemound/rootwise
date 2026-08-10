@@ -107,3 +107,20 @@ inventory sessions through their independently validated structural-analysis run
   evidence-labeled relationships, components, and explicit dependency-evidence coverage.
 
 Shared extension profiles are contextual evidence only and never dependency claims.
+
+## 0.12 explicit project-dependency evidence
+
+The dependency database uses application ID `1346654814` and binds one canonical evidence
+manifest to one independently revalidated complete longitudinal run.
+
+- `dependency_runs` records both input digests, project/evaluation counts, explicit coverage,
+  output digest, and state.
+- `dependency_stages` records `validate`, `import_evidence`, and `graph_features` provenance.
+- `evaluated_projects` distinguishes inspected projects from projects with unknown evidence.
+- `dependency_edges` preserves evidence ID, relationship type, direction, confidence, and the
+  supplied evidence reference.
+- `dependency_graph_features` stores evidence state, dependency and relationship degree,
+  weighted degree, PageRank-style centrality, component, and component-split risk.
+
+Only explicit `DEPENDS_ON` evidence contributes to dependency degree. The database is analytical
+evidence and authorizes no filesystem action.

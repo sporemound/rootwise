@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.12.0-alpha - unreleased
+
+- Added strict, digest-bound import of explicit project relationship evidence.
+- Added evaluated-project coverage so absent evidence remains unknown rather than negative.
+- Added deterministic dependency degrees, weighted degrees, PageRank-style centrality,
+  components, and component-split risk without source-content access.
+
 ## 0.11.0-alpha - unreleased
 
 - Added deterministic comparison of two complete analysis/inventory snapshots.

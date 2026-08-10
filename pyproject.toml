@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "paretodrive"
-version = "0.11.0a0"
-description = "Audit-first inventory, evidence fusion, and longitudinal project analytics"
+version = "0.12.0a0"
+description = "Audit-first inventory and explicit project-dependency evidence analytics"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
@@ -28,6 +28,7 @@ paretodrive-approve = "paretodrive_approval.cli:main"
 paretodrive-preflight = "paretodrive_preflight.cli:main"
 paretodrive-fuse-evidence = "paretodrive_fusion.cli:main"
 paretodrive-longitudinal = "paretodrive_longitudinal.cli:main"
+paretodrive-dependency-graph = "paretodrive_dependency.cli:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
