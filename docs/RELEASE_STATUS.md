@@ -1,6 +1,6 @@
 # Release Status
 
-Version: `0.17.0-alpha` (unreleased source milestone)
+Version: `0.18.0-alpha` (unreleased source milestone)
 
 - Designed: metadata-only scanner boundary and staged release gates.
 - Implemented: volume identity, guarded outputs, handle-bound traversal, SQLite sessions,
@@ -50,9 +50,13 @@ Version: `0.17.0-alpha` (unreleased source milestone)
   machine-readable required-measurement guidance, backward-compatible evaluation, and canonical
   report inspection with digest, complete-gate-set, per-gate semantic, and aggregate-status
   recomputation. Initialization deliberately cannot create a passing evidence claim.
-- Tested locally: 99 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
+- Immutable acceptance recording implemented: external evidence is stream-hashed, measurements
+  require exact gate-specific canonical fields, and each command writes a new manifest revision.
+  Output overwrite, path reuse, duplicate-gate replacement, and measurement field drift fail
+  closed; computed negative evidence remains an explicit `FAIL`.
+- Tested locally: 104 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
   including construction of the real PySide6 6.10.2 window using the offscreen Qt platform. Ruff
-  and strict mypy pass across 64 source files under the hash-locked CPython 3.12 environment.
+  and strict mypy pass across 65 source files under the hash-locked CPython 3.12 environment.
 - GUI interaction and visual layout: constructed and event-processed offscreen; not yet manually
   reviewed in a visible desktop session.
 - Search scale: functionally tested with bounded pages; not benchmarked at millions of rows and
