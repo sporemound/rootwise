@@ -1,6 +1,17 @@
 # Changelog
 
 
+## Stage 0.21a GUI correction - unreleased
+
+- Added persistent Decision, Revision, and Note columns to every bounded GUI result page.
+- Added a single bounded parameterized current-decision query per page, explicit palette-safe
+  recorded state, selection-to-editor synchronization, and immediate post-record refresh.
+- Added functional File, View, Decisions, and Help menus for session details, refresh/search,
+  filtering, paging, decision values and history, shortcuts, and safety-boundary information.
+- Replaced the stale component-era window title with the current Rootwise product version while
+  preserving query-only inventory access and the separate revisioned decision database.
+
+
 ## 0.21.0-alpha - unreleased
 
 - Replaced cached `DirEntry.stat()` metadata with a fresh non-following stat at scanner observation

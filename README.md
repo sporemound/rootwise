@@ -137,6 +137,15 @@ python -m rootwise_view.cli gui `
     --decisions "E:\inventories\decisions.db"
 ```
 
+Stage 0.21a displays the current Decision, Revision, and Note beside every result. Undecided rows
+are labeled `UNDECIDED`; decided rows use an explicit bold `RECORDED:` label without overriding
+the operating-system palette. Selecting a decided row restores its current decision and note in the
+editor, and a successful record updates the row immediately. The File, View, Decisions, and Help
+menus expose session details, refresh/search, type filters, page navigation, decision values and
+history, keyboard shortcuts, and safety information. Page loading uses one bounded parameterized
+decision query and does not weaken the inventory database's query-only boundary.
+
+
 Search pages are capped at 500 rows. The current SQLite path search is functionally tested on the
 deterministic corpus but is not yet benchmarked at tens of millions of observations.
 

@@ -6,7 +6,8 @@ Version: `0.21.0-alpha` (unreleased source milestone)
 - Implemented: volume identity, guarded outputs, handle-bound traversal, SQLite sessions,
   cancellation/resume, structured errors, and deterministic canonical export.
 - Viewer implemented: query-only inventory reader, bounded search, separate revisioned decisions,
-  headless CLI, and optional PySide6 table interface.
+  persistent decision/revision/note columns, palette-safe recorded state, synchronized editing,
+  functional File/View/Decisions/Help menus, headless CLI, and optional PySide6 table interface.
 - Structural analytics implemented: snapshot-only deterministic roles, recursive directory totals,
   project-marker boundaries, structural relationships, and per-stage provenance.
 - Pareto review implemented: DuckDB/Polars feature materialization, independent confidence
@@ -71,11 +72,13 @@ Version: `0.21.0-alpha` (unreleased source milestone)
   metadata stat at observation time. Disappeared files and directories become structured errors,
   are not observed, and are not queued; stable siblings retain normal behavior. This remains a
   point-in-time inventory boundary rather than a stable handle or execution authorization.
-- Tested locally: 119 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
+- Tested locally: 121 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
   including construction of the real PySide6 6.10.2 window using the offscreen Qt platform. Ruff
   and strict mypy pass across 67 source files under the hash-locked CPython 3.12 environment.
-- GUI interaction and visual layout: constructed and event-processed offscreen; not yet manually
-  reviewed in a visible desktop session.
+- GUI interaction and visual layout: the first visible 0.21 review found that persisted decisions
+  were not distinguishable after recording; the next review exposed a theme-dependent white-on-
+  white selection state. Stage 0.21a now uses explicit palette-safe recorded labels and adds the
+  missing functional menu bar, but this corrected surface still requires a visible-session retest.
 - Search scale: functionally tested with bounded pages; not benchmarked at millions of rows and
   not an Everything-performance claim.
 - Analytics scale: deterministic fixture behavior is tested; multi-million-row memory, latency,
@@ -123,10 +126,10 @@ Version: `0.21.0-alpha` (unreleased source milestone)
   covered. Partial or optional evidence inputs, signal calibration, large candidate sets, and
   multi-million-row performance are not implemented or accepted.
 - Acceptance-report scale: the evaluator is tested with synthetic complete, failed, incomplete,
-  noncanonical, unknown-gate, duplicate-path, and over-budget declarations. No million-entry run,
-  visible GUI review, distinct-volume enrichment acceptance, hostile metadata campaign, or
-  independent replication has yet supplied all required 0.16 evidence; current real-world status
-  therefore remains `INCOMPLETE`, not `PASS`.
+  noncanonical, unknown-gate, duplicate-path, and over-budget declarations. The merged 0.21
+  campaign recorded three local gates, but no million-entry run, corrected visible GUI review,
+  distinct-volume enrichment acceptance, or independent replication has completed the full set;
+  current real-world status therefore remains `INCOMPLETE`, not `PASS`.
 - Release-admission scale: only small synthetic complete and incomplete acceptance reports and a
   synthetic source archive are tested. Determinism, exact archive hashing, unchanged inputs,
   report tampering, revision mismatch, failed extraction verification, path reuse, and output
@@ -137,8 +140,9 @@ Version: `0.21.0-alpha` (unreleased source milestone)
   `LIST_DIRECTORY` ACL denial produced structured evidence and was restored; injected invalid
   metadata produced a structured `EINVAL`; and deterministic file deletion after enumeration
   produced `FileNotFoundError` rather than a stale observation. File and directory deletion
-  variants retain stable sibling observations. The acceptance campaign must restart on the final
-  merged 0.21 revision before this evidence can be recorded as a release gate.
+  variants retain stable sibling observations. The merged 0.21 campaign recorded this and two
+  other local gates as passing; because acceptance evidence is revision-bound, the campaign must
+  restart after the corrective 0.21a revision is finalized.
 - Admission-verification scale: only small synthetic admission chains are tested. Deterministic
   read-only verification, canonical and semantic receipt tampering, changes to every bound artifact,
   exact archive mismatch, and path reuse are covered. Concurrent archive mutation is detected when

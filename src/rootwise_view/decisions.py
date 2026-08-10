@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import sqlite3
+from collections.abc import Sequence
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path, PurePosixPath
@@ -120,6 +121,27 @@ class DecisionStore:
             (session_id, subject),
         ).fetchone()
         return None if row is None else DecisionRecord(**dict(row))
+
+    def current_for_paths(
+        self, session_id: str, relative_paths: Sequence[str]
+    ) -> dict[str, DecisionRecord]:
+        """Return current decisions for one bounded visible page using one query."""
+        _validate_subject(session_id, "")
+        if len(relative_paths) > 500:
+            raise ValueError("decision page must contain at most 500 paths")
+        subjects = list(dict.fromkeys(
+            _validate_subject(session_id, relative_path) for relative_path in relative_paths
+        ))
+        if not subjects:
+            return {}
+        placeholders = ",".join("?" for _ in subjects)
+        rows = self._connection.execute(
+            "SELECT scan_session_id,relative_path,decision,note,revision,updated_at AS recorded_at "
+            f"FROM current_decisions WHERE scan_session_id=? AND relative_path IN ({placeholders})",
+            (session_id, *subjects),
+        )
+        records = [DecisionRecord(**dict(row)) for row in rows]
+        return {record.relative_path: record for record in records}
 
     def history(self, session_id: str, relative_path: str) -> list[DecisionRecord]:
         subject = _validate_subject(session_id, relative_path)
