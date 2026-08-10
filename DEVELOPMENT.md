@@ -294,6 +294,9 @@ until the separate acceptance and admission workflow succeeds. See
 | Content hashes or declared relationships | Evidence | Content reads require explicit bounded permission |
 | Tests, scale protocols, acceptance, releases | Validation | Evidence evaluation cannot manufacture authority |
 
+Viewer implementation changes belong under `src/rootwise/viewer`. The top-level
+`src/rootwise_view` package is compatibility-only and must not acquire new behavior.
+
 Add tests beside the behavior they protect. A source-facing change also requires review against
 [SECURITY.md](SECURITY.md), the [safety invariants](docs/safety/safety-invariants.md), and the
 [threat model](docs/safety/threat-model.md). Stop and split the work if a structural refactor begins

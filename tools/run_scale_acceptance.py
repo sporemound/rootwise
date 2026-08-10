@@ -27,7 +27,7 @@ from rootwise.scanner import MetadataScanner
 from rootwise.volume import resolve_volume
 from rootwise.write_guard import WriteGuard
 from rootwise_analytics.pipeline import run_analysis
-from rootwise_view.inventory import InventoryReader
+from rootwise.viewer.inventory import InventoryReader
 
 ROOT = Path(__file__).parents[1]
 CODE_VERSION = "0.23.0-alpha"

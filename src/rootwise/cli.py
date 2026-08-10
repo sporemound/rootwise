@@ -75,7 +75,7 @@ def _scan(values: list[str]) -> int:
 
 
 def _view(values: list[str]) -> int:
-    from rootwise_view.cli import main as view_main
+    from .viewer.cli import main as view_main
 
     return view_main(values, prog="rootwise view")
 

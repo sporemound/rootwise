@@ -15,7 +15,7 @@ from rootwise_analytics.optimizer_pipeline import run_optimization
 from rootwise_analytics.pipeline import run_analysis
 from rootwise_analytics.ranking_pipeline import run_ranking
 from rootwise_approval.declaration import ACKNOWLEDGEMENTS, INTENT, SCHEMA_VERSION
-from rootwise_view.decisions import DecisionStore
+from rootwise.viewer.decisions import DecisionStore
 from tests.test_viewer_inventory import completed_inventory
 
 

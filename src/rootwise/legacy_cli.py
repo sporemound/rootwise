@@ -14,7 +14,7 @@ def _notice(old: str, new: str) -> None:
 
 def view() -> int:
     _notice("rootwise-view", "rootwise view")
-    from rootwise_view.cli import main
+    from .viewer.cli import main
 
     return main()
 

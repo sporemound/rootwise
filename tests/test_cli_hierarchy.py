@@ -76,7 +76,7 @@ def test_group_help_does_not_import_optional_implementations(
 @pytest.mark.parametrize(
     ("arguments", "module_name", "expected_arguments", "expected_prog"),
     (
-        (["view", "search", "--limit", "1"], "rootwise_view.cli", ["search", "--limit", "1"], "rootwise view"),
+        (["view", "search", "--limit", "1"], "rootwise.viewer.cli", ["search", "--limit", "1"], "rootwise view"),
         (["analyze", "structural", "--inventory", "i"], "rootwise_analytics.cli", ["--inventory", "i"], "rootwise analyze structural"),
         (["analyze", "rank", "--analysis", "a"], "rootwise_analytics.ranking_cli", ["--analysis", "a"], "rootwise analyze rank"),
         (["analyze", "fuse", "--analysis", "a"], "rootwise_fusion.cli", ["--analysis", "a"], "rootwise analyze fuse"),
@@ -147,7 +147,7 @@ def test_legacy_core_operation_warns_and_dispatches(
 def test_legacy_console_wrapper_warns_and_preserves_arguments(
     monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
 ) -> None:
-    module = importlib.import_module("rootwise_view.cli")
+    module = importlib.import_module("rootwise.viewer.cli")
     monkeypatch.setattr(module, "main", lambda: 19)
     assert legacy_cli.view() == 19
     output = capsys.readouterr()
