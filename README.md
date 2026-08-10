@@ -1,4 +1,4 @@
-# Rootwise 0.18.0-alpha
+# Rootwise 0.19.0-alpha
 
 Rootwise contains a deliberately narrow, metadata-only filesystem inventory scanner, a
 separate read-only review interface, structural analytics, robust Pareto review ranking, a
@@ -19,6 +19,10 @@ initialization never pre-populates a passing evidence claim. See `docs/ACCEPTANC
 Stage 0.18 adds immutable gate recording: it hashes external evidence, requires exact canonical
 gate-specific measurements, and writes a new manifest revision without replacement or overwrite.
 See `docs/ACCEPTANCE_RECORDING.md`.
+Stage 0.19 adds fail-closed release-candidate admission. It binds a complete passing acceptance
+report to the verified source revision, exact source-archive SHA-256, build provenance, and a
+successful fresh-extraction verification result. It does not build, publish, execute, or grant
+filesystem authority. See `docs/RELEASE_ADMISSION.md`.
 
 
 Stage 0.11 compares two immutable snapshots and builds a conservative project relationship graph.
@@ -400,3 +404,23 @@ The command computes the evidence SHA-256 itself and reports the selected gate's
 `PASS` or `FAIL`. It refuses output overwrite, path reuse, noncanonical measurements, missing or
 extra measurement fields, and replacement of an already recorded gate. It does not open evidence
 during later evaluation or authenticate its producer. See `docs/ACCEPTANCE_RECORDING.md`.
+
+## Release-candidate admission
+
+After every acceptance gate genuinely passes and the source archive has passed fresh-extraction
+verification, bind those artifacts into a new immutable admission receipt:
+
+```powershell
+python -m rootwise_acceptance.cli admit `
+    --report "E:\acceptance\report.json" `
+    --archive "E:\Python Scripts\rootwise\artifacts\rootwise-0.19.0-alpha-source.zip" `
+    --provenance "E:\Python Scripts\rootwise\artifacts\BUILD_PROVENANCE.json" `
+    --verification "E:\Python Scripts\rootwise\artifacts\VERIFY-RELEASE.json" `
+    --output "E:\acceptance\rootwise-0.19-admission.json"
+```
+
+Admission requires a canonical complete `PASS`, matching report/provenance revisions, verified
+build lineage, a successful unchanged-source extraction verification, and a new distinct output
+path. The receipt binds hashes of every supplied artifact and explicitly grants no filesystem
+execution authority. Rootwise's current real acceptance status remains `INCOMPLETE`; synthetic
+success-path tests are not a substitute for the nine external gates. See `docs/RELEASE_ADMISSION.md`.

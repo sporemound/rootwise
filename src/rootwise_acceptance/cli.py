@@ -1,4 +1,4 @@
-"""CLI for Stage 0.18 immutable acceptance evidence workflows."""
+"""CLI for Stage 0.19 acceptance and release-admission workflows."""
 
 from __future__ import annotations
 
@@ -8,6 +8,7 @@ import sys
 from dataclasses import asdict
 from typing import Sequence
 
+from .admission import admit_release_candidate
 from .evaluator import evaluate_acceptance
 from .recording import record_gate
 from .workflow import gate_guide, initialize_manifest, inspect_report
@@ -46,6 +47,12 @@ def _parser() -> argparse.ArgumentParser:
     evaluate.add_argument("--report", required=True)
     inspect = commands.add_parser("inspect", help="validate and summarize a canonical report")
     inspect.add_argument("--report", required=True)
+    admit = commands.add_parser("admit", help="admit a fully verified release candidate")
+    admit.add_argument("--report", required=True)
+    admit.add_argument("--archive", required=True)
+    admit.add_argument("--provenance", required=True)
+    admit.add_argument("--verification", required=True)
+    admit.add_argument("--output", required=True)
     commands.add_parser("guide", help="print required gates and measurement fields as JSON")
     return parser
 
@@ -85,6 +92,12 @@ def _run(argv: list[str]) -> int:
         inspection = inspect_report(args.report)
         print(json.dumps(asdict(inspection), sort_keys=True))
         return 0 if inspection.status == "PASS" else 2
+    if args.command == "admit":
+        admission = admit_release_candidate(
+            args.report, args.archive, args.provenance, args.verification, args.output
+        )
+        print(json.dumps(asdict(admission), sort_keys=True))
+        return 0
     if args.command == "guide":
         print(json.dumps(gate_guide(), sort_keys=True))
         return 0
