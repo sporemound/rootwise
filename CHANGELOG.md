@@ -1,6 +1,16 @@
 # Changelog
 
 
+## 0.23.0-alpha - unreleased
+
+- Added plan-only-by-default preparation of a deterministic million-file disposable corpus and
+  canonical viewer query suite for the Stage 0.22 scale campaign.
+- Added bounded creation, explicit execution, controlled stopping, exact-marker resume, and
+  full prefix verification without automatic cleanup, deletion, replacement, or overwrite.
+- Added fail-closed rejection of real/foreign destination contents, links and junctions, changed
+  zero-byte files, specification drift, reused outputs, and outputs inside the measured corpus.
+
+
 ## 0.22.0-alpha - unreleased
 
 - Added an opt-in scale-acceptance harness for scanner, structural snapshot, and viewer-search

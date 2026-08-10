@@ -1,6 +1,6 @@
 # Release Status
 
-Version: `0.22.0-alpha` (unreleased source milestone)
+Version: `0.23.0-alpha` (unreleased source milestone)
 
 - Designed: metadata-only scanner boundary and staged release gates.
 - Implemented: volume identity, guarded outputs, handle-bound traversal, SQLite sessions,
@@ -76,7 +76,11 @@ Version: `0.22.0-alpha` (unreleased source milestone)
   evidence outputs, metadata-only pre/post scanner manifests, current-process RSS and output-space
   sampling, query-only p95 measurement, and snapshot-pipeline orchestration. It creates no corpus,
   requires `--execute`, and emits `FAIL` rather than passing a sub-million fixture.
-- Tested locally: 125 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
+- Disposable scale-corpus preparation implemented: deterministic sharded zero-byte paths, an
+  immutable ownership marker, bounded rate/batch controls, explicit stopping, exact-prefix resume,
+  canonical queries and manifest, and no automatic cleanup. The million-entry corpus has not been
+  created or measured; foreign or changed destinations fail closed.
+- Tested locally: 130 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
   including construction of the real PySide6 6.10.2 window using the offscreen Qt platform. Ruff
   and strict mypy pass across 67 source files under the hash-locked CPython 3.12 environment.
 - GUI interaction and visual layout: the first visible 0.21 review found that persisted decisions
