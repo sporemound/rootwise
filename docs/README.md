@@ -41,6 +41,7 @@ into two active protocols; their originals remain under `archive/`.
 | [Repository map](architecture/repository-map.md) | Active reference | Factual pre-refactor packages, commands, imports, artifacts, and maturity |
 | [Database schema](architecture/database-schema.md) | Active reference | Core inventory tables and state |
 | [Decision schema](architecture/decision-schema.md) | Active reference | Separate revisioned user-decision storage |
+| [CLI compatibility](architecture/cli-compatibility.md) | Active reference | Canonical hierarchy, operation routing, and temporary aliases |
 | [Viewer experience](architecture/viewer-experience.md) | Active reference | Approved ordinary inventory-browser behavior and capability classes |
 | [View modes](architecture/view-modes.md) | Active reference | Details, compact, and deferred tile presentation contracts |
 | [Keyboard and navigation](architecture/keyboard-and-navigation.md) | Active reference | Inventory-only navigation, shortcuts, and context actions |

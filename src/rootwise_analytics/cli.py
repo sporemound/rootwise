@@ -12,8 +12,8 @@ from typing import Sequence
 from .pipeline import run_analysis
 
 
-def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="rootwise-analyze")
+def main(argv: Sequence[str] | None = None, *, prog: str = "rootwise-analyze") -> int:
+    parser = argparse.ArgumentParser(prog=prog)
     parser.add_argument("--inventory", required=True)
     parser.add_argument("--analysis", required=True)
     parser.add_argument("--session")

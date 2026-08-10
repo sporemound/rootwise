@@ -251,11 +251,11 @@ rootwise evidence   # Explicit enrichment and declared evidence workflows
 rootwise verify     # Local checks, acceptance, release, and admission verification
 ```
 
-This is a design target, not the current installed surface. Commands should be grouped before
-internals are moved so that users have one stable entry point. Current console scripts remain
-compatibility aliases until a separately approved deprecation plan exists. Consolidation must not
-broaden permissions: for example, importing `rootwise evidence` must not add content-reading code
-to `rootwise scan`, and `rootwise plan` must not acquire execution verbs.
+This is the implemented public surface. Dispatch is lazy so the root command and unrelated groups
+do not import optional domain implementations. Earlier console scripts remain compatibility aliases
+and emit deprecation notices until a separately approved removal plan exists. Consolidation must
+not broaden permissions: for example, invoking `rootwise evidence` must not add content-reading
+code to `rootwise scan`, and `rootwise plan` must not acquire execution verbs.
 
 Public help should lead with domain intent and safety boundaries. Specialized schema identifiers,
 pipeline stages, and compatibility aliases belong in subordinate help rather than the primary
@@ -269,12 +269,12 @@ The target is conceptual consolidation under a stable `rootwise` facade:
 
 | Target domain | Current implementation | Target direction | Status |
 |---|---|---|---|
-| Core | `rootwise` scanner modules | Cohesive `rootwise.core` implementation behind `rootwise scan` | Current boundary implemented; namespace move future |
-| Viewer | `rootwise_view` | `rootwise.viewer` behind `rootwise view` | Basic GUI/query boundary implemented; approved everyday browser mostly future |
-| Analysis | Structural/ranking parts of `rootwise_analytics`; fusion, longitudinal, synthesis packages | `rootwise.analysis` with explicit artifact-stage boundaries | Pipelines implemented on synthetic fixtures; consolidation future |
-| Planning | Optimizer parts of `rootwise_analytics`; approval and preflight packages | `rootwise.planning` behind `rootwise plan` | Proposal-only workflow implemented; consolidation future |
-| Evidence | Enrichment, dependency, and history packages | `rootwise.evidence`, preserving the separate content-read boundary | Specialized workflows implemented; ownership details need review |
-| Validation | Acceptance package and release/scale tools | `rootwise.validation` plus developer tooling behind `rootwise verify` where safe | Local workflow implemented; full acceptance campaign incomplete |
+| Core | `rootwise` scanner modules | Cohesive `rootwise.core` implementation behind `rootwise scan` | Grouped CLI and current boundary implemented; namespace move future |
+| Viewer | `rootwise_view` | `rootwise.viewer` behind `rootwise view` | Grouped CLI and basic GUI/query boundary implemented; everyday browser mostly future |
+| Analysis | Structural/ranking parts of `rootwise_analytics`; fusion, longitudinal, synthesis packages | `rootwise.analysis` with explicit artifact-stage boundaries | Grouped CLI implemented; package consolidation future |
+| Planning | Optimizer parts of `rootwise_analytics`; approval and preflight packages | `rootwise.planning` behind `rootwise plan` | Grouped proposal-only CLI implemented; package consolidation future |
+| Evidence | Enrichment, dependency, and history packages | `rootwise.evidence`, preserving the separate content-read boundary | Grouped CLI implemented; ownership details need review |
+| Validation | Acceptance package and release/scale tools | `rootwise.validation` plus developer tooling behind `rootwise verify` where safe | Acceptance grouped under `verify`; full acceptance campaign incomplete |
 
 The detailed factual mapping of current modules, scripts, schemas, imports, and tests is maintained
 in [`docs/architecture/repository-map.md`](docs/architecture/repository-map.md). That map is
