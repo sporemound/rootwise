@@ -1,6 +1,15 @@
 # Changelog
 
 
+## 0.20.0-alpha - unreleased
+
+- Added independent, read-only verification of canonical release-admission receipts and their
+  complete bound artifact chains.
+- Added recomputation of semantic receipt, report, provenance, verification, and exact archive
+  hashes with acceptance, revision-lineage, and extraction-evidence validation.
+- Added fail-closed refusal of noncanonical, tampered, mismatched, reused-path, or changing inputs
+  while retaining explicit false filesystem-execution authorization.
+
 ## 0.19.0-alpha - unreleased
 
 - Added fail-closed release-candidate admission for complete canonical acceptance reports.

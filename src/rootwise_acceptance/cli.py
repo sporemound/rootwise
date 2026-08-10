@@ -1,4 +1,4 @@
-"""CLI for Stage 0.19 acceptance and release-admission workflows."""
+"""CLI for Stage 0.20 acceptance and admission-verification workflows."""
 
 from __future__ import annotations
 
@@ -9,6 +9,7 @@ from dataclasses import asdict
 from typing import Sequence
 
 from .admission import admit_release_candidate
+from .admission_verification import verify_admission
 from .evaluator import evaluate_acceptance
 from .recording import record_gate
 from .workflow import gate_guide, initialize_manifest, inspect_report
@@ -53,6 +54,12 @@ def _parser() -> argparse.ArgumentParser:
     admit.add_argument("--provenance", required=True)
     admit.add_argument("--verification", required=True)
     admit.add_argument("--output", required=True)
+    verify = commands.add_parser("verify-admission", help="verify a bound admission chain")
+    verify.add_argument("--receipt", required=True)
+    verify.add_argument("--report", required=True)
+    verify.add_argument("--archive", required=True)
+    verify.add_argument("--provenance", required=True)
+    verify.add_argument("--verification", required=True)
     commands.add_parser("guide", help="print required gates and measurement fields as JSON")
     return parser
 
@@ -97,6 +104,12 @@ def _run(argv: list[str]) -> int:
             args.report, args.archive, args.provenance, args.verification, args.output
         )
         print(json.dumps(asdict(admission), sort_keys=True))
+        return 0
+    if args.command == "verify-admission":
+        verification = verify_admission(
+            args.receipt, args.report, args.archive, args.provenance, args.verification
+        )
+        print(json.dumps(asdict(verification), sort_keys=True))
         return 0
     if args.command == "guide":
         print(json.dumps(gate_guide(), sort_keys=True))

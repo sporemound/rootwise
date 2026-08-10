@@ -1,4 +1,4 @@
-# Rootwise 0.19.0-alpha
+# Rootwise 0.20.0-alpha
 
 Rootwise contains a deliberately narrow, metadata-only filesystem inventory scanner, a
 separate read-only review interface, structural analytics, robust Pareto review ranking, a
@@ -23,6 +23,10 @@ Stage 0.19 adds fail-closed release-candidate admission. It binds a complete pas
 report to the verified source revision, exact source-archive SHA-256, build provenance, and a
 successful fresh-extraction verification result. It does not build, publish, execute, or grant
 filesystem authority. See `docs/RELEASE_ADMISSION.md`.
+Stage 0.20 adds independent, read-only admission-chain verification. It recomputes the receipt
+digest and every report, provenance, archive, and fresh-extraction binding without creating a new
+artifact or granting execution authority. See `docs/ADMISSION_VERIFICATION.md`.
+
 
 
 Stage 0.11 compares two immutable snapshots and builds a conservative project relationship graph.
@@ -413,7 +417,7 @@ verification, bind those artifacts into a new immutable admission receipt:
 ```powershell
 python -m rootwise_acceptance.cli admit `
     --report "E:\acceptance\report.json" `
-    --archive "E:\Python Scripts\rootwise\artifacts\rootwise-0.19.0-alpha-source.zip" `
+    --archive "E:\Python Scripts\rootwise\artifacts\rootwise-0.20.0-alpha-source.zip" `
     --provenance "E:\Python Scripts\rootwise\artifacts\BUILD_PROVENANCE.json" `
     --verification "E:\Python Scripts\rootwise\artifacts\VERIFY-RELEASE.json" `
     --output "E:\acceptance\rootwise-0.19-admission.json"
@@ -424,3 +428,23 @@ build lineage, a successful unchanged-source extraction verification, and a new 
 path. The receipt binds hashes of every supplied artifact and explicitly grants no filesystem
 execution authority. Rootwise's current real acceptance status remains `INCOMPLETE`; synthetic
 success-path tests are not a substitute for the nine external gates. See `docs/RELEASE_ADMISSION.md`.
+
+## Admission-chain verification
+
+Independently re-check a receipt and every artifact it binds:
+
+```powershell
+python -m rootwise_acceptance.cli verify-admission `
+    --receipt "E:\acceptance\rootwise-0.20-admission.json" `
+    --report "E:\acceptance\report.json" `
+    --archive "E:\Python Scripts\rootwise\artifacts\rootwise-0.20.0-alpha-source.zip" `
+    --provenance "E:\Python Scripts\rootwise\artifacts\BUILD_PROVENANCE.json" `
+    --verification "E:\Python Scripts\rootwise\artifacts\VERIFY-RELEASE.json"
+```
+
+A successful verification emits `status: VERIFIED`. The command requires canonical receipt
+semantics, a complete nine-gate acceptance `PASS`, matching revision lineage, unchanged bound
+artifact hashes, exact archive/extraction binding, and explicit false filesystem-execution
+authorization. It writes no output file and does not authenticate or sign evidence. Rootwise's
+real external acceptance remains `INCOMPLETE`, so this workflow currently has no real admission
+receipt to verify. See `docs/ADMISSION_VERIFICATION.md`.
