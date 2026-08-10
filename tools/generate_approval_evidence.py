@@ -64,7 +64,7 @@ def main() -> int:
         connection.close()
         if row is None:
             raise RuntimeError("synthetic optimizer produced no archive proposal")
-        declaration = root / "approval-declaration.json"
+        declaration = root / "plan-approval-declaration.json"
         declaration.write_text(json.dumps({
             "schema_version": SCHEMA_VERSION,
             "plan_run_id": result.run_id,
@@ -88,7 +88,7 @@ def main() -> int:
         executable = entrypoint_directory / ("rootwise.exe" if os.name == "nt" else "rootwise")
         if not executable.is_file():
             raise RuntimeError(f"installed approval entry point is missing: {executable}")
-        receipt = root / "approval-receipt.json"
+        receipt = root / "plan-approval-receipt.json"
         completed = subprocess.run(
             [str(executable), "plan", "approve", "--plans", str(plans),
              "--declaration", str(declaration), "--receipt", str(receipt)],

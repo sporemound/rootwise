@@ -1,6 +1,16 @@
 # Changelog
 
 
+## Artifact naming cleanup - unreleased
+
+- Added one canonical artifact catalog covering all eleven SQLite application identities, workflow
+  JSON schemas, release outputs, producers, readers, lifecycles, and authority boundaries.
+- Replaced opaque component-era example basenames with purpose-bearing names such as
+  `content-evidence.db`, `temporal-analysis.db`, and `review-signals.db`.
+- Kept all output paths explicit and all prior user-supplied filenames valid; no schema,
+  application ID, command behavior, or persisted data changed.
+
+
 ## Viewer namespace consolidation - unreleased
 
 - Moved the Viewer implementation from the top-level `rootwise_view` package to the canonical

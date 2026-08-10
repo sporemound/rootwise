@@ -165,7 +165,7 @@ decisions.db --------------------------------------+              |
 Optional evidence joins the flow without changing the inventory:
 
 ```text
-explicit selection + source-content permission --> Evidence enrichment --> evidence.db
+explicit selection + source-content permission --> Evidence enrichment --> content-evidence.db
 inventory snapshots + declared relationships ----> Evidence pipelines ---> derived evidence DBs
 
 analysis.db + validated evidence DBs --> Analysis fusion/synthesis --> review signals
@@ -213,12 +213,12 @@ as immutable by downstream consumers even if its storage medium is technically w
 | `analysis.db` | Analysis / structural pipeline | Ranking, fusion, temporal analysis, Planning | Newly derived; completed run consumed immutably | Derived observations | No | No |
 | `ranking.db` | Analysis / ranking pipeline | Planning, synthesis | Newly derived; completed run consumed immutably | Derived scores and fronts | No | No |
 | `plans.db` | Planning / optimizer | Approval and preflight review | Newly derived proposal runs; proposals begin unapproved | Derived group references | Input decision digest only | No |
-| `evidence.db` | Evidence / permissioned enrichment | Analysis fusion | Newly derived, immutable bounded evidence | Selected paths and content digests | No | No |
-| `fusion.db` | Analysis / evidence fusion | Synthesis and review | Newly derived; completed run consumed immutably | Derived | No | No |
-| `longitudinal.db` | Analysis / temporal comparison | Dependency and history pipelines | Newly derived comparison | Derived changes | No | No |
-| `dependency.db` | Evidence / declared relationships | Synthesis | Newly derived graph evidence | Project references | No | No |
-| `history.db` | Evidence or temporal Analysis; final ownership under review | Synthesis | Newly derived contiguous-chain evidence | Derived observations | No | No |
-| `synthesis.db` | Analysis / synthesis | Human review and future Viewer integration | Newly derived terminal review signals | Derived | No | No |
+| `content-evidence.db` | Evidence / permissioned enrichment | Fused Analysis | Newly derived, immutable bounded evidence | Selected paths and content digests | No | No |
+| `fused-analysis.db` | Analysis / evidence fusion | Review-signal synthesis and review | Newly derived; completed run consumed immutably | Derived | No | No |
+| `temporal-analysis.db` | Analysis / temporal comparison | Dependency and history pipelines | Newly derived comparison | Derived changes | No | No |
+| `dependency-evidence.db` | Evidence / declared relationships | Review-signal synthesis | Newly derived graph evidence | Project references | No | No |
+| `history.db` | History Evidence | Review-signal synthesis | Newly derived contiguous-chain evidence | Derived observations | No | No |
+| `review-signals.db` | Analysis / synthesis | Human review and future Viewer integration | Newly derived terminal review signals | Derived | No | No |
 
 Canonical JSON and release artifacts follow the same no-authority rule:
 
@@ -237,6 +237,10 @@ Canonical JSON and release artifacts follow the same no-authority rule:
 Artifacts are never promoted into a more privileged capability merely because their digests match.
 If a future executor is ever proposed, it must be a separately reviewed and distributed component
 with a new threat model; it is not an extension implicitly licensed by Planning.
+
+The complete [artifact catalog](docs/architecture/artifacts.md) records SQLite application IDs,
+canonical JSON schema identities, recommended basenames, exact repository-verification filenames,
+and compatibility guidance. Filenames are conventions; consumers validate persisted identities.
 
 ## Public command design
 

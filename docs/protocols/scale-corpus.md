@@ -69,7 +69,7 @@ Set-Location -LiteralPath $Repo
 & $Python tools\prepare_scale_corpus.py prepare `
     --corpus-root $Corpus `
     --manifest (Join-Path $Output "corpus-manifest.json") `
-    --queries (Join-Path $Output "queries.json") `
+    --queries (Join-Path $Output "viewer-queries.json") `
     --entry-count 1000000 `
     --shard-count 256 `
     --query-count 256 `
@@ -84,6 +84,6 @@ Expected condition: JSON reports `status: COMPLETE` and `verified_file_count: 10
 new canonical output files exist. The scanner will observe the million generated files plus shard
 directories and the ownership marker, so its observed count will be slightly larger.
 
-Use the generated `queries.json` with the Stage 0.22 viewer gate after the scanner gate creates the
+Use the generated `viewer-queries.json` with the viewer gate after the scanner gate creates the
 external inventory. The corpus manifest proves the deterministic path/size specification, not
 performance, thermal safety, evidence authenticity, or fitness for the real drive.

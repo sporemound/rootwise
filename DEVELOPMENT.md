@@ -143,6 +143,10 @@ Rootwise performs the authoritative OS-volume check. A successful scan ends with
 session. Output files are new-only; choose a new `$ArtifactRoot` for another run rather than
 overwriting evidence.
 
+Use the recommended basenames in the [artifact catalog](docs/architecture/artifacts.md) for later
+pipeline outputs. Rootwise still requires explicit paths and validates persisted identities rather
+than trusting filenames.
+
 If a second disposable volume is unavailable on Windows, follow the
 [disposable VHDX protocol](docs/protocols/disposable-vhdx.md). It is plan-only by default and must
 never be aimed at a physical disk or an existing image.

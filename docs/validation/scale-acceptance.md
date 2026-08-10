@@ -33,8 +33,8 @@ python tools\run_scale_acceptance.py scanner `
     --subject-revision $Revision `
     --source "C:\Rootwise Scale Corpus" `
     --inventory "E:\Rootwise Scale\inventory.db" `
-    --evidence "E:\Rootwise Scale\scanner-evidence.json" `
-    --measurements "E:\Rootwise Scale\scanner-measurements.json" `
+    --evidence "E:\Rootwise Scale\scanner-scale-evidence.json" `
+    --measurements "E:\Rootwise Scale\scanner-scale-measurements.json" `
     --maximum-duration-seconds 14400 `
     --maximum-peak-rss-bytes 4294967296 `
     --maximum-temporary-bytes 68719476736 `
@@ -51,9 +51,9 @@ The query file must be canonical compact JSON with one trailing newline and cont
 python tools\run_scale_acceptance.py viewer `
     --subject-revision $Revision `
     --inventory "E:\Rootwise Scale\inventory.db" `
-    --query-file "E:\Rootwise Scale\queries.json" `
-    --evidence "E:\Rootwise Scale\viewer-evidence.json" `
-    --measurements "E:\Rootwise Scale\viewer-measurements.json" `
+    --query-file "E:\Rootwise Scale\viewer-queries.json" `
+    --evidence "E:\Rootwise Scale\viewer-scale-evidence.json" `
+    --measurements "E:\Rootwise Scale\viewer-scale-measurements.json" `
     --maximum-duration-seconds 1800 `
     --maximum-p95-query-seconds 2 `
     --maximum-peak-rss-bytes 2147483648 `
@@ -72,8 +72,8 @@ python tools\run_scale_acceptance.py snapshot `
     --subject-revision $Revision `
     --inventory "E:\Rootwise Scale\inventory.db" `
     --analysis "E:\Rootwise Scale\analysis.db" `
-    --evidence "E:\Rootwise Scale\snapshot-evidence.json" `
-    --measurements "E:\Rootwise Scale\snapshot-measurements.json" `
+    --evidence "E:\Rootwise Scale\snapshot-scale-evidence.json" `
+    --measurements "E:\Rootwise Scale\snapshot-scale-measurements.json" `
     --maximum-duration-seconds 14400 `
     --maximum-peak-rss-bytes 8589934592 `
     --maximum-temporary-bytes 137438953472 `

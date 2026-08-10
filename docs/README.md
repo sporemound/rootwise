@@ -39,6 +39,7 @@ into two active protocols; their originals remain under `archive/`.
 | Document | Classification | Purpose |
 |---|---|---|
 | [Repository map](architecture/repository-map.md) | Active reference | Factual pre-refactor packages, commands, imports, artifacts, and maturity |
+| [Artifact catalog](architecture/artifacts.md) | Active reference | Canonical basenames, persisted identities, ownership, lifecycle, and authority |
 | [Database schema](architecture/database-schema.md) | Active reference | Core inventory tables and state |
 | [Decision schema](architecture/decision-schema.md) | Active reference | Separate revisioned user-decision storage |
 | [CLI compatibility](architecture/cli-compatibility.md) | Active reference | Canonical hierarchy, operation routing, and temporary aliases |

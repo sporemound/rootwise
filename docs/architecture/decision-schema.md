@@ -1,6 +1,7 @@
 # User Decision Schema
 
-The decision database has application ID `1346654807`, distinct from the inventory application ID.
+The decision database's recommended basename is `decisions.db`. It has application ID
+`1346654807`, distinct from the inventory application ID.
 For the fail-closed 0.3 boundary, it must be a separate file in the inventory database's external
 directory.
 It stores two representations:

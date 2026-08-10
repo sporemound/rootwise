@@ -45,11 +45,11 @@ inconsistent, reused, changing, or oversized inputs are rejected before output i
 
 ```powershell
 rootwise verify acceptance admit `
-    --report "E:\acceptance\report.json" `
+    --report "E:\acceptance\acceptance-report.json" `
     --archive "E:\rootwise-release\rootwise-0.23.0-alpha-source.zip" `
     --provenance "E:\rootwise-release\BUILD_PROVENANCE.json" `
     --verification "E:\rootwise-release\VERIFY-RELEASE.json" `
-    --output "E:\acceptance\rootwise-admission.json"
+    --output "E:\acceptance\release-admission.json"
 ```
 
 The output must be new and distinct from every input. A successful canonical receipt binds the
@@ -62,8 +62,8 @@ The receipt explicitly records `filesystem_execution_authorized: false`.
 
 ```powershell
 rootwise verify acceptance verify-admission `
-    --receipt "E:\acceptance\rootwise-admission.json" `
-    --report "E:\acceptance\report.json" `
+    --receipt "E:\acceptance\release-admission.json" `
+    --report "E:\acceptance\acceptance-report.json" `
     --archive "E:\rootwise-release\rootwise-0.23.0-alpha-source.zip" `
     --provenance "E:\rootwise-release\BUILD_PROVENANCE.json" `
     --verification "E:\rootwise-release\VERIFY-RELEASE.json"

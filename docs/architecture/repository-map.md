@@ -6,6 +6,8 @@ Status: Milestone L1 inventory only. Baseline commit:
 Post-baseline status: the L5 Viewer slice moved implementation to `rootwise.viewer`; the mapped
 `rootwise_view` name now remains as a compatibility facade. The inventory below is intentionally
 preserved as the factual pre-refactor baseline for the remaining namespace moves.
+Current recommended artifact basenames and identities are maintained separately in the
+[artifact catalog](artifacts.md).
 
 This document describes the repository as it exists before namespace, CLI, or documentation
 consolidation. It is factual unless a row is explicitly labeled **proposed**. No production code

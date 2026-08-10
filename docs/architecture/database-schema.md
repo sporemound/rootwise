@@ -1,5 +1,8 @@
 # Database Schema
 
+The Core inventory's recommended basename is `inventory.db`; its SQLite application ID is
+`1346654806`. Commands still require an explicit path and validate identity rather than filename.
+
 `volumes` stores externally resolved volume facts. `scan_sessions` stores lifecycle state and
 configuration. `directories` and `files` store raw observations only. `scan_errors` stores
 structured failures. `scan_frontier` is the persistent bounded-work/resume mechanism.
