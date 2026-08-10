@@ -8,6 +8,11 @@ Version: `0.23.0-alpha` (unreleased source milestone)
 - Viewer implemented: query-only inventory reader, bounded search, separate revisioned decisions,
   persistent decision/revision/note columns, palette-safe recorded state, synchronized editing,
   functional File/View/Decisions/Help menus, headless CLI, and optional PySide6 table interface.
+- Product experience contract designed: shared bounded result pages, details/compact/tile modes,
+  inventory-only navigation, presentation preferences, keyboard/context-menu behavior, ordinary
+  states, metadata inspector and permissioned-preview boundaries, accessibility, and high-DPI
+  requirements are classified by capability. Stage 0.24 changes no runtime behavior; the proposed
+  default modes, columns, tile size, session scope, and Explorer conventions await user approval.
 - Structural analytics implemented: snapshot-only deterministic roles, recursive directory totals,
   project-marker boundaries, structural relationships, and per-stage provenance.
 - Pareto review implemented: DuckDB/Polars feature materialization, independent confidence
@@ -80,7 +85,7 @@ Version: `0.23.0-alpha` (unreleased source milestone)
   immutable ownership marker, bounded rate/batch controls, explicit stopping, exact-prefix resume,
   canonical queries and manifest, and no automatic cleanup. The million-entry corpus has not been
   created or measured; foreign or changed destinations fail closed.
-- Tested locally: 130 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
+- Tested locally: 131 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
   including construction of the real PySide6 6.10.2 window using the offscreen Qt platform. Ruff
   and strict mypy pass across 67 source files under the hash-locked CPython 3.12 environment.
 - GUI interaction and visual layout: the first visible 0.21 review found that persisted decisions

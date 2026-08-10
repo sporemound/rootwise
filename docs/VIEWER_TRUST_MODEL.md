@@ -35,3 +35,12 @@ Functional File, View, Decisions, and Help menus expose only existing bounded re
 including current decision history and explicit safety information. These presentation changes do
 not join the decision database into the inventory connection, make the inventory writable, open an
 observed path, or add filesystem execution capability.
+
+## Stage 0.24 product-experience contract
+
+The proposed everyday browser preserves this boundary across details, compact-list, and generic
+tile presentations; inventory-only directory navigation; preferences; saved searches; bookmarks;
+and metadata inspection. Every interaction is classified in `docs/PRODUCT_EXPERIENCE.md`. Actual
+source-derived previews remain a separately permissioned content-reading process, while live-path
+opening and filesystem mutation remain prohibited viewer capabilities. Stage 0.24 is documentation
+only and does not implement or test those proposed interactions.

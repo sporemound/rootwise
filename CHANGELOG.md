@@ -1,6 +1,17 @@
 # Changelog
 
 
+## Stage 0.24 product-experience contract - unreleased
+
+- Defined ordinary-user details, compact-list, tile, navigation, sorting, column, preference,
+  icon, selection, context-menu, saved-search, bookmark, state, and inspector behavior before GUI
+  implementation.
+- Classified every proposed interaction as metadata-only, decisions-only, separately permissioned
+  content reading, or prohibited execution.
+- Specified keyboard, focus, contrast, high-DPI, and visible Windows review requirements and the
+  smallest bounded Stage 0.25 implementation slice. Runtime remains `0.23.0-alpha`.
+
+
 ## 0.23.0-alpha - unreleased
 
 - Added plan-only-by-default preparation of a deterministic million-file disposable corpus and
