@@ -1,4 +1,4 @@
-# ParetoDrive 0.10.0-alpha
+# ParetoDrive 0.11.0-alpha
 
 ParetoDrive contains a deliberately narrow, metadata-only filesystem inventory scanner, a
 separate read-only review interface, structural analytics, robust Pareto review ranking, a
@@ -6,6 +6,7 @@ proposal-only hierarchical optimizer, and explicitly permissioned content enrich
 Stage 0.8 also records an explicit plan selection as a non-executable canonical approval receipt.
 Stage 0.9 compiles a bounded metadata-only executor-preflight manifest from that receipt.
 Stage 0.10 imports completed enrichment evidence into a new immutable analytical snapshot.
+Stage 0.11 compares two immutable snapshots and builds a conservative project relationship graph.
 The core scanner records directory entries and metadata in an external SQLite database and can
 stream a canonical NDJSON representation. Only the separate Stage 0.7 enrichment command reads
 selected source-file contents, and only with an explicit acknowledgement and immutable selection
@@ -249,3 +250,22 @@ python -m paretodrive_fusion.cli `
 D2 remains candidate evidence. Only D3/D4 populate confirmed-member features. Coverage is selected
 files divided by observed files; confirmed-member ratio is confirmed members divided by selected
 files. Neither metric implies deletion or archive eligibility. See `docs/FUSION_CONTRACT.md`.
+
+## Longitudinal and project-relationship analytics
+
+Stage 0.11 compares two complete analysis runs bound to two complete inventory sessions describing
+the same source root and volume. It opens only external databases:
+
+```powershell
+$ErrorActionPreference = "Stop"
+$env:PYTHONPATH = "E:\Python Scripts\paretodrive\src"
+python -m paretodrive_longitudinal.cli `
+    --baseline-analysis "E:\inventories\baseline-analysis.db" `
+    --current-analysis "E:\inventories\current-analysis.db" `
+    --output "E:\inventories\longitudinal.db"
+```
+
+Results distinguish `ADDED`, `REMOVED`, `METADATA_CHANGED`, and `METADATA_UNCHANGED`. The last term
+does not mean content equality. Scan-error intersections make additions/removals ambiguous.
+Project edges record nested-project or shared-extension-profile evidence; shared extensions
+explicitly do not constitute a dependency claim. See `docs/LONGITUDINAL_CONTRACT.md`.

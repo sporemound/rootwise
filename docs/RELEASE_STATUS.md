@@ -1,6 +1,6 @@
 # Release Status
 
-Version: `0.10.0-alpha` (unreleased source milestone)
+Version: `0.11.0-alpha` (unreleased source milestone)
 
 - Designed: metadata-only scanner boundary and staged release gates.
 - Implemented: volume identity, guarded outputs, handle-bound traversal, SQLite sessions,
@@ -27,9 +27,12 @@ Version: `0.10.0-alpha` (unreleased source milestone)
 - Enrichment-evidence fusion implemented: full analysis/enrichment logical validation, exact
   session and inventory binding, D2 candidate versus D3/D4 confirmed separation, and directory
   coverage/member features with explicit denominators.
-- Tested locally: 70 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
+- Longitudinal analytics implemented: two-snapshot logical validation, metadata-only file changes,
+  error-aware ambiguity, directory churn/byte deltas, temporal project nodes, contextual graph
+  edges, components, and explicit zero dependency-evidence coverage.
+- Tested locally: 74 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
   including construction of the real PySide6 6.10.2 window using the offscreen Qt platform. Ruff
-  and strict mypy pass across 48 source files under the hash-locked CPython 3.12 environment.
+  and strict mypy pass across 51 source files under the hash-locked CPython 3.12 environment.
 - GUI interaction and visual layout: constructed and event-processed offscreen; not yet manually
   reviewed in a visible desktop session.
 - Search scale: functionally tested with bounded pages; not benchmarked at millions of rows and
@@ -58,6 +61,10 @@ Version: `0.10.0-alpha` (unreleased source milestone)
   runs, deterministic output, unchanged inputs/source contents, and candidate/confirmed separation
   are covered. Multi-million-row aggregation and combining multiple enrichment runs are not yet
   implemented or accepted.
+- Longitudinal scale: only two small synthetic sessions are tested. Added, removed,
+  metadata-changed, metadata-unchanged, error-ambiguous, project-added, contextual edge, unchanged
+  input/source, and tampered-inventory behaviors are covered. Rename detection, dependency
+  extraction, long histories, and multi-million-row performance are not implemented or accepted.
 - Installed analytics integration: passed against the retained 30-observation synthetic exFAT
   inventory after VHDX detachment, producing 15 roles, 16 aggregate nodes, one project, six
   relationships, and four `COMPLETE` stages while leaving the inventory byte-identical. Output
@@ -92,6 +99,14 @@ Version: `0.10.0-alpha` (unreleased source milestone)
   root, and left the inventory, analysis, evidence, and synthetic source contents SHA-256-identical.
   The successful installed run used the unlocked CPython 3.12 environment because an operator-open
   viewer held the CPython 3.14 console executable during the initial editable-install attempt.
+- Installed longitudinal integration: `paretodrive-longitudinal` compared two temporary complete
+  snapshots and produced two additions, one removal, one metadata change, 13 metadata-unchanged
+  observations, one contextual project edge, and zero dependency-evidence coverage while leaving
+  all inputs and current synthetic source contents SHA-256-identical.
+- CPython 3.14 installation recovery: after the operator closed the viewer, the 0.11 editable
+  install restored every console entry point. Stale 0.9 metadata from the interrupted uninstall was
+  moved—not deleted—to `.tool-tmp/stale-install-quarantine`; `pip show` now reports 0.11.0a0 without
+  the invalid-distribution warning.
 - Windows acceptance: passed locally on Windows 10 Home for source commit `018435d`; this was not
   an independent build or replication.
 - exFAT VHDX: passed using a new 512 MiB disposable VHDX resolved only from its exact workspace

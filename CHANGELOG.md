@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.11.0-alpha - unreleased
+
+- Added deterministic comparison of two complete analysis/inventory snapshots.
+- Added error-aware file and directory change features with metadata-only unchanged semantics.
+- Added conservative project relationship and component features without inventing dependency
+  claims from shared extensions.
+
 ## 0.10.0-alpha - unreleased
 
 - Added strict logical validation and snapshot-only import of complete enrichment evidence.

@@ -91,3 +91,19 @@ run to one complete enrichment run over the same inventory session and logical d
   counts and bytes.
 
 The fusion database is analytical evidence, not an approval or executor input.
+
+## 0.11 longitudinal and project graph
+
+The longitudinal database uses application ID `1346654813` and binds two distinct complete
+inventory sessions through their independently validated structural-analysis runs.
+
+- `longitudinal_runs` records both snapshot identities, configuration, digests, and state.
+- `longitudinal_stages` records `validate`, `file_changes`, `directory_changes`, and
+  `project_graph` provenance.
+- `file_changes` stores metadata-only change type, confidence, sizes, timestamps, and attributes.
+- `directory_change_features` stores additions, removals, metadata changes, ambiguous changes,
+  byte delta, and churn.
+- `project_nodes`, `project_edges`, and `project_graph_features` store temporal project state,
+  evidence-labeled relationships, components, and explicit dependency-evidence coverage.
+
+Shared extension profiles are contextual evidence only and never dependency claims.
