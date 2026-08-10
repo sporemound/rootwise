@@ -1,6 +1,6 @@
 # Release Status
 
-Version: `0.18.0-alpha` (unreleased source milestone)
+Version: `0.20.0-alpha` (unreleased source milestone)
 
 - Designed: metadata-only scanner boundary and staged release gates.
 - Implemented: volume identity, guarded outputs, handle-bound traversal, SQLite sessions,
@@ -54,9 +54,22 @@ Version: `0.18.0-alpha` (unreleased source milestone)
   require exact gate-specific canonical fields, and each command writes a new manifest revision.
   Output overwrite, path reuse, duplicate-gate replacement, and measurement field drift fail
   closed; computed negative evidence remains an explicit `FAIL`.
-- Tested locally: 104 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
+- Release-candidate admission implemented: a canonical complete `PASS` acceptance report is bound
+  to its semantic digest, the verified source revision and manifest, exact source-archive SHA-256,
+  build provenance, and successful fresh-extraction verification. Admission is refused for
+  incomplete or failed evidence, lineage mismatch, malformed or tampered inputs, path reuse, and
+  output overwrite. Receipts are deterministic and explicitly grant no filesystem execution
+  authority; they do not authenticate evidence producers, sign or publish archives, or replace
+  the nine real external gates.
+- Admission-chain verification implemented: canonical receipt semantics and digest, complete
+  acceptance status, revision lineage, exact archive identity, build provenance, and extraction
+  verification are independently recomputed against all supplied artifacts. Noncanonical,
+  tampered, mismatched, reused-path, and metadata-visibly changing inputs fail closed. Verification
+  is read-only and grants no filesystem authority; it does not authenticate producers, establish a
+  trusted timestamp, sign or publish archives, or turn incomplete external evidence into a pass.
+- Tested locally: 117 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
   including construction of the real PySide6 6.10.2 window using the offscreen Qt platform. Ruff
-  and strict mypy pass across 65 source files under the hash-locked CPython 3.12 environment.
+  and strict mypy pass across 67 source files under the hash-locked CPython 3.12 environment.
 - GUI interaction and visual layout: constructed and event-processed offscreen; not yet manually
   reviewed in a visible desktop session.
 - Search scale: functionally tested with bounded pages; not benchmarked at millions of rows and
@@ -110,7 +123,19 @@ Version: `0.18.0-alpha` (unreleased source milestone)
   visible GUI review, distinct-volume enrichment acceptance, hostile metadata campaign, or
   independent replication has yet supplied all required 0.16 evidence; current real-world status
   therefore remains `INCOMPLETE`, not `PASS`.
+- Release-admission scale: only small synthetic complete and incomplete acceptance reports and a
+  synthetic source archive are tested. Determinism, exact archive hashing, unchanged inputs,
+  report tampering, revision mismatch, failed extraction verification, path reuse, and output
+  overwrite are covered. No real admission receipt has been issued because the retained real
+  acceptance report is `INCOMPLETE`; archive signatures, producer authentication, publication,
+  and execution remain outside this stage.
 - Installed analytics integration: passed against the retained 30-observation synthetic exFAT
+- Admission-verification scale: only small synthetic admission chains are tested. Deterministic
+  read-only verification, canonical and semantic receipt tampering, changes to every bound artifact,
+  exact archive mismatch, and path reuse are covered. Concurrent archive mutation is detected when
+  filesystem identity, size, or modification time changes during hashing. Digital signatures,
+  trusted timestamps, producer authentication, and a real complete acceptance chain remain outside
+  this stage.
   inventory after VHDX detachment, producing 15 roles, 16 aggregate nodes, one project, six
   relationships, and four `COMPLETE` stages while leaving the inventory byte-identical. Output
   digest: `7f600018bf172c3d7f2da2b39ea0af97749868fa8da6fa3232a2b8e444f935d1`.

@@ -10,7 +10,7 @@ from typing import Callable
 
 SCHEMA_ID = "rootwise-acceptance-evidence-v1"
 REPORT_SCHEMA_ID = "rootwise-acceptance-report-v1"
-CODE_VERSION = "0.18.0-alpha"
+CODE_VERSION = "0.20.0-alpha"
 MAX_MANIFEST_BYTES = 1_048_576
 SHA256_LENGTH = 64
 
