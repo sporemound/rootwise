@@ -1,6 +1,16 @@
 # Changelog
 
 
+## Cold-start engineering review - unreleased
+
+- Recorded an isolated no-history engineering review using only README, architecture, development,
+  source, and focused tests, including all six required answers and the complete confusion log.
+- Passed the L8 architecture-understanding exit condition while explicitly distinguishing automated
+  review evidence from human review and independent replication.
+- Corrected the reviewer-discovered plan-inspection wording and stale History ownership ambiguity;
+  retained remaining transitional observations as follow-up evidence.
+
+
 ## Developer workflow - unreleased
 
 - Added `core`, `headless`, and Windows `full` bootstrap profiles that install only hash-locked
