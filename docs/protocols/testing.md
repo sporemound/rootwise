@@ -2,6 +2,9 @@
 
 ## Local mandatory gates
 
+Run `python tools/smoke.py` after bootstrap to verify the installed root command and all six domain
+help routes before invoking a workflow.
+
 1. Static AST inspection rejects destructive, archive, network, link-creation, and process APIs.
 2. Volume and write-guard unit tests exercise fail-closed identity decisions.
 3. Synthetic traversal verifies metadata capture without content reads.
@@ -24,4 +27,3 @@ missing output, or nonzero status fails the gate.
 - Observed thermal/resource beta.
 
 No release package or real-drive scan may proceed until all applicable gates are recorded.
-

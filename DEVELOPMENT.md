@@ -23,48 +23,61 @@ surface.
 
 ## Install a contributor environment
 
-Clone the repository, enter its root, and create the hash-locked development environment. On
-Windows PowerShell:
+Clone the repository, enter its root, and create the complete hash-locked Windows reference
+environment. Replace `<repository-url>` with the GitHub clone URL available to you:
 
 ```powershell
 $ErrorActionPreference = "Stop"
-$Repo = "C:\path\to\rootwise"
-Set-Location -LiteralPath $Repo
+git clone <repository-url> rootwise
+Set-Location -LiteralPath ".\rootwise"
 
-py -3.12 tools\bootstrap.py
+py -3.12 tools\bootstrap.py --profile full
 $Python = (Resolve-Path ".\.venv\Scripts\python.exe").Path
-
-& $Python -m pip install --no-deps --editable .
 $Rootwise = (Resolve-Path ".\.venv\Scripts\rootwise.exe").Path
 & $Rootwise --help
 ```
 
-On a supported Linux host, use `python3.12 tools/bootstrap.py`,
-`./.venv/bin/python -m pip install --no-deps --editable .`, and `./.venv/bin/rootwise --help`. The
-checked-in Viewer lock is currently Windows-specific, so a complete GUI environment on Linux
-requires a separately reviewed platform lock.
+Bootstrap prints one JSON record per bounded command. Its final line has `"status": "READY"` and
+records the exact environment Python and installed `rootwise` path. A nonzero exit means setup is
+incomplete; use the last command record's exit code and captured streams for diagnosis.
 
-Install only the optional domains needed for a narrow change. On the Windows reference platform,
-install all four for the full test and repository-verification workflow:
+Three profiles keep optional dependency boundaries explicit:
 
-```powershell
-$Locks = @(
-    "requirements-viewer.lock",
-    "requirements-analytics.lock",
-    "requirements-optimizer.lock",
-    "requirements-enrichment.lock"
-)
+| Profile | Installs | Intended use |
+|---|---|---|
+| `core` (default) | Development lock and editable Rootwise | Scanner, CLI, and narrow core work |
+| `headless` | Core plus analytics, optimizer, and enrichment locks | Linux or non-GUI pipeline work |
+| `full` | Headless plus the Viewer lock | Complete Windows reference tests and verification |
 
-foreach ($Lock in $Locks) {
-    & $Python -m pip install --require-hashes --requirement $Lock
-    if ($LASTEXITCODE -ne 0) { throw "Dependency installation failed: $Lock" }
-}
+On supported Linux x86-64, use:
 
-& $Python -m pip install --no-deps --editable .
+```bash
+python3.12 tools/bootstrap.py --profile headless
+./.venv/bin/rootwise --help
 ```
 
-The final editable install is deliberately `--no-deps`: dependencies come from reviewed lock files,
-not an unconstrained resolver. Re-run it after changing entry points or package metadata.
+The Viewer lock is currently Windows-specific, so `--profile full` fails early on Linux. Every
+dependency profile uses the checked-in hashes. The final editable install is deliberately
+`--no-deps`; re-run bootstrap after changing entry points or package metadata. Bootstrap can update
+an existing virtual environment but refuses an occupied path that is not already a virtual
+environment. It never deletes or recreates the selected directory.
+
+Bootstrap requires package-index access unless every required wheel and build dependency is
+already cached. Hash verification covers the development and optional lock files; the isolated
+editable-build environment follows the bounded setuptools requirement in `pyproject.toml`.
+
+## Smoke-check the installed command
+
+Bootstrap runs this automatically. Run it again at any time after an editable reinstall:
+
+```powershell
+& $Python tools\smoke.py
+```
+
+Success emits one compact JSON object with `"status": "PASS"`, seven passing checks, and the
+installed executable name. The smoke check invokes `rootwise --help` and help for all six domain
+groups. It performs no scan, opens no artifact, imports no optional implementation, and touches no
+source filesystem.
 
 ## Run the checks
 
@@ -75,6 +88,9 @@ The normal local change loop is:
 & ".\.venv\Scripts\ruff.exe" check .
 & $Python -m mypy src
 ```
+
+Expected success is a zero exit from all three commands, a pytest pass count with no failures or
+unexpected skips, `All checks passed!` from Ruff, and `Success: no issues found` from mypy.
 
 The repository verification workflow reruns mandatory tests and installed synthetic pipelines,
 writes evidence under `artifacts/`, and confirms that the source tree did not change during the
@@ -143,6 +159,11 @@ Rootwise performs the authoritative OS-volume check. A successful scan ends with
 session. Output files are new-only; choose a new `$ArtifactRoot` for another run rather than
 overwriting evidence.
 
+Expected outputs are a new `inventory.db`, a new `inventory.ndjson`, scanner JSON ending in
+`COMPLETE`, and a report whose session state is `COMPLETE`. Failure before that state is not a
+usable completed snapshot; retain the output for diagnosis or resume only through the documented
+scanner workflow.
+
 Use the recommended basenames in the [artifact catalog](docs/architecture/artifacts.md) for later
 pipeline outputs. Rootwise still requires explicit paths and validates persisted identities rather
 than trusting filenames.
@@ -153,7 +174,7 @@ never be aimed at a physical disk or an existing image.
 
 ## Launch the viewer
 
-Install `requirements-viewer.lock`, then use the completed synthetic inventory. The decisions
+Use the `full` bootstrap profile, then open the completed synthetic inventory. The decisions
 database must be a distinct sibling of the inventory database:
 
 ```powershell
@@ -196,6 +217,9 @@ $Ranking = Join-Path $ArtifactRoot "ranking.db"
 
 Both commands consume completed snapshots. They do not traverse the synthetic source or rewrite
 the inventory.
+
+Expected outputs are new `analysis.db` and `ranking.db` files with completed run records. Each
+command prints a JSON summary containing its run identity and output digest.
 
 ## Produce and inspect a plan
 
@@ -306,15 +330,28 @@ Add tests beside the behavior they protect. A source-facing change also requires
 [threat model](docs/safety/threat-model.md). Stop and split the work if a structural refactor begins
 changing safety semantics.
 
+## Known platform limitations
+
+- The complete reference lock set is Windows x86-64 and CPython 3.12; the Viewer lock is not a
+  supported Linux GUI lock.
+- The headless locks support the documented manylinux x86-64 reference, but a local pass does not
+  satisfy independent-host or cross-platform acceptance.
+- A successful scanner workflow requires source and destination paths on distinct OS volumes.
+- Windows Home does not provide the Hyper-V PowerShell cmdlets used by some VHDX instructions;
+  use the documented `Mount-DiskImage`/disk-management path or an already prepared disposable
+  volume.
+- Visible GUI, exFAT, OS-enforced read-only, million-entry scale, and independent replication are
+  external gates, not consequences of a passing unit suite.
+
 ## Troubleshooting
 
 - **The `rootwise` command is missing:** invoke the intended environment's Python by exact path,
-  rerun `python -m pip install --no-deps --editable .`, and use that environment's `rootwise`
+  rerun bootstrap with the same environment/profile, and use that environment's `rootwise`
   executable.
-- **`PySide6 is required`:** install `requirements-viewer.lock` into the same environment used to
-  launch the command.
-- **Optional import is missing:** install the matching analytics, optimizer, or enrichment lock;
-  do not use an unconstrained upgrade to repair the reference environment.
+- **`PySide6 is required`:** rerun bootstrap with `--profile full` in the same Windows environment
+  used to launch the command.
+- **Optional import is missing:** rerun the `headless` or `full` profile as appropriate; do not use
+  an unconstrained upgrade to repair the reference environment.
 - **Source and database are rejected as the same volume:** choose genuinely distinct mounted
   volumes. Directory names and drive aliases are not evidence of separation.
 - **An output already exists:** choose a new explicit output path. Rootwise intentionally refuses
