@@ -1,7 +1,14 @@
-"""Read-only Rootwise inventory viewer and separate user-decision store."""
+"""Compatibility imports for the canonical :mod:`rootwise.viewer` package."""
 
-from .decisions import DECISIONS, DecisionConflictError, DecisionRecord, DecisionStore
-from .inventory import InventoryItem, InventoryReader, SessionSummary
+from rootwise.viewer import (
+    DECISIONS,
+    DecisionConflictError,
+    DecisionRecord,
+    DecisionStore,
+    InventoryItem,
+    InventoryReader,
+    SessionSummary,
+)
 
 __all__ = [
     "DECISIONS",

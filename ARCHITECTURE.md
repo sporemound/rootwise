@@ -263,14 +263,15 @@ conceptual model.
 
 ## Current implementation and target structure
 
-The repository currently exposes twelve top-level packages and fourteen installed console scripts.
-That implementation is functional and remains authoritative until changed by reviewed refactors.
-The target is conceptual consolidation under a stable `rootwise` facade:
+The repository is moving one domain at a time from twelve top-level implementation packages into
+a stable `rootwise` facade. The Viewer is the first completed namespace slice; its former package
+name remains only as a compatibility surface. Fourteen installed console scripts remain during
+the separately documented CLI deprecation window.
 
 | Target domain | Current implementation | Target direction | Status |
 |---|---|---|---|
 | Core | `rootwise` scanner modules | Cohesive `rootwise.core` implementation behind `rootwise scan` | Grouped CLI and current boundary implemented; namespace move future |
-| Viewer | `rootwise_view` | `rootwise.viewer` behind `rootwise view` | Grouped CLI and basic GUI/query boundary implemented; everyday browser mostly future |
+| Viewer | `rootwise.viewer`; `rootwise_view` compatibility facade | Keep implementation under `rootwise.viewer` behind `rootwise view` | Namespace and grouped CLI implemented; everyday browser mostly future |
 | Analysis | Structural/ranking parts of `rootwise_analytics`; fusion, longitudinal, synthesis packages | `rootwise.analysis` with explicit artifact-stage boundaries | Grouped CLI implemented; package consolidation future |
 | Planning | Optimizer parts of `rootwise_analytics`; approval and preflight packages | `rootwise.planning` behind `rootwise plan` | Grouped proposal-only CLI implemented; package consolidation future |
 | Evidence | Enrichment, dependency, and history packages | `rootwise.evidence`, preserving the separate content-read boundary | Grouped CLI implemented; ownership details need review |

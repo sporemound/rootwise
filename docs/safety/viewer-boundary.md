@@ -1,8 +1,8 @@
 # 0.3 Viewer Trust Model
 
-`rootwise view` dispatches lazily to the separate Viewer package without importing or constructing
-the source-facing scanner implementation. The Viewer receives
-an existing inventory database; it does not receive or traverse the source root.
+`rootwise view` dispatches lazily to `rootwise.viewer` without importing or constructing the
+source-facing scanner implementation. The Viewer receives an existing inventory database; it does
+not receive or traverse the source root.
 
 ## Boundaries
 
@@ -18,6 +18,13 @@ an existing inventory database; it does not receive or traverse the source root.
 - Every accepted decision revision is retained in an append-only event table.
 - The viewer has no archive, move, rename, copy, link, delete, network, or subprocess capability.
 - PySide6 is an optional viewer dependency and is not imported by scanner modules.
+
+## Namespace compatibility
+
+The implementation lives under `rootwise.viewer`. The former `rootwise_view` import path remains a
+thin compatibility facade that reexports the same public classes and command entry point. Rootwise
+production routes and developer tools use only the canonical namespace. The facade adds no source
+access, persistence, or command behavior and has no scheduled removal release.
 
 ## Claims not made in 0.3
 

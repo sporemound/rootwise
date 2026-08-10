@@ -14,9 +14,9 @@ try:
 except ImportError as exc:
     pytest.skip(f"PySide6 native Qt runtime is unavailable: {exc}", allow_module_level=True)
 
-from rootwise_view.decisions import DecisionStore
-from rootwise_view.gui import ViewerWindow
-from rootwise_view.inventory import InventoryReader
+from rootwise.viewer.decisions import DecisionStore
+from rootwise.viewer.gui import ViewerWindow
+from rootwise.viewer.inventory import InventoryReader
 
 from .test_viewer_inventory import completed_inventory
 

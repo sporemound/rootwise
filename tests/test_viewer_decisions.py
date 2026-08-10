@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from rootwise_view.decisions import (
+from rootwise.viewer.decisions import (
     DecisionConflictError,
     DecisionStore,
 )

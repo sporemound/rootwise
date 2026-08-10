@@ -1,6 +1,17 @@
 # Changelog
 
 
+## Viewer namespace consolidation - unreleased
+
+- Moved the Viewer implementation from the top-level `rootwise_view` package to the canonical
+  `rootwise.viewer` domain without changing inventory queries, decisions, GUI behavior, or
+  persisted artifact identities.
+- Routed production commands and developer tools through `rootwise.viewer` while retaining
+  `rootwise_view` as an explicit import and module-execution compatibility facade.
+- Moved Viewer safety and behavior tests to the canonical namespace and added identity checks for
+  the compatibility API.
+
+
 ## Consolidated command hierarchy - unreleased
 
 - Added the six-domain `rootwise scan`, `view`, `analyze`, `plan`, `evidence`, and `verify` command
