@@ -1,3 +1,3 @@
 """Rootwise audit scanner."""
 
-__version__ = "0.22.0-alpha"
+__version__ = "0.23.0-alpha"

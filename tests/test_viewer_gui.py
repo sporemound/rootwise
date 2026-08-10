@@ -30,7 +30,7 @@ def test_gui_constructs_bounded_results_without_source_access(tmp_path: Path) ->
         window = ViewerWindow(reader, decisions, session_id=session)
         window.show()
         application.processEvents()
-        assert window.windowTitle() == "Rootwise 0.22.0-alpha — Read-only Inventory"
+        assert window.windowTitle() == "Rootwise 0.23.0-alpha — Read-only Inventory"
         assert 0 < window.model.rowCount() <= 200
         assert window.sessions.currentData() == session
         window.close()

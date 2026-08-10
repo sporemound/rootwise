@@ -30,7 +30,7 @@ from rootwise_analytics.pipeline import run_analysis
 from rootwise_view.inventory import InventoryReader
 
 ROOT = Path(__file__).parents[1]
-CODE_VERSION = "0.22.0-alpha"
+CODE_VERSION = "0.23.0-alpha"
 EVIDENCE_SCHEMA = "rootwise-scale-evidence-v1"
 MINIMUM_SCALE_ENTRIES = 1_000_000
 MAX_QUERY_FILE_BYTES = 1_048_576

@@ -11,7 +11,7 @@ from .evaluator import MAX_MANIFEST_BYTES, REQUIRED_GATES
 from .workflow import inspect_report
 
 ADMISSION_SCHEMA_ID = "rootwise-release-admission-v1"
-CODE_VERSION = "0.22.0-alpha"
+CODE_VERSION = "0.23.0-alpha"
 
 
 @dataclass(frozen=True)

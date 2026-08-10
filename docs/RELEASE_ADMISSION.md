@@ -26,7 +26,7 @@ $ErrorActionPreference = "Stop"
 $env:PYTHONPATH = "E:\Python Scripts\rootwise\src"
 python -m rootwise_acceptance.cli admit `
     --report "E:\acceptance\report.json" `
-    --archive "E:\Python Scripts\rootwise\artifacts\rootwise-0.22.0-alpha-source.zip" `
+    --archive "E:\Python Scripts\rootwise\artifacts\rootwise-0.23.0-alpha-source.zip" `
     --provenance "E:\Python Scripts\rootwise\artifacts\BUILD_PROVENANCE.json" `
     --verification "E:\Python Scripts\rootwise\artifacts\VERIFY-RELEASE.json" `
     --output "E:\acceptance\rootwise-0.22-admission.json"

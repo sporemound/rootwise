@@ -23,7 +23,7 @@ from .test_viewer_inventory import completed_inventory
 def test_plan_is_nonexecuting_and_names_all_three_scale_gates() -> None:
     revision = "a" * 40
     assert _plan(revision) == {
-        "code_version": "0.22.0-alpha",
+        "code_version": "0.23.0-alpha",
         "execution_authorized": False,
         "gates": ["scanner_scale", "snapshot_pipeline_scale", "viewer_search_scale"],
         "minimum_entry_count": 1_000_000,

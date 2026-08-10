@@ -1,4 +1,4 @@
-# Rootwise 0.22.0-alpha
+# Rootwise 0.23.0-alpha
 
 Rootwise contains a deliberately narrow, metadata-only filesystem inventory scanner, a
 separate read-only review interface, structural analytics, robust Pareto review ranking, a
@@ -33,6 +33,10 @@ Stage 0.22 adds an explicit, fail-closed operator harness for the million-entry 
 snapshot-pipeline, and query-only viewer-search gates. It binds measurements to a clean exact Git
 revision, requires declared budgets and new output paths, and never creates a source corpus. See
 `docs/SCALE_ACCEPTANCE.md`.
+Stage 0.23 adds explicit preparation of a deterministic disposable million-file corpus and
+canonical viewer query suite. It is plan-only by default, resumes only an exactly owned valid
+prefix, never removes the corpus, and must not target the real source drive. See
+`docs/SCALE_CORPUS.md`.
 
 
 
@@ -434,7 +438,7 @@ verification, bind those artifacts into a new immutable admission receipt:
 ```powershell
 python -m rootwise_acceptance.cli admit `
     --report "E:\acceptance\report.json" `
-    --archive "E:\Python Scripts\rootwise\artifacts\rootwise-0.22.0-alpha-source.zip" `
+    --archive "E:\Python Scripts\rootwise\artifacts\rootwise-0.23.0-alpha-source.zip" `
     --provenance "E:\Python Scripts\rootwise\artifacts\BUILD_PROVENANCE.json" `
     --verification "E:\Python Scripts\rootwise\artifacts\VERIFY-RELEASE.json" `
     --output "E:\acceptance\rootwise-0.22-admission.json"
@@ -454,7 +458,7 @@ Independently re-check a receipt and every artifact it binds:
 python -m rootwise_acceptance.cli verify-admission `
     --receipt "E:\acceptance\rootwise-0.22-admission.json" `
     --report "E:\acceptance\report.json" `
-    --archive "E:\Python Scripts\rootwise\artifacts\rootwise-0.22.0-alpha-source.zip" `
+    --archive "E:\Python Scripts\rootwise\artifacts\rootwise-0.23.0-alpha-source.zip" `
     --provenance "E:\Python Scripts\rootwise\artifacts\BUILD_PROVENANCE.json" `
     --verification "E:\Python Scripts\rootwise\artifacts\VERIFY-RELEASE.json"
 ```
