@@ -1,5 +1,14 @@
 # Changelog
 
+
+## 0.19.0-alpha - unreleased
+
+- Added fail-closed release-candidate admission for complete canonical acceptance reports.
+- Bound admission receipts to the acceptance semantic digest, verified source revision and
+  manifest, exact source-archive SHA-256, build provenance, and fresh-extraction verification.
+- Added deterministic immutable receipts with explicit false filesystem-execution authorization
+  and refusal of incomplete evidence, lineage mismatch, failed verification, path reuse, input
+  tampering, and output overwrite.
 ## 0.18.0-alpha - unreleased
 
 - Added immutable recording of one externally evidenced acceptance gate into a new canonical
