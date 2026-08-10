@@ -277,7 +277,8 @@ The target is conceptual consolidation under a stable `rootwise` facade:
 | Validation | Acceptance package and release/scale tools | `rootwise.validation` plus developer tooling behind `rootwise verify` where safe | Local workflow implemented; full acceptance campaign incomplete |
 
 The detailed factual mapping of current modules, scripts, schemas, imports, and tests is maintained
-in [`docs/REPOSITORY_MAP.md`](docs/REPOSITORY_MAP.md). That map is descriptive; this document is
+in [`docs/architecture/repository-map.md`](docs/architecture/repository-map.md). That map is
+descriptive; this document is
 prescriptive. When they differ, code describes current behavior and this document describes the
 reviewed destination.
 
