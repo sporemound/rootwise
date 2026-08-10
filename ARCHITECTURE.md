@@ -278,7 +278,7 @@ the separately documented CLI deprecation window.
 | Viewer | `rootwise.viewer`; `rootwise_view` compatibility facade | Keep implementation under `rootwise.viewer` behind `rootwise view` | Namespace and grouped CLI implemented; everyday browser mostly future |
 | Analysis | Structural/ranking parts of `rootwise_analytics`; fusion, longitudinal, synthesis packages | `rootwise.analysis` with explicit artifact-stage boundaries | Grouped CLI implemented; package consolidation future |
 | Planning | Optimizer parts of `rootwise_analytics`; approval and preflight packages | `rootwise.planning` behind `rootwise plan` | Grouped proposal-only CLI implemented; package consolidation future |
-| Evidence | Enrichment, dependency, and history packages | `rootwise.evidence`, preserving the separate content-read boundary | Grouped CLI implemented; ownership details need review |
+| Evidence | Enrichment, dependency, and history packages | `rootwise.evidence`, preserving the separate content-read boundary | Grouped CLI and History Evidence ownership documented; package consolidation future |
 | Validation | Acceptance package and release/scale tools | `rootwise.validation` plus developer tooling behind `rootwise verify` where safe | Acceptance grouped under `verify`; full acceptance campaign incomplete |
 
 The detailed factual mapping of current modules, scripts, schemas, imports, and tests is maintained
@@ -324,7 +324,6 @@ All structure work must preserve these invariants:
 The target domains are fixed for this sprint, but these placements need focused review before code
 moves:
 
-- whether multi-snapshot history is Evidence input or temporal Analysis output;
 - whether fusion and synthesis share one namespace while retaining separate validated artifacts;
 - whether preflight remains a public Planning command or becomes internal to proposal inspection;
 - which legacy console scripts require a deprecation window;

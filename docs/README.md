@@ -87,6 +87,7 @@ into two active protocols; their originals remain under `archive/`.
 | [Acceptance](validation/acceptance.md) | Protocol | Consolidated gates, manifest recording, evaluation, and inspection workflow |
 | [Release admission](validation/release-admission.md) | Protocol | Verification, source packaging, admission, and read-only chain verification |
 | [Scale acceptance](validation/scale-acceptance.md) | Protocol | Scanner, viewer-search, and snapshot-pipeline measurement harness |
+| [Cold-start engineering review](validation/engineering-review.md) | Active reference | Isolated L8 architecture-legibility result, confusion log, and evidence limits |
 
 ## Protocols
 

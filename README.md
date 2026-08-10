@@ -75,7 +75,7 @@ One `rootwise` command exposes the six architectural domains:
 | Scan, export, report, capabilities | `rootwise scan ...` |
 | Search, decisions, GUI | `rootwise view ...` |
 | Structural, ranking, temporal, and fused analysis | `rootwise analyze ...` |
-| Optimize, approve, and inspect proposals | `rootwise plan ...` |
+| Optimize, approve, and preflight proposals | `rootwise plan ...` |
 | Permissioned and declared evidence | `rootwise evidence ...` |
 | Acceptance and release evidence | `rootwise verify ...` |
 
