@@ -1,6 +1,16 @@
 # Changelog
 
 
+## 0.22.0-alpha - unreleased
+
+- Added an opt-in scale-acceptance harness for scanner, structural snapshot, and viewer-search
+  gates with explicit execution, exact clean-revision binding, and operator-declared budgets.
+- Added canonical evidence and exact measurement files with RSS, duration, output-space,
+  unchanged-input, entry-count, query-only, and p95-query observations.
+- Added fail-closed refusal of weak minimums, reused outputs, noncanonical query suites, revision
+  mismatch, missing execution consent, and sub-million fixtures presented as passing evidence.
+
+
 ## Stage 0.21a GUI correction - unreleased
 
 - Added persistent Decision, Revision, and Note columns to every bounded GUI result page.

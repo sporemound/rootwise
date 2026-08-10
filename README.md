@@ -1,4 +1,4 @@
-# Rootwise 0.21.0-alpha
+# Rootwise 0.22.0-alpha
 
 Rootwise contains a deliberately narrow, metadata-only filesystem inventory scanner, a
 separate read-only review interface, structural analytics, robust Pareto review ranking, a
@@ -29,6 +29,10 @@ artifact or granting execution authority. See `docs/ADMISSION_VERIFICATION.md`.
 Stage 0.21 replaces cached directory-entry metadata with a fresh non-following stat at observation
 time. Entries deleted after enumeration become structured errors instead of stale observations;
 stable siblings remain observable. See `docs/CONCURRENT_MUTATION_BOUNDARY.md`.
+Stage 0.22 adds an explicit, fail-closed operator harness for the million-entry scanner,
+snapshot-pipeline, and query-only viewer-search gates. It binds measurements to a clean exact Git
+revision, requires declared budgets and new output paths, and never creates a source corpus. See
+`docs/SCALE_ACCEPTANCE.md`.
 
 
 
@@ -430,10 +434,10 @@ verification, bind those artifacts into a new immutable admission receipt:
 ```powershell
 python -m rootwise_acceptance.cli admit `
     --report "E:\acceptance\report.json" `
-    --archive "E:\Python Scripts\rootwise\artifacts\rootwise-0.21.0-alpha-source.zip" `
+    --archive "E:\Python Scripts\rootwise\artifacts\rootwise-0.22.0-alpha-source.zip" `
     --provenance "E:\Python Scripts\rootwise\artifacts\BUILD_PROVENANCE.json" `
     --verification "E:\Python Scripts\rootwise\artifacts\VERIFY-RELEASE.json" `
-    --output "E:\acceptance\rootwise-0.21-admission.json"
+    --output "E:\acceptance\rootwise-0.22-admission.json"
 ```
 
 Admission requires a canonical complete `PASS`, matching report/provenance revisions, verified
@@ -448,9 +452,9 @@ Independently re-check a receipt and every artifact it binds:
 
 ```powershell
 python -m rootwise_acceptance.cli verify-admission `
-    --receipt "E:\acceptance\rootwise-0.21-admission.json" `
+    --receipt "E:\acceptance\rootwise-0.22-admission.json" `
     --report "E:\acceptance\report.json" `
-    --archive "E:\Python Scripts\rootwise\artifacts\rootwise-0.21.0-alpha-source.zip" `
+    --archive "E:\Python Scripts\rootwise\artifacts\rootwise-0.22.0-alpha-source.zip" `
     --provenance "E:\Python Scripts\rootwise\artifacts\BUILD_PROVENANCE.json" `
     --verification "E:\Python Scripts\rootwise\artifacts\VERIFY-RELEASE.json"
 ```

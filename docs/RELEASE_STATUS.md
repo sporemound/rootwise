@@ -1,6 +1,6 @@
 # Release Status
 
-Version: `0.21.0-alpha` (unreleased source milestone)
+Version: `0.22.0-alpha` (unreleased source milestone)
 
 - Designed: metadata-only scanner boundary and staged release gates.
 - Implemented: volume identity, guarded outputs, handle-bound traversal, SQLite sessions,
@@ -72,17 +72,22 @@ Version: `0.21.0-alpha` (unreleased source milestone)
   metadata stat at observation time. Disappeared files and directories become structured errors,
   are not observed, and are not queued; stable siblings retain normal behavior. This remains a
   point-in-time inventory boundary rather than a stable handle or execution authorization.
-- Tested locally: 121 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
+- Scale-acceptance harness implemented: explicit clean-revision binding, operator budgets, new-only
+  evidence outputs, metadata-only pre/post scanner manifests, current-process RSS and output-space
+  sampling, query-only p95 measurement, and snapshot-pipeline orchestration. It creates no corpus,
+  requires `--execute`, and emits `FAIL` rather than passing a sub-million fixture.
+- Tested locally: 125 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
   including construction of the real PySide6 6.10.2 window using the offscreen Qt platform. Ruff
   and strict mypy pass across 67 source files under the hash-locked CPython 3.12 environment.
 - GUI interaction and visual layout: the first visible 0.21 review found that persisted decisions
   were not distinguishable after recording; the next review exposed a theme-dependent white-on-
   white selection state. Stage 0.21a now uses explicit palette-safe recorded labels and adds the
-  missing functional menu bar, but this corrected surface still requires a visible-session retest.
-- Search scale: functionally tested with bounded pages; not benchmarked at millions of rows and
-  not an Everything-performance claim.
-- Analytics scale: deterministic fixture behavior is tested; multi-million-row memory, latency,
-  and temporary-space behavior are not benchmarked or accepted for the real source.
+  missing functional menu bar. The corrected surface then passed an operator-visible retest on the
+  exact pre-merge 0.21a commit; final evidence must still be regenerated on the merged revision.
+- Search scale: functionally tested with bounded pages and now has an opt-in measured gate harness;
+  the million-entry campaign has not run and no Everything-performance claim is made.
+- Analytics scale: deterministic fixture behavior is tested and now has an opt-in measured snapshot
+  harness; multi-million-row memory, latency, and temporary-space behavior are not yet accepted.
 - Ranking scale: deterministic fixture behavior is tested; cohort calibration, ranking stability
   under alternative uncertainty assumptions, and multi-million-row resource use are not accepted
   for the real source.
