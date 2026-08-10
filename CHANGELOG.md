@@ -1,6 +1,18 @@
 # Changelog
 
 
+## Engineering legibility documentation consolidation - unreleased
+
+- Established `README.md`, `ARCHITECTURE.md`, and `DEVELOPMENT.md` as the three-document developer
+  entry path and added a root security entry point.
+- Classified every detailed document as an active reference, protocol, historical record, or
+  redundant consolidated source in one documentation index.
+- Reorganized active material by architecture, safety, analytics, planning, validation, and
+  protocol responsibility while preserving stage-era provenance under `docs/archive/`.
+- Consolidated the acceptance and release-admission chains into two current protocols without
+  deleting their original component-era documents.
+
+
 ## Stage 0.24 product-experience contract - unreleased
 
 - Defined ordinary-user details, compact-list, tile, navigation, sorting, column, preference,

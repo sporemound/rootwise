@@ -13,14 +13,15 @@ CAPABILITY_CLASSES = {
 
 def test_stage_024_product_contract_is_complete_and_explicit() -> None:
     root = Path(__file__).parents[1]
+    document_paths = {
+        "PRODUCT_EXPERIENCE.md": "viewer-experience.md",
+        "VIEW_MODES.md": "view-modes.md",
+        "KEYBOARD_AND_NAVIGATION.md": "keyboard-and-navigation.md",
+        "ACCESSIBILITY.md": "accessibility.md",
+    }
     documents = {
-        name: (root / "docs" / name).read_text(encoding="utf-8")
-        for name in (
-            "PRODUCT_EXPERIENCE.md",
-            "VIEW_MODES.md",
-            "KEYBOARD_AND_NAVIGATION.md",
-            "ACCESSIBILITY.md",
-        )
+        name: (root / "docs" / "architecture" / path).read_text(encoding="utf-8")
+        for name, path in document_paths.items()
     }
     combined = "\n".join(documents.values())
     for capability in CAPABILITY_CLASSES:

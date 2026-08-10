@@ -26,7 +26,7 @@ The operator supplies an existing corpus. The corpus and new inventory must be o
 volumes. Pre/post manifests hash path, kind, size, and modification time without reading file
 contents. The scanner retains all ordinary volume, write-guard, pacing, memory, and free-space
 controls. Stage 0.23 can prepare a disposable synthetic corpus and canonical query suite; see
-`docs/SCALE_CORPUS.md`. That preparation must complete before this measurement begins.
+`docs/protocols/scale-corpus.md`. That preparation must complete before this measurement begins.
 
 ```powershell
 python tools\run_scale_acceptance.py scanner `
