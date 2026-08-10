@@ -40,7 +40,7 @@ prefix, never removes the corpus, and must not target the real source drive. See
 Stage 0.24 defines the ordinary-user viewer contract before further GUI work: shared details and
 compact views, inventory navigation, persistent presentation state, keyboard behavior,
 accessibility, later generic tiles, and a separately permissioned preview boundary. It changes no
-runtime behavior; five proposed product defaults await operator approval. See
+runtime behavior; the five proposed product defaults are user-approved. See
 `docs/PRODUCT_EXPERIENCE.md`.
 
 

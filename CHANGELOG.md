@@ -10,6 +10,7 @@
   content reading, or prohibited execution.
 - Specified keyboard, focus, contrast, high-DPI, and visible Windows review requirements and the
   smallest bounded Stage 0.25 implementation slice. Runtime remains `0.23.0-alpha`.
+- Recorded user approval of all five product defaults before Stage 0.25 implementation.
 
 
 ## 0.23.0-alpha - unreleased

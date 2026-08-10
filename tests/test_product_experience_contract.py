@@ -47,6 +47,7 @@ def test_stage_024_product_contract_is_complete_and_explicit() -> None:
     ):
         assert feature in combined
     product = documents["PRODUCT_EXPERIENCE.md"]
-    assert product.count("PENDING USER APPROVAL") == 5
+    assert product.count("USER APPROVED") == 5
+    assert "PENDING USER APPROVAL" not in product
     assert "Smallest Stage 0.25 slice" in documents["VIEW_MODES.md"]
     assert "No source path is opened" in combined

@@ -41,19 +41,19 @@ breadcrumbs, Back/Forward/Up history, user sorting, column management, preferenc
 bookmarks, icons, an inspector, thumbnails, content previews, or an explicit accessibility test
 matrix. Those behaviors are **NOT TESTED** because they are not implemented.
 
-## Product decisions proposed for approval
+## Approved product decisions
 
-These are recommendations, not silently accepted requirements:
+The user approved all five decisions on 2026-08-09:
 
-1. **PENDING USER APPROVAL** — First view modes: implement Details view and Compact list view in
+1. **USER APPROVED** — First view modes: implement Details view and Compact list view in
    Stage 0.25; retain Tile view for Stage 0.28.
-2. **PENDING USER APPROVAL** — Default columns: Name, Path, Type, Size, Modified, and Decision.
+2. **USER APPROVED** — Default columns: Name, Path, Type, Size, Modified, and Decision.
    Role, Project, Uncertainty, Revision, Note, status, and technical identifiers are optional.
-3. **PENDING USER APPROVAL** — Default tile size: 128 logical pixels, adjustable later without
+3. **USER APPROVED** — Default tile size: 128 logical pixels, adjustable later without
    changing the result-page bound.
-4. **PENDING USER APPROVAL** — Main interface: browse exactly one completed inventory session.
+4. **USER APPROVED** — Main interface: browse exactly one completed inventory session.
    Session comparison remains a separate analytical workflow, not a main-view mode.
-5. **PENDING USER APPROVAL** — Familiar Explorer behavior: single-click selects; Enter or
+5. **USER APPROVED** — Familiar Explorer behavior: single-click selects; Enter or
    double-click enters an observed directory; Alt+Left/Right navigate history; Alt+Up and
    Backspace go to the parent; Ctrl+L focuses inventory breadcrumbs; Ctrl+F focuses search; F5
    reruns the inventory query. Opening live files/folders and all source mutations remain absent.

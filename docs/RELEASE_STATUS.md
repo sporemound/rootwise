@@ -11,8 +11,8 @@ Version: `0.23.0-alpha` (unreleased source milestone)
 - Product experience contract designed: shared bounded result pages, details/compact/tile modes,
   inventory-only navigation, presentation preferences, keyboard/context-menu behavior, ordinary
   states, metadata inspector and permissioned-preview boundaries, accessibility, and high-DPI
-  requirements are classified by capability. Stage 0.24 changes no runtime behavior; the proposed
-  default modes, columns, tile size, session scope, and Explorer conventions await user approval.
+  requirements are classified by capability. Stage 0.24 changes no runtime behavior; the user
+  approved the default modes, columns, tile size, session scope, and Explorer conventions.
 - Structural analytics implemented: snapshot-only deterministic roles, recursive directory totals,
   project-marker boundaries, structural relationships, and per-stage provenance.
 - Pareto review implemented: DuckDB/Polars feature materialization, independent confidence
