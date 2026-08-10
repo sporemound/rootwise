@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.13.0-alpha - unreleased
+
+- Added canonical manifests for contiguous chains of independently validated longitudinal runs.
+- Added ordinal file observation, appearance/disappearance, metadata stability, and ambiguity
+  features across at least three snapshots without rename inference.
+- Added directory churn and project activity histories that explicitly imply neither value nor
+  filesystem action safety.
+
 ## 0.12.0-alpha - unreleased
 
 - Added strict, digest-bound import of explicit project relationship evidence.

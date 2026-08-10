@@ -1,6 +1,6 @@
 # Release Status
 
-Version: `0.12.0-alpha` (unreleased source milestone)
+Version: `0.13.0-alpha` (unreleased source milestone)
 
 - Designed: metadata-only scanner boundary and staged release gates.
 - Implemented: volume identity, guarded outputs, handle-bound traversal, SQLite sessions,
@@ -33,9 +33,12 @@ Version: `0.12.0-alpha` (unreleased source milestone)
 - Explicit dependency-evidence analytics implemented: strict longitudinal and canonical-manifest
   validation, evaluated-project coverage, typed project relationships, deterministic dependency
   degrees, weighted degrees, PageRank-style centrality, components, and component-split risk.
-- Tested locally: 79 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
+- Multi-snapshot history implemented: canonical contiguous-chain manifests, independent
+  longitudinal table/digest validation, ordinal file observation and stability, directory churn,
+  project activity, and explicit non-value/non-action semantics.
+- Tested locally: 84 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
   including construction of the real PySide6 6.10.2 window using the offscreen Qt platform. Ruff
-  and strict mypy pass across 54 source files under the hash-locked CPython 3.12 environment.
+  and strict mypy pass across 57 source files under the hash-locked CPython 3.12 environment.
 - GUI interaction and visual layout: constructed and event-processed offscreen; not yet manually
   reviewed in a visible desktop session.
 - Search scale: functionally tested with bounded pages; not benchmarked at millions of rows and
@@ -67,13 +70,18 @@ Version: `0.12.0-alpha` (unreleased source milestone)
 - Longitudinal scale: only two small synthetic sessions are tested. Added, removed,
   metadata-changed, metadata-unchanged, error-ambiguous, project-added, contextual edge, unchanged
   input/source, and tampered-inventory behaviors are covered. Rename detection, automatic
-  dependency extraction, long histories, and multi-million-row performance are not implemented
-  or accepted.
+  dependency extraction, and multi-million-row performance are not implemented or accepted in
+  the individual transition stage; multi-snapshot aggregation is handled separately by 0.13.
 - Dependency-evidence scale: only a small synthetic two-project declaration is tested. Canonical
   encoding, longitudinal/table tampering, unknown endpoints, explicit evaluated-project coverage,
   deterministic graph output, and unchanged inputs/source are covered. ParetoDrive does not
   generate or authenticate the supplied evidence, parse source manifests, or claim large-graph
   performance.
+- History scale: only a synthetic three-snapshot/two-transition chain is tested. Contiguity,
+  reversal, canonical encoding, table tampering, deterministic output, disappearance, repeated
+  metadata change, stable transitions, and unchanged input/source behavior are covered. Timestamp
+  duration, rename detection, long-chain resource use, and multi-million-path performance are not
+  implemented or accepted.
 - Installed analytics integration: passed against the retained 30-observation synthetic exFAT
   inventory after VHDX detachment, producing 15 roles, 16 aggregate nodes, one project, six
   relationships, and four `COMPLETE` stages while leaving the inventory byte-identical. Output
@@ -116,6 +124,10 @@ Version: `0.12.0-alpha` (unreleased source milestone)
   bound to a temporary complete longitudinal run, imported one explicit directed `DEPENDS_ON`
   edge across two evaluated projects, reported coverage 1.0, and left the inventory,
   longitudinal database, manifest, and source contents SHA-256-identical.
+- Installed history integration: `paretodrive-history` consumed two contiguous temporary
+  longitudinal runs representing three snapshots, recorded two metadata changes for a retained
+  source path and a `NOT_OBSERVED` current state for one removed path, and left the inventory, chain
+  manifest, longitudinal inputs, and source contents SHA-256-identical.
 - CPython 3.14 installation recovery: after the operator closed the viewer, the 0.11 editable
   install restored every console entry point. Stale 0.9 metadata from the interrupted uninstall was
   moved—not deleted—to `.tool-tmp/stale-install-quarantine`; `pip show` now reports 0.11.0a0 without

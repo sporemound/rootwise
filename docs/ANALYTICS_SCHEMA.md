@@ -124,3 +124,22 @@ manifest to one independently revalidated complete longitudinal run.
 
 Only explicit `DEPENDS_ON` evidence contributes to dependency degree. The database is analytical
 evidence and authorizes no filesystem action.
+
+## 0.13 multi-snapshot history
+
+The history database uses application ID `1346654815` and binds one canonical chain manifest to
+at least two contiguous, independently revalidated longitudinal transitions.
+
+- `history_runs` records manifest/input/output digests and snapshot/transition counts.
+- `history_stages` records `validate_chain`, `file_history`, and `aggregate_history` provenance.
+- `history_links` preserves ordered longitudinal lineage and session identities.
+- `file_history_features` stores ordinal observation, unambiguous appearances/disappearances,
+  metadata-change and stable-transition counts, ambiguity, observation ratio, and current
+  observation state.
+- `directory_history_features` stores covered transitions, cumulative changes/byte delta, and
+  mean/maximum churn.
+- `project_history_features` stores covered/active transitions, appearances/disappearances,
+  changed/ambiguous file counts, activity ratio, and current observation state.
+
+Snapshot ordinal is not elapsed time, unchanged metadata is not content equality, and activity or
+stability does not imply value or action safety.

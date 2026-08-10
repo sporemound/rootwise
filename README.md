@@ -1,4 +1,4 @@
-# ParetoDrive 0.12.0-alpha
+# ParetoDrive 0.13.0-alpha
 
 ParetoDrive contains a deliberately narrow, metadata-only filesystem inventory scanner, a
 separate read-only review interface, structural analytics, robust Pareto review ranking, a
@@ -287,3 +287,20 @@ python -m paretodrive_dependency.cli `
 Only projects listed as evaluated contribute to evidence coverage. Missing evidence remains
 unknown, and only explicit `DEPENDS_ON` records contribute to dependency degrees. This stage does
 not parse project files or open source content. See `docs/DEPENDENCY_EVIDENCE_CONTRACT.md`.
+
+## Multi-snapshot temporal history
+
+Stage 0.13 consumes a canonical manifest containing at least two contiguous Stage 0.11 transition
+databases, representing at least three snapshots:
+
+```powershell
+$ErrorActionPreference = "Stop"
+$env:PYTHONPATH = "E:\Python Scripts\paretodrive\src"
+python -m paretodrive_history.cli `
+    --chain-manifest "E:\inventories\history-chain.json" `
+    --output "E:\inventories\history.db"
+```
+
+The result describes file observation/stability, directory churn, and project activity by snapshot
+ordinal. It does not infer renames, content equality, value, or action safety. See
+`docs/HISTORY_CONTRACT.md`.
