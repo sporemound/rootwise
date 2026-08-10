@@ -1,4 +1,4 @@
-"""CLI for Stage 0.20 acceptance and admission-verification workflows."""
+"""CLI for Stage 0.21 acceptance and admission-verification workflows."""
 
 from __future__ import annotations
 

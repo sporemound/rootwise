@@ -255,7 +255,7 @@ class MetadataScanner:
         )
 
     def _observe(self, entry: os.DirEntry[str], relative_dir: str) -> tuple[Observation, bool]:
-        metadata = entry.stat(follow_symlinks=False)
+        metadata = os.stat(entry.path, follow_symlinks=False)
         relative = inventory_path(f"{relative_dir}/{entry.name}" if relative_dir else entry.name)
         attributes = int(getattr(metadata, "st_file_attributes", 0))
         link_like = entry.is_symlink() or bool(attributes & REPARSE_POINT)

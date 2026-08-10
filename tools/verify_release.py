@@ -23,7 +23,7 @@ def _hash_file(path: Path) -> str:
 
 def main() -> int:
     root = Path(__file__).parents[1]
-    package = root / "artifacts" / "rootwise-0.20.0-alpha-source.zip"
+    package = root / "artifacts" / "rootwise-0.21.0-alpha-source.zip"
     if not package.is_file():
         raise SystemExit("release package is missing")
     with tempfile.TemporaryDirectory(prefix="rootwise-release-") as temporary:

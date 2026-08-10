@@ -1,6 +1,6 @@
 # Release Status
 
-Version: `0.20.0-alpha` (unreleased source milestone)
+Version: `0.21.0-alpha` (unreleased source milestone)
 
 - Designed: metadata-only scanner boundary and staged release gates.
 - Implemented: volume identity, guarded outputs, handle-bound traversal, SQLite sessions,
@@ -67,7 +67,11 @@ Version: `0.20.0-alpha` (unreleased source milestone)
   tampered, mismatched, reused-path, and metadata-visibly changing inputs fail closed. Verification
   is read-only and grants no filesystem authority; it does not authenticate producers, establish a
   trusted timestamp, sign or publish archives, or turn incomplete external evidence into a pass.
-- Tested locally: 117 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
+- Concurrent-mutation revalidation implemented: each enumerated entry receives a fresh non-following
+  metadata stat at observation time. Disappeared files and directories become structured errors,
+  are not observed, and are not queued; stable siblings retain normal behavior. This remains a
+  point-in-time inventory boundary rather than a stable handle or execution authorization.
+- Tested locally: 119 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
   including construction of the real PySide6 6.10.2 window using the offscreen Qt platform. Ruff
   and strict mypy pass across 67 source files under the hash-locked CPython 3.12 environment.
 - GUI interaction and visual layout: constructed and event-processed offscreen; not yet manually
@@ -129,13 +133,19 @@ Version: `0.20.0-alpha` (unreleased source milestone)
   overwrite are covered. No real admission receipt has been issued because the retained real
   acceptance report is `INCOMPLETE`; archive signatures, producer authentication, publication,
   and execution remain outside this stage.
-- Installed analytics integration: passed against the retained 30-observation synthetic exFAT
+- Metadata-edge campaign: a real 371-character Windows path was fully observed; a real temporary
+  `LIST_DIRECTORY` ACL denial produced structured evidence and was restored; injected invalid
+  metadata produced a structured `EINVAL`; and deterministic file deletion after enumeration
+  produced `FileNotFoundError` rather than a stale observation. File and directory deletion
+  variants retain stable sibling observations. The acceptance campaign must restart on the final
+  merged 0.21 revision before this evidence can be recorded as a release gate.
 - Admission-verification scale: only small synthetic admission chains are tested. Deterministic
   read-only verification, canonical and semantic receipt tampering, changes to every bound artifact,
   exact archive mismatch, and path reuse are covered. Concurrent archive mutation is detected when
   filesystem identity, size, or modification time changes during hashing. Digital signatures,
   trusted timestamps, producer authentication, and a real complete acceptance chain remain outside
   this stage.
+- Installed analytics integration: passed against the retained 30-observation synthetic exFAT
   inventory after VHDX detachment, producing 15 roles, 16 aggregate nodes, one project, six
   relationships, and four `COMPLETE` stages while leaving the inventory byte-identical. Output
   digest: `7f600018bf172c3d7f2da2b39ea0af97749868fa8da6fa3232a2b8e444f935d1`.

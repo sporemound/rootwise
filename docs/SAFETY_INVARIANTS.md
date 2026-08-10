@@ -24,6 +24,7 @@ The words **must** and **never** are testable requirements for production scanne
 20. Failure to resolve a safety boundary aborts.
 21. A second process cannot open the same inventory database while the scanner lease is held.
 22. A stale `RUNNING` session is recoverable only after acquiring that exclusive lease.
+24. Enumerated entries receive fresh non-following metadata validation before observation.
 23. Resource-bound stops are recorded as `STOPPED`, never `COMPLETE`.
 
 Output files other than SQLite are created exclusively and must not already exist. The write guard
