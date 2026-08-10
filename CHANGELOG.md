@@ -1,6 +1,17 @@
 # Changelog
 
 
+## Developer workflow - unreleased
+
+- Added `core`, `headless`, and Windows `full` bootstrap profiles that install only hash-locked
+  dependencies, install Rootwise editable, and finish with an installed-command smoke check.
+- Added a fast deterministic smoke workflow for the root command and all six domain help routes.
+- Consolidated clean-clone commands, expected outputs, setup diagnostics, troubleshooting, and
+  known platform limitations in the primary developer path.
+- Corrected bootstrap handling so successful pip commands are not rejected merely for emitting a
+  notice on standard error.
+
+
 ## Artifact naming cleanup - unreleased
 
 - Added one canonical artifact catalog covering all eleven SQLite application identities, workflow

@@ -55,16 +55,16 @@ PowerShell prompt in a clone:
 
 ```powershell
 $ErrorActionPreference = "Stop"
-py -3.12 tools\bootstrap.py
+py -3.12 tools\bootstrap.py --profile full
 $Python = (Resolve-Path ".\.venv\Scripts\python.exe").Path
-& $Python -m pip install --no-deps --editable .
 $Rootwise = (Resolve-Path ".\.venv\Scripts\rootwise.exe").Path
 & $Rootwise --help
 ```
 
-The core runtime has no third-party dependencies. Viewer, analytics, optimizer, and enrichment
-dependencies are separately hash-locked. Follow [DEVELOPMENT.md](DEVELOPMENT.md) for the complete
-environment, tests, and synthetic end-to-end workflow.
+Bootstrap installs hash-locked dependencies, Rootwise itself, and runs the installed command smoke
+check. The core runtime still has no third-party dependencies; use the lighter `core` or `headless`
+profile when appropriate. Follow [DEVELOPMENT.md](DEVELOPMENT.md) for expected output, tests, and
+the synthetic end-to-end workflow.
 
 ## Command hierarchy
 
