@@ -1,4 +1,4 @@
-# Rootwise 0.17.0-alpha
+# Rootwise 0.18.0-alpha
 
 Rootwise contains a deliberately narrow, metadata-only filesystem inventory scanner, a
 separate read-only review interface, structural analytics, robust Pareto review ranking, a
@@ -16,6 +16,10 @@ external evidence but does not perform scans or authenticate evidence producers.
 Stage 0.17 adds deterministic empty-manifest initialization, machine-readable gate guidance, and
 tamper-detecting report inspection while retaining the Stage 0.16 evaluation syntax. Guided
 initialization never pre-populates a passing evidence claim. See `docs/ACCEPTANCE_WORKFLOW.md`.
+Stage 0.18 adds immutable gate recording: it hashes external evidence, requires exact canonical
+gate-specific measurements, and writes a new manifest revision without replacement or overwrite.
+See `docs/ACCEPTANCE_RECORDING.md`.
+
 
 Stage 0.11 compares two immutable snapshots and builds a conservative project relationship graph.
 The core scanner records directory entries and metadata in an external SQLite database and can
@@ -376,3 +380,23 @@ python -m rootwise_acceptance.cli init `
 
 Use `evaluate` to produce a report and `inspect` to recompute its digest, gate semantics, and
 aggregate status. See `docs/ACCEPTANCE_WORKFLOW.md` for the full workflow and exit codes.
+
+## Immutable acceptance gate recording
+
+Create a canonical measurements file containing exactly the fields reported by `guide`, then add
+one externally evidenced gate to a new manifest revision:
+
+```powershell
+python -m rootwise_acceptance.cli record `
+    --manifest "E:\acceptance\evidence-empty.json" `
+    --evidence "E:\acceptance\visible-gui-review.json" `
+    --measurements "E:\acceptance\visible-gui-measurements.json" `
+    --output "E:\acceptance\evidence-with-gui.json" `
+    --gate "visible_gui_review" `
+    --notes "Confirmed visible review of the retained synthetic inventory."
+```
+
+The command computes the evidence SHA-256 itself and reports the selected gate's recomputed
+`PASS` or `FAIL`. It refuses output overwrite, path reuse, noncanonical measurements, missing or
+extra measurement fields, and replacement of an already recorded gate. It does not open evidence
+during later evaluation or authenticate its producer. See `docs/ACCEPTANCE_RECORDING.md`.

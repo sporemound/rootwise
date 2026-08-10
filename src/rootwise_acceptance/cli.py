@@ -1,4 +1,4 @@
-"""CLI for Stage 0.17 guided acceptance evidence workflows."""
+"""CLI for Stage 0.18 immutable acceptance evidence workflows."""
 
 from __future__ import annotations
 
@@ -9,6 +9,7 @@ from dataclasses import asdict
 from typing import Sequence
 
 from .evaluator import evaluate_acceptance
+from .recording import record_gate
 from .workflow import gate_guide, initialize_manifest, inspect_report
 
 
@@ -33,6 +34,13 @@ def _parser() -> argparse.ArgumentParser:
     initialize.add_argument("--host-id", required=True)
     initialize.add_argument("--os", dest="os_name", required=True)
     initialize.add_argument("--python", dest="python_version", required=True)
+    record = commands.add_parser("record", help="immutably add one externally evidenced gate")
+    record.add_argument("--manifest", required=True)
+    record.add_argument("--evidence", required=True)
+    record.add_argument("--measurements", required=True)
+    record.add_argument("--output", required=True)
+    record.add_argument("--gate", required=True)
+    record.add_argument("--notes", required=True)
     evaluate = commands.add_parser("evaluate", help="evaluate a completed evidence manifest")
     evaluate.add_argument("--manifest", required=True)
     evaluate.add_argument("--report", required=True)
@@ -57,6 +65,17 @@ def _run(argv: list[str]) -> int:
             python_version=args.python_version,
         )
         print(json.dumps(asdict(initialization), sort_keys=True))
+        return 0
+    if args.command == "record":
+        recording = record_gate(
+            args.manifest,
+            args.evidence,
+            args.measurements,
+            args.output,
+            gate_id=args.gate,
+            notes=args.notes,
+        )
+        print(json.dumps(asdict(recording), sort_keys=True))
         return 0
     if args.command == "evaluate":
         evaluation = evaluate_acceptance(args.manifest, args.report)

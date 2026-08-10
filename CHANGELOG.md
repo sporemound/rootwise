@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.18.0-alpha - unreleased
+
+- Added immutable recording of one externally evidenced acceptance gate into a new canonical
+  manifest revision.
+- Added streaming SHA-256 evidence binding and exact gate-specific canonical measurement checks.
+- Added fail-closed refusal of overwrite, path reuse, duplicate gate replacement, missing fields,
+  and unexpected fields while preserving computed failing evidence as `FAIL`.
+
 ## 0.17.0-alpha - unreleased
 
 - Added deterministic initialization of evidence-empty canonical acceptance manifests with
