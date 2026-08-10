@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.17.0-alpha - unreleased
+
+- Added deterministic initialization of evidence-empty canonical acceptance manifests with
+  explicit identity and time fields.
+- Added machine-readable guidance for every required gate and measurement field.
+- Added tamper-detecting report inspection that recomputes digests, gate semantics, completeness,
+  and aggregate status while retaining the Stage 0.16 evaluation invocation.
+
 ## 0.16.0-alpha - unreleased
 
 - Added canonical acceptance evidence and report schemas covering scale, recovery, edge cases,

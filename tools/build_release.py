@@ -29,7 +29,7 @@ def main() -> int:
         candidate = ROOT / relative
         if not candidate.is_file() or hashlib.sha256(candidate.read_bytes()).hexdigest() != expected:
             raise SystemExit(f"verified source changed; release build refused: {relative}")
-    output = ROOT / "artifacts" / "rootwise-0.16.0-alpha-source.zip"
+    output = ROOT / "artifacts" / "rootwise-0.17.0-alpha-source.zip"
     included_roots = ("src", "docs", "tests", "tools")
     files = [ROOT / name for name in (
         "pyproject.toml", "requirements-dev.lock", "requirements-viewer.lock",
