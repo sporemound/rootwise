@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "rootwise"
-version = "0.15.0a0"
+version = "0.16.0a0"
 description = "Rootwise audit-first inventory and evidence-based storage planning"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -31,6 +31,7 @@ rootwise-longitudinal = "rootwise_longitudinal.cli:main"
 rootwise-dependency-graph = "rootwise_dependency.cli:main"
 rootwise-history = "rootwise_history.cli:main"
 rootwise-synthesize-evidence = "rootwise_synthesis.cli:main"
+rootwise-acceptance = "rootwise_acceptance.cli:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.16.0-alpha - unreleased
+
+- Added canonical acceptance evidence and report schemas covering scale, recovery, edge cases,
+  distinct-volume enrichment, visible GUI review, and independent replication.
+- Added fail-closed gate evaluation with explicit `PASS`, `FAIL`, and `INCOMPLETE` semantics.
+- Added measured resource-budget checks for million-entry scanner, viewer, and snapshot-pipeline
+  evidence without adding source access or execution authority.
+
 ## 0.15.0-alpha - unreleased
 
 - Renamed the complete product-facing namespace, distribution, packages, commands, schemas,
