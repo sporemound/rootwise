@@ -1,4 +1,4 @@
-"""Stage 0.21 acceptance, admission, and admission-verification workflows."""
+"""Stage 0.22 acceptance, admission, and admission-verification workflows."""
 
 from .evaluator import AcceptanceResult, evaluate_acceptance
 from .admission import AdmissionResult, admit_release_candidate

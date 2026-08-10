@@ -1,4 +1,4 @@
-"""Independent, read-only Stage 0.21 admission-chain verification."""
+"""Independent, read-only Stage 0.22 admission-chain verification."""
 
 from __future__ import annotations
 
