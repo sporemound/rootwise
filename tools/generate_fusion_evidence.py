@@ -31,9 +31,9 @@ def main() -> int:
         root = Path(temporary)
         source, inventory, session = enrichment_fixture(root)
         analysis = root / "analysis.db"
-        selection = root / "selection.json"
-        evidence = root / "evidence.db"
-        fusion = root / "fusion.db"
+        selection = root / "content-selection.json"
+        evidence = root / "content-evidence.db"
+        fusion = root / "fused-analysis.db"
         run_analysis(inventory, analysis, session_id=session)
         manifest(selection, inventory, session, "D3", [
             "media/final exports/other.wav",

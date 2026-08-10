@@ -22,7 +22,7 @@ def main() -> int:
     with tempfile.TemporaryDirectory(prefix="rootwise-longitudinal-") as temporary:
         root = Path(temporary)
         source, inventory, baseline, current, baseline_run, current_run = repeated_snapshots(root)
-        output = root / "longitudinal.db"
+        output = root / "temporal-analysis.db"
         before = {
             "inventory": _sha256(inventory), "baseline": _sha256(baseline),
             "current": _sha256(current), "source": tree_digest(source),

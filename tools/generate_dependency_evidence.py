@@ -23,7 +23,7 @@ def main() -> int:
     with tempfile.TemporaryDirectory(prefix="rootwise-dependency-") as temporary:
         root = Path(temporary)
         source, inventory, baseline, current, baseline_run, current_run = repeated_snapshots(root)
-        longitudinal = root / "longitudinal.db"
+        longitudinal = root / "temporal-analysis.db"
         history = run_longitudinal(
             baseline, current, longitudinal,
             baseline_analysis_run_id=baseline_run,
@@ -44,7 +44,7 @@ def main() -> int:
                 "confidence": 0.9, "evidence_reference": "explicit synthetic declaration",
             }],
         }, sort_keys=True, separators=(",", ":")) + "\n", encoding="utf-8", newline="\n")
-        output = root / "dependency.db"
+        output = root / "dependency-evidence.db"
         before = {
             "inventory": _sha256(inventory), "longitudinal": _sha256(longitudinal),
             "manifest": _sha256(manifest), "source": tree_digest(source),

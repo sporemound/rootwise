@@ -23,7 +23,7 @@ def main() -> int:
     with tempfile.TemporaryDirectory(prefix="rootwise-synthesis-") as temporary:
         root = Path(temporary)
         source, inputs = synthesis_fixture(root)
-        output = root / "synthesis.db"
+        output = root / "review-signals.db"
         before = {str(path): _sha256(path) for path in inputs}
         source_before = tree_digest(source)
         entrypoint_directory = Path(

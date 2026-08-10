@@ -42,7 +42,7 @@ silently discloses host/account data:
 
 ```powershell
 rootwise verify acceptance init `
-    --output "E:\acceptance\evidence-empty.json" `
+    --output "E:\acceptance\acceptance-evidence.empty.json" `
     --subject-revision "0123456789abcdef0123456789abcdef01234567" `
     --producer "manual-review" `
     --created-at "2026-08-09T00:00:00Z" `
@@ -67,10 +67,10 @@ Record the external evidence, measurements, and notes into a new manifest revisi
 
 ```powershell
 rootwise verify acceptance record `
-    --manifest "E:\acceptance\evidence-empty.json" `
+    --manifest "E:\acceptance\acceptance-evidence.empty.json" `
     --evidence "E:\acceptance\visible-gui-review.json" `
     --measurements "E:\acceptance\visible-gui-measurements.json" `
-    --output "E:\acceptance\evidence-with-gui.json" `
+    --output "E:\acceptance\acceptance-evidence.gui.json" `
     --gate "visible_gui_review" `
     --notes "Visible review of the retained synthetic inventory."
 ```
@@ -84,11 +84,11 @@ preserves an explicit `FAIL`.
 
 ```powershell
 rootwise verify acceptance evaluate `
-    --manifest "E:\acceptance\evidence.json" `
-    --report "E:\acceptance\report.json"
+    --manifest "E:\acceptance\acceptance-evidence.json" `
+    --report "E:\acceptance\acceptance-report.json"
 
 rootwise verify acceptance inspect `
-    --report "E:\acceptance\report.json"
+    --report "E:\acceptance\acceptance-report.json"
 ```
 
 The manifest and report must be distinct sibling files, and the report path must be new. Evaluation
