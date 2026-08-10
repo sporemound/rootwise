@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from rootwise_view.cli import main
+from rootwise.viewer.cli import main
 
 from .test_viewer_inventory import completed_inventory
 

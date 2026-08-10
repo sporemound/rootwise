@@ -13,7 +13,7 @@ from rootwise_analytics.ranking_pipeline import run_ranking
 from rootwise_approval.cli import main as approval_main
 from rootwise_approval.declaration import ACKNOWLEDGEMENTS, INTENT, SCHEMA_VERSION
 from rootwise_approval.receipt import export_approval_receipt
-from rootwise_view.decisions import DecisionStore
+from rootwise.viewer.decisions import DecisionStore
 
 from .test_viewer_inventory import completed_inventory
 

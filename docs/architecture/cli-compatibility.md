@@ -42,6 +42,10 @@ artifact validation, exit codes, and safety boundaries remain owned by their exi
 Earlier console scripts remain installed during the alpha migration. Each writes a deprecation
 notice to standard error and then calls the unchanged implementation.
 
+The earlier Python import package `rootwise_view` is likewise retained as a thin compatibility
+facade for `rootwise.viewer`. Canonical Rootwise code uses `rootwise.viewer`; both import paths
+expose the same Viewer public classes and CLI callable during the migration window.
+
 | Compatibility script | Canonical replacement |
 |---|---|
 | `rootwise-view` | `rootwise view` |

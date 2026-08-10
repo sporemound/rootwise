@@ -6,7 +6,9 @@ from pathlib import Path
 
 def test_inventory_reader_is_query_only_and_core_modules_do_not_import_viewer() -> None:
     root = Path(__file__).parents[1]
-    inventory = (root / "src" / "rootwise_view" / "inventory.py").read_text(encoding="utf-8")
+    inventory = (root / "src" / "rootwise" / "viewer" / "inventory.py").read_text(
+        encoding="utf-8"
+    )
     upper = inventory.upper()
     for keyword in ("INSERT ", "UPDATE ", "DELETE ", "REPLACE ", "CREATE TABLE"):
         assert keyword not in upper
