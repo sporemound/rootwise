@@ -4,7 +4,7 @@ import ast
 from pathlib import Path
 
 
-PRODUCTION = Path(__file__).parents[1] / "src" / "paretodrive"
+PRODUCTION = Path(__file__).parents[1] / "src" / "rootwise"
 FORBIDDEN_IMPORT_ROOTS = {
     "socket", "subprocess", "zipfile", "tarfile", "shutil", "send2trash",
     "urllib", "http", "requests", "aiohttp", "ftplib",

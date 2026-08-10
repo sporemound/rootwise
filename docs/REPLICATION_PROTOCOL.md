@@ -11,8 +11,8 @@
 
 SQLite bytes are not a cross-platform replication target. Canonical NDJSON uses UTF-8, LF line
 endings, stable key order, normalized comparison paths, deterministic record ordering, UTC
-timestamps, and excludes volatile session identifiers and wall-clock scan times.
+timestamps, and excludes volatile session identifiers and wall-clock scan/event times. Audit.2
+canonical schema 2 includes lifecycle event type and structured detail records.
 
 Every result records source revision, platform, interpreter, command, timeout, duration, stdout,
 stderr, exit status, and artifact digests. An interrupted or incomplete run is never success.
-

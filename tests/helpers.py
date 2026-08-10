@@ -7,8 +7,8 @@ from contextlib import contextmanager
 from typing import BinaryIO, Iterator
 from pathlib import Path
 
-from paretodrive.models import VolumeInfo
-from paretodrive.volume import resolve_volume
+from rootwise.models import VolumeInfo
+from rootwise.volume import resolve_volume
 
 
 class RecordingGuard:
@@ -27,6 +27,10 @@ class RecordingGuard:
 
     def authorize_sqlite_journal(self, database_path: str | os.PathLike[str]) -> Path:
         return self.authorize(str(database_path) + "-journal")
+
+    def open_database_lease(self, database_path: str | os.PathLike[str]) -> BinaryIO:
+        lease = self.authorize(str(database_path) + "-scanlock")
+        return lease.open("r+b" if lease.exists() else "x+b")
 
     @contextmanager
     def open_new_binary(self, path: str | os.PathLike[str]) -> Iterator[tuple[Path, BinaryIO]]:

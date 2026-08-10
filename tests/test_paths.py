@@ -5,8 +5,8 @@ import os
 
 import pytest
 
-from paretodrive.models import ScanConfig
-from paretodrive.scanner import inventory_path
+from rootwise.models import ScanConfig
+from rootwise.scanner import inventory_path
 
 
 def test_platform_separator_normalization_preserves_valid_name_meaning() -> None:

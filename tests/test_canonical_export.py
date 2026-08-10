@@ -6,11 +6,11 @@ import os
 import sys
 from pathlib import Path
 
-from paretodrive.canonicalize import export_canonical
-from paretodrive.database import InventoryDatabase
-from paretodrive.models import ScanConfig
-from paretodrive.scanner import MetadataScanner
-from paretodrive.errors import ScanStateError
+from rootwise.canonicalize import export_canonical
+from rootwise.database import InventoryDatabase
+from rootwise.models import ScanConfig
+from rootwise.scanner import MetadataScanner
+from rootwise.errors import ScanStateError
 import pytest
 
 from .helpers import RecordingGuard, actual_volume, make_corpus

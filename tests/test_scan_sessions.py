@@ -4,9 +4,9 @@ from pathlib import Path
 
 import pytest
 
-from paretodrive.database import InventoryDatabase
-from paretodrive.errors import ScanStateError
-from paretodrive.models import ScanConfig, SessionState
+from rootwise.database import InventoryDatabase
+from rootwise.errors import ScanStateError
+from rootwise.models import ScanConfig, SessionState
 
 from .helpers import RecordingGuard, fake_volume
 

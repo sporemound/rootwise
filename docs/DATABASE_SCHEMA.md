@@ -3,11 +3,16 @@
 `volumes` stores externally resolved volume facts. `scan_sessions` stores lifecycle state and
 configuration. `directories` and `files` store raw observations only. `scan_errors` stores
 structured failures. `scan_frontier` is the persistent bounded-work/resume mechanism.
-`canonical_exports` records completed exports and `application_writes` records guarded outputs.
+`scan_events` records lifecycle, recovery, and resource-stop events. `canonical_exports` records
+completed exports and `application_writes` records guarded outputs.
 Each session stores an exact resolved `source_root`; resume requires both that root and the source
 volume identity to match. SQLite uses its durable `DELETE` rollback-journal mode with `FULL`
 synchronization. The exact `-journal` companion path is authorized by the write guard before the
 connection opens; transaction size is bounded by scanner batch size.
+
+A persistent `-scanlock` sidecar is held with an OS-exclusive byte-range/file lock while an
+`InventoryDatabase` is open. The OS releases the lock after abrupt process termination, allowing an
+explicit resume to distinguish a stale `RUNNING` session from a concurrently active scanner.
 
 No importance, rebuildability, archive eligibility, duplicate confirmation, or deletion advice is
 stored in raw observation tables.

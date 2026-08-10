@@ -3,16 +3,34 @@ requires = ["setuptools>=75,<76"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "paretodrive"
-version = "0.2.0a1"
-description = "Audit-first, metadata-only filesystem inventory scanner"
+name = "rootwise"
+version = "0.15.0a0"
+description = "Rootwise audit-first inventory and evidence-based storage planning"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
 dependencies = []
 
+[project.optional-dependencies]
+viewer = ["PySide6==6.10.2"]
+analytics = ["duckdb==1.5.5", "polars==1.43.2", "pyarrow==25.0.0"]
+optimizer = ["numpy==2.4.6", "scipy==1.17.1", "pymoo==0.6.2"]
+enrichment = ["blake3==1.0.9"]
+
 [project.scripts]
-paretodrive = "paretodrive.cli:main"
+rootwise = "rootwise.cli:main"
+rootwise-view = "rootwise_view.cli:main"
+rootwise-analyze = "rootwise_analytics.cli:main"
+rootwise-rank = "rootwise_analytics.ranking_cli:main"
+rootwise-optimize = "rootwise_analytics.optimizer_cli:main"
+rootwise-enrich = "rootwise_enrich.cli:main"
+rootwise-approve = "rootwise_approval.cli:main"
+rootwise-preflight = "rootwise_preflight.cli:main"
+rootwise-fuse-evidence = "rootwise_fusion.cli:main"
+rootwise-longitudinal = "rootwise_longitudinal.cli:main"
+rootwise-dependency-graph = "rootwise_dependency.cli:main"
+rootwise-history = "rootwise_history.cli:main"
+rootwise-synthesize-evidence = "rootwise_synthesis.cli:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
@@ -31,3 +49,9 @@ target-version = "py311"
 [tool.mypy]
 python_version = "3.11"
 strict = true
+follow_imports_for_stubs = true
+
+[[tool.mypy.overrides]]
+module = ["numpy", "numpy.*", "pymoo", "pymoo.*"]
+follow_imports = "skip"
+ignore_missing_imports = true

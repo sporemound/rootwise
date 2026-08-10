@@ -1,0 +1,9 @@
+# Hash-locked optional viewer dependencies for CPython 3.9+ ABI3 on Windows x86-64.
+PySide6==6.10.2 \
+    --hash=sha256:032bad6b18a17fcbf4dddd0397f49b07f8aae7f1a45b7e4de7037bf7fd6e0edf
+PySide6_Addons==6.10.2 \
+    --hash=sha256:c20150068525a17494f3b6576c5d61c417cf9a5870659e29f5ebd83cd20a78ea
+PySide6_Essentials==6.10.2 \
+    --hash=sha256:0741018c2b6395038cad4c41775cfae3f13a409e87995ac9f7d89e5b1fb6b22a
+shiboken6==6.10.2 \
+    --hash=sha256:10f3c8c5e1b8bee779346f21c10dbc14cff068f0b0b4e62420c82a6bf36ac2e7
