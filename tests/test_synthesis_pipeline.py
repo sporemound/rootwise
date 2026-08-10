@@ -7,16 +7,16 @@ from pathlib import Path
 
 import pytest
 
-from paretodrive_analytics.pipeline import run_analysis
-from paretodrive_analytics.ranking_pipeline import run_ranking
-from paretodrive_dependency.pipeline import run_dependency_analysis
-from paretodrive_enrich.pipeline import run_enrichment
-from paretodrive_enrich.reader import ReadPolicy
-from paretodrive_fusion.pipeline import run_fusion
-from paretodrive_history.pipeline import run_history_analysis
-from paretodrive_longitudinal.pipeline import run_longitudinal
-from paretodrive_synthesis.cli import main as synthesis_main
-from paretodrive_synthesis.pipeline import SYNTHESIS_APPLICATION_ID, run_synthesis
+from rootwise_analytics.pipeline import run_analysis
+from rootwise_analytics.ranking_pipeline import run_ranking
+from rootwise_dependency.pipeline import run_dependency_analysis
+from rootwise_enrich.pipeline import run_enrichment
+from rootwise_enrich.reader import ReadPolicy
+from rootwise_fusion.pipeline import run_fusion
+from rootwise_history.pipeline import run_history_analysis
+from rootwise_longitudinal.pipeline import run_longitudinal
+from rootwise_synthesis.cli import main as synthesis_main
+from rootwise_synthesis.pipeline import SYNTHESIS_APPLICATION_ID, run_synthesis
 
 from .test_enrichment_pipeline import (
     enrichment_fixture,
@@ -80,7 +80,7 @@ def synthesis_fixture(tmp_path: Path) -> tuple[Path, list[Path]]:
     )
     chain = tmp_path / "history-chain.json"
     chain.write_text(json.dumps({
-        "schema": "paretodrive-longitudinal-chain-v1",
+        "schema": "rootwise-longitudinal-chain-v1",
         "created_at": "2026-08-09T00:00:00Z", "label": "synthesis-fixture",
         "links": [
             {"database": first_link.name, "run_id": first.run_id,
@@ -104,7 +104,7 @@ def synthesis_fixture(tmp_path: Path) -> tuple[Path, list[Path]]:
         "confidence": 0.9, "evidence_reference": "explicit synthetic declaration",
     }]
     dependency_manifest.write_text(json.dumps({
-        "schema": "paretodrive-project-dependency-evidence-v1",
+        "schema": "rootwise-project-dependency-evidence-v1",
         "longitudinal_run_id": second_result.run_id,
         "longitudinal_output_digest": second_result.output_digest,
         "producer": "synthesis-fixture", "created_at": "2026-08-09T00:00:00Z",

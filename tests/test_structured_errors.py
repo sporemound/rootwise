@@ -4,9 +4,9 @@ from pathlib import Path
 
 import pytest
 
-from paretodrive.database import InventoryDatabase
-from paretodrive.models import ScanConfig
-from paretodrive.scanner import MetadataScanner
+from rootwise.database import InventoryDatabase
+from rootwise.models import ScanConfig
+from rootwise.scanner import MetadataScanner
 
 from .helpers import RecordingGuard, actual_volume
 

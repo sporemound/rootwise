@@ -11,7 +11,7 @@ import sys
 import tempfile
 from pathlib import Path
 
-from paretodrive_longitudinal.pipeline import run_longitudinal
+from rootwise_longitudinal.pipeline import run_longitudinal
 from tests.test_longitudinal_pipeline import repeated_snapshots, tree_digest
 
 
@@ -20,7 +20,7 @@ def _sha256(path: Path) -> str:
 
 
 def main() -> int:
-    with tempfile.TemporaryDirectory(prefix="paretodrive-dependency-") as temporary:
+    with tempfile.TemporaryDirectory(prefix="rootwise-dependency-") as temporary:
         root = Path(temporary)
         source, inventory, baseline, current, baseline_run, current_run = repeated_snapshots(root)
         longitudinal = root / "longitudinal.db"
@@ -32,7 +32,7 @@ def main() -> int:
         )
         manifest = root / "dependency-evidence.json"
         manifest.write_text(json.dumps({
-            "schema": "paretodrive-project-dependency-evidence-v1",
+            "schema": "rootwise-project-dependency-evidence-v1",
             "longitudinal_run_id": history.run_id,
             "longitudinal_output_digest": history.output_digest,
             "producer": "installed-synthetic-fixture",
@@ -50,10 +50,10 @@ def main() -> int:
             "manifest": _sha256(manifest), "source": tree_digest(source),
         }
         entrypoint_directory = Path(
-            os.environ.get("PARETODRIVE_ENTRYPOINT_DIR", str(Path(sys.executable).parent))
+            os.environ.get("ROOTWISE_ENTRYPOINT_DIR", str(Path(sys.executable).parent))
         )
         executable = entrypoint_directory / (
-            "paretodrive-dependency-graph.exe" if os.name == "nt" else "paretodrive-dependency-graph"
+            "rootwise-dependency-graph.exe" if os.name == "nt" else "rootwise-dependency-graph"
         )
         if not executable.is_file():
             raise RuntimeError(f"installed dependency entry point is missing: {executable}")

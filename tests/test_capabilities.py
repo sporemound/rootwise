@@ -3,15 +3,15 @@ from __future__ import annotations
 from pathlib import Path
 from unittest.mock import patch
 
-from paretodrive.capabilities import detect_capabilities
-from paretodrive.models import VolumeInfo
+from rootwise.capabilities import detect_capabilities
+from rootwise.models import VolumeInfo
 
 
 def test_exfat_capabilities_do_not_infer_ntfs_features(tmp_path: Path) -> None:
     volume = VolumeInfo("volume", str(tmp_path), "exFAT", "device")
     with (
-        patch("paretodrive.capabilities.resolve_volume", return_value=volume),
-        patch("paretodrive.capabilities._windows_read_only", return_value=True),
+        patch("rootwise.capabilities.resolve_volume", return_value=volume),
+        patch("rootwise.capabilities._windows_read_only", return_value=True),
     ):
         result = detect_capabilities(tmp_path)
     assert result.filesystem_type == "exFAT"

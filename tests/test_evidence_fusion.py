@@ -6,11 +6,11 @@ from pathlib import Path
 
 import pytest
 
-from paretodrive_analytics.pipeline import run_analysis
-from paretodrive_enrich.pipeline import run_enrichment
-from paretodrive_enrich.reader import ReadPolicy
-from paretodrive_fusion.cli import main as fusion_main
-from paretodrive_fusion.pipeline import FUSION_APPLICATION_ID, run_fusion
+from rootwise_analytics.pipeline import run_analysis
+from rootwise_enrich.pipeline import run_enrichment
+from rootwise_enrich.reader import ReadPolicy
+from rootwise_fusion.cli import main as fusion_main
+from rootwise_fusion.pipeline import FUSION_APPLICATION_ID, run_fusion
 
 from .test_enrichment_pipeline import (
     enrichment_fixture,

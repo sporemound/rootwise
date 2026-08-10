@@ -7,9 +7,9 @@ from pathlib import Path
 
 import pytest
 
-from paretodrive_dependency.cli import main as dependency_main
-from paretodrive_dependency.pipeline import DEPENDENCY_APPLICATION_ID, run_dependency_analysis
-from paretodrive_longitudinal.pipeline import run_longitudinal
+from rootwise_dependency.cli import main as dependency_main
+from rootwise_dependency.pipeline import DEPENDENCY_APPLICATION_ID, run_dependency_analysis
+from rootwise_longitudinal.pipeline import run_longitudinal
 
 from .test_longitudinal_pipeline import repeated_snapshots, tree_digest
 
@@ -25,7 +25,7 @@ def dependency_fixture(tmp_path: Path) -> tuple[Path, Path, Path, Path]:
     )
     manifest = tmp_path / "dependency-evidence.json"
     manifest.write_text(json.dumps({
-        "schema": "paretodrive-project-dependency-evidence-v1",
+        "schema": "rootwise-project-dependency-evidence-v1",
         "longitudinal_run_id": result.run_id,
         "longitudinal_output_digest": result.output_digest,
         "producer": "synthetic-test-fixture",

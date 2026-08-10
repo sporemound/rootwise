@@ -7,8 +7,8 @@ from contextlib import contextmanager
 from typing import BinaryIO, Iterator
 from pathlib import Path
 
-from paretodrive.models import VolumeInfo
-from paretodrive.volume import resolve_volume
+from rootwise.models import VolumeInfo
+from rootwise.volume import resolve_volume
 
 
 class RecordingGuard:

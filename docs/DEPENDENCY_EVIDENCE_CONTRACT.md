@@ -1,13 +1,13 @@
 # 0.12 Explicit Project-Dependency Evidence Contract
 
-Stage 0.12 adds stronger project relationships without granting ParetoDrive permission to inspect
+Stage 0.12 adds stronger project relationships without granting Rootwise permission to inspect
 source content. It consumes one canonical JSON evidence manifest bound to one complete Stage 0.11
 run and writes a new sibling SQLite database. The longitudinal database is opened read-only and
 query-only; the evidence manifest is read as data; no recorded source path is opened.
 
 ## Evidence boundary
 
-The manifest must use schema `paretodrive-project-dependency-evidence-v1`, identify the exact
+The manifest must use schema `rootwise-project-dependency-evidence-v1`, identify the exact
 longitudinal run and output digest, name its producer and creation time, list every project the
 producer actually evaluated, and provide a sorted set of evidence records. Supported relationship
 types are:

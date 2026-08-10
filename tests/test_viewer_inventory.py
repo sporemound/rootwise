@@ -6,10 +6,10 @@ from pathlib import Path
 
 import pytest
 
-from paretodrive.database import InventoryDatabase
-from paretodrive.models import ScanConfig
-from paretodrive.scanner import MetadataScanner
-from paretodrive_view.inventory import InventoryReadError, InventoryReader
+from rootwise.database import InventoryDatabase
+from rootwise.models import ScanConfig
+from rootwise.scanner import MetadataScanner
+from rootwise_view.inventory import InventoryReadError, InventoryReader
 
 from .helpers import RecordingGuard, actual_volume, make_corpus
 

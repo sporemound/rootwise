@@ -4,8 +4,8 @@ from pathlib import Path
 
 import pytest
 
-from paretodrive.database import InventoryDatabase
-from paretodrive.errors import ScanStateError
+from rootwise.database import InventoryDatabase
+from rootwise.errors import ScanStateError
 
 from .helpers import RecordingGuard
 

@@ -20,18 +20,18 @@ def _sha256(path: Path) -> str:
 
 
 def main() -> int:
-    with tempfile.TemporaryDirectory(prefix="paretodrive-synthesis-") as temporary:
+    with tempfile.TemporaryDirectory(prefix="rootwise-synthesis-") as temporary:
         root = Path(temporary)
         source, inputs = synthesis_fixture(root)
         output = root / "synthesis.db"
         before = {str(path): _sha256(path) for path in inputs}
         source_before = tree_digest(source)
         entrypoint_directory = Path(
-            os.environ.get("PARETODRIVE_ENTRYPOINT_DIR", str(Path(sys.executable).parent))
+            os.environ.get("ROOTWISE_ENTRYPOINT_DIR", str(Path(sys.executable).parent))
         )
         executable = entrypoint_directory / (
-            "paretodrive-synthesize-evidence.exe" if os.name == "nt"
-            else "paretodrive-synthesize-evidence"
+            "rootwise-synthesize-evidence.exe" if os.name == "nt"
+            else "rootwise-synthesize-evidence"
         )
         if not executable.is_file():
             raise RuntimeError(f"installed synthesis entry point is missing: {executable}")

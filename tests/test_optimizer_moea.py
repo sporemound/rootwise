@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from paretodrive_analytics.optimizer_moea import evolutionary_proposals, repair_actions
-from paretodrive_analytics.plan_models import Action, PlanPolicy
-from paretodrive_analytics.plan_validation import validate_plan
+from rootwise_analytics.optimizer_moea import evolutionary_proposals, repair_actions
+from rootwise_analytics.plan_models import Action, PlanPolicy
+from rootwise_analytics.plan_validation import validate_plan
 
 from .test_exact_optimizer import fixture_candidates
 

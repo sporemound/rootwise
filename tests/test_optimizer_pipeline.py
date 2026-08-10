@@ -4,10 +4,10 @@ import hashlib
 import sqlite3
 from pathlib import Path
 
-from paretodrive_analytics.optimizer_pipeline import PLAN_APPLICATION_ID, run_optimization
-from paretodrive_analytics.pipeline import run_analysis
-from paretodrive_analytics.ranking_pipeline import run_ranking
-from paretodrive_view.decisions import DecisionStore
+from rootwise_analytics.optimizer_pipeline import PLAN_APPLICATION_ID, run_optimization
+from rootwise_analytics.pipeline import run_analysis
+from rootwise_analytics.ranking_pipeline import run_ranking
+from rootwise_view.decisions import DecisionStore
 
 from .test_viewer_inventory import completed_inventory
 

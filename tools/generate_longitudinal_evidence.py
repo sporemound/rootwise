@@ -19,7 +19,7 @@ def _sha256(path: Path) -> str:
 
 
 def main() -> int:
-    with tempfile.TemporaryDirectory(prefix="paretodrive-longitudinal-") as temporary:
+    with tempfile.TemporaryDirectory(prefix="rootwise-longitudinal-") as temporary:
         root = Path(temporary)
         source, inventory, baseline, current, baseline_run, current_run = repeated_snapshots(root)
         output = root / "longitudinal.db"
@@ -28,10 +28,10 @@ def main() -> int:
             "current": _sha256(current), "source": tree_digest(source),
         }
         entrypoint_directory = Path(
-            os.environ.get("PARETODRIVE_ENTRYPOINT_DIR", str(Path(sys.executable).parent))
+            os.environ.get("ROOTWISE_ENTRYPOINT_DIR", str(Path(sys.executable).parent))
         )
         executable = entrypoint_directory / (
-            "paretodrive-longitudinal.exe" if os.name == "nt" else "paretodrive-longitudinal"
+            "rootwise-longitudinal.exe" if os.name == "nt" else "rootwise-longitudinal"
         )
         if not executable.is_file():
             raise RuntimeError(f"installed longitudinal entry point is missing: {executable}")

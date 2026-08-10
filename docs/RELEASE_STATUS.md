@@ -1,6 +1,6 @@
 # Release Status
 
-Version: `0.14.0-alpha` (unreleased source milestone)
+Version: `0.15.0-alpha` (unreleased source milestone)
 
 - Designed: metadata-only scanner boundary and staged release gates.
 - Implemented: volume identity, guarded outputs, handle-bound traversal, SQLite sessions,
@@ -39,7 +39,9 @@ Version: `0.14.0-alpha` (unreleased source milestone)
 - Multi-evidence review synthesis implemented: exact ranking/fusion/dependency/history lineage,
   independently recomputed logical table digests, candidate-level separated evidence dimensions,
   and named review signals without score/rank mutation or action semantics.
-- Tested locally: 87 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
+- Rootwise namespace migration implemented: distribution, packages, commands, schema identifiers,
+  artifacts, GUI labels, documentation, and tooling use the Rootwise name with no legacy aliases.
+- Tested locally: 89 synthetic/unit/static tests pass without warnings on CPython 3.14.3,
   including construction of the real PySide6 6.10.2 window using the offscreen Qt platform. Ruff
   and strict mypy pass across 60 source files under the hash-locked CPython 3.12 environment.
 - GUI interaction and visual layout: constructed and event-processed offscreen; not yet manually
@@ -77,7 +79,7 @@ Version: `0.14.0-alpha` (unreleased source milestone)
   the individual transition stage; multi-snapshot aggregation is handled separately by 0.13.
 - Dependency-evidence scale: only a small synthetic two-project declaration is tested. Canonical
   encoding, longitudinal/table tampering, unknown endpoints, explicit evaluated-project coverage,
-  deterministic graph output, and unchanged inputs/source are covered. ParetoDrive does not
+  deterministic graph output, and unchanged inputs/source are covered. Rootwise does not
   generate or authenticate the supplied evidence, parse source manifests, or claim large-graph
   performance.
 - History scale: only a synthetic three-snapshot/two-transition chain is tested. Contiguity,
@@ -106,37 +108,37 @@ Version: `0.14.0-alpha` (unreleased source milestone)
   favor of the recorded degenerate fallback. Ranking SHA-256 remained
   `252e73caf0130412d24dad24ec513e1fc4b7f55a0dae2d16e2988a28cd802115`; plans output digest:
   `536d417d7c286dbe9a2169a99cb09ec0ee5e1f9bc2b378f24e29bfb55fac38ba`.
-- Installed enrichment boundary: the 0.7 package and `paretodrive-enrich` entry point are installed
+- Installed enrichment boundary: the 0.7 package and `rootwise-enrich` entry point are installed
   with BLAKE3 1.0.9. Synthetic D2/D3/D4 success paths pass only through an explicitly injected
   test volume resolver. The production resolver refuses a same-volume source/evidence setup before
   creating evidence or reading selected content. No distinct mounted disposable source is
   currently available for a successful installed-CLI content-read acceptance run.
-- Installed approval integration: the `paretodrive-approve` entry point completed a temporary
+- Installed approval integration: the `rootwise-approve` entry point completed a temporary
   synthetic plan-selection export, independently revalidated an archive-bearing proposal, left the
   plans database and declaration SHA-256-identical, and emitted a receipt with all three action
   authorizations false. This did not open source content or create an archive.
-- Installed preflight integration: `paretodrive-preflight` traced that same temporary approval
+- Installed preflight integration: `rootwise-preflight` traced that same temporary approval
   through the synthetic plan, ranking, analysis, and inventory; enumerated and reconciled the
   archive members; left all inputs and source contents SHA-256-identical; and emitted four false
   authorization fields. No archive or destination artifact other than the manifest was created.
-- Installed fusion integration: `paretodrive-fuse-evidence` validated temporary D3 evidence,
+- Installed fusion integration: `rootwise-fuse-evidence` validated temporary D3 evidence,
   preserved three selected files as zero candidate and two confirmed duplicate members at the
   root, and left the inventory, analysis, evidence, and synthetic source contents SHA-256-identical.
   The successful installed run used the unlocked CPython 3.12 environment because an operator-open
   viewer held the CPython 3.14 console executable during the initial editable-install attempt.
-- Installed longitudinal integration: `paretodrive-longitudinal` compared two temporary complete
+- Installed longitudinal integration: `rootwise-longitudinal` compared two temporary complete
   snapshots and produced two additions, one removal, one metadata change, 13 metadata-unchanged
   observations, one contextual project edge, and zero dependency-evidence coverage while leaving
   all inputs and current synthetic source contents SHA-256-identical.
-- Installed dependency integration: `paretodrive-dependency-graph` consumed a canonical manifest
+- Installed dependency integration: `rootwise-dependency-graph` consumed a canonical manifest
   bound to a temporary complete longitudinal run, imported one explicit directed `DEPENDS_ON`
   edge across two evaluated projects, reported coverage 1.0, and left the inventory,
   longitudinal database, manifest, and source contents SHA-256-identical.
-- Installed history integration: `paretodrive-history` consumed two contiguous temporary
+- Installed history integration: `rootwise-history` consumed two contiguous temporary
   longitudinal runs representing three snapshots, recorded two metadata changes for a retained
   source path and a `NOT_OBSERVED` current state for one removed path, and left the inventory, chain
   manifest, longitudinal inputs, and source contents SHA-256-identical.
-- Installed synthesis integration: `paretodrive-synthesize-evidence` joined a temporary ranking,
+- Installed synthesis integration: `rootwise-synthesize-evidence` joined a temporary ranking,
   D3 fusion, explicit dependency graph, and three-snapshot history sharing one current analysis;
   emitted confirmed-duplicate and churn signals while leaving every input and source content
   SHA-256-identical.

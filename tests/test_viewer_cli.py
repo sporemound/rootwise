@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from paretodrive_view.cli import main
+from rootwise_view.cli import main
 
 from .test_viewer_inventory import completed_inventory
 

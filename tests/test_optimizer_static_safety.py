@@ -4,7 +4,7 @@ from pathlib import Path
 
 
 def test_optimizer_is_proposal_only_and_contains_no_executor_capability() -> None:
-    root = Path(__file__).parents[1] / "src" / "paretodrive_analytics"
+    root = Path(__file__).parents[1] / "src" / "rootwise_analytics"
     names = (
         "plan_models.py", "plan_validation.py", "exact_optimizer.py",
         "optimizer_moea.py", "optimizer_pipeline.py", "optimizer_cli.py",

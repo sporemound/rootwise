@@ -7,10 +7,10 @@ from pathlib import Path
 
 import pytest
 
-from paretodrive_analytics.pipeline import run_analysis
-from paretodrive_history.cli import main as history_main
-from paretodrive_history.pipeline import HISTORY_APPLICATION_ID, run_history_analysis
-from paretodrive_longitudinal.pipeline import run_longitudinal
+from rootwise_analytics.pipeline import run_analysis
+from rootwise_history.cli import main as history_main
+from rootwise_history.pipeline import HISTORY_APPLICATION_ID, run_history_analysis
+from rootwise_longitudinal.pipeline import run_longitudinal
 
 from .test_longitudinal_pipeline import repeated_snapshots, scan, tree_digest
 
@@ -54,7 +54,7 @@ def history_fixture(
     )
     manifest = tmp_path / "history-chain.json"
     manifest.write_text(json.dumps({
-        "schema": "paretodrive-longitudinal-chain-v1",
+        "schema": "rootwise-longitudinal-chain-v1",
         "created_at": "2026-08-09T00:00:00Z",
         "label": "synthetic-three-snapshot-history",
         "links": [

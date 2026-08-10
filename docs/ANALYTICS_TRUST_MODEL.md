@@ -1,6 +1,6 @@
 # 0.4 Structural Analytics Trust Model
 
-`paretodrive-analyze` consumes one `COMPLETE` inventory session through SQLite URI `mode=ro` and
+`rootwise-analyze` consumes one `COMPLETE` inventory session through SQLite URI `mode=ro` and
 `PRAGMA query_only=ON`. It never receives, resolves, stats, or opens an observed source path.
 
 Analysis output is a distinct SQLite file in the inventory database's already-approved external

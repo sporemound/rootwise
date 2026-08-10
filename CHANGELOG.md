@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.15.0-alpha - unreleased
+
+- Renamed the complete product-facing namespace, distribution, packages, commands, schemas,
+  artifacts, GUI labels, documentation, and test tooling to Rootwise.
+- Added a fail-closed namespace audit that rejects residual pre-0.15 product identifiers.
+- Documented the alpha compatibility break for canonical manifests, command/import names, and D2
+  sampled-fingerprint domain separation.
+
 ## 0.14.0-alpha - unreleased
 
 - Added exact lineage validation across ranking, enrichment fusion, dependency, and history
@@ -82,7 +90,7 @@
 
 ## 0.3.0-alpha - unreleased
 
-- Added a separate `paretodrive_view` package with query-only inventory access.
+- Added a separate `rootwise_view` package with query-only inventory access.
 - Added bounded path search and exact item lookup for completed scan sessions.
 - Added a distinct user-decision database with optimistic revisions and append-only history.
 - Added headless search/decision commands and a minimal optional PySide6 table viewer.

@@ -7,8 +7,8 @@ from pathlib import Path
 import pytest
 from blake3 import blake3
 
-from paretodrive_enrich.reader import InventoryFile, RateLimiter, ReadPolicy, hash_file
-from paretodrive_enrich.selection import load_selection
+from rootwise_enrich.reader import InventoryFile, RateLimiter, ReadPolicy, hash_file
+from rootwise_enrich.selection import load_selection
 
 
 def test_selection_is_explicit_sorted_and_digest_bound(tmp_path: Path) -> None:
@@ -16,7 +16,7 @@ def test_selection_is_explicit_sorted_and_digest_bound(tmp_path: Path) -> None:
     manifest.write_text(
         '{"evidence_level":"D3","inventory_digest":"' + "a" * 64
         + '","paths":["a.bin","b.bin"],"scan_session_id":"session",'
-          '"schema_version":"paretodrive-enrichment-selection-1"}', encoding="utf-8"
+          '"schema_version":"rootwise-enrichment-selection-1"}', encoding="utf-8"
     )
     selection = load_selection(manifest)
     assert selection.paths == ("a.bin", "b.bin")

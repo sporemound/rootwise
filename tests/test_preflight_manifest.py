@@ -7,9 +7,9 @@ from pathlib import Path
 
 import pytest
 
-from paretodrive_approval.receipt import export_approval_receipt
-from paretodrive_preflight.cli import main as preflight_main
-from paretodrive_preflight.compiler import compile_preflight_manifest
+from rootwise_approval.receipt import export_approval_receipt
+from rootwise_preflight.cli import main as preflight_main
+from rootwise_preflight.compiler import compile_preflight_manifest
 
 from .test_approval_receipt import completed_plan, write_declaration
 

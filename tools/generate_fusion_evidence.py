@@ -11,9 +11,9 @@ import sys
 import tempfile
 from pathlib import Path
 
-from paretodrive_analytics.pipeline import run_analysis
-from paretodrive_enrich.pipeline import run_enrichment
-from paretodrive_enrich.reader import ReadPolicy
+from rootwise_analytics.pipeline import run_analysis
+from rootwise_enrich.pipeline import run_enrichment
+from rootwise_enrich.reader import ReadPolicy
 from tests.test_enrichment_pipeline import (
     enrichment_fixture,
     fake_resolver,
@@ -27,7 +27,7 @@ def _sha256(path: Path) -> str:
 
 
 def main() -> int:
-    with tempfile.TemporaryDirectory(prefix="paretodrive-fusion-") as temporary:
+    with tempfile.TemporaryDirectory(prefix="rootwise-fusion-") as temporary:
         root = Path(temporary)
         source, inventory, session = enrichment_fixture(root)
         analysis = root / "analysis.db"
@@ -54,10 +54,10 @@ def main() -> int:
             "evidence": _sha256(evidence), "source": tree_digest(source),
         }
         entrypoint_directory = Path(
-            os.environ.get("PARETODRIVE_ENTRYPOINT_DIR", str(Path(sys.executable).parent))
+            os.environ.get("ROOTWISE_ENTRYPOINT_DIR", str(Path(sys.executable).parent))
         )
         executable = entrypoint_directory / (
-            "paretodrive-fuse-evidence.exe" if os.name == "nt" else "paretodrive-fuse-evidence"
+            "rootwise-fuse-evidence.exe" if os.name == "nt" else "rootwise-fuse-evidence"
         )
         if not executable.is_file():
             raise RuntimeError(f"installed fusion entry point is missing: {executable}")

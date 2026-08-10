@@ -33,7 +33,7 @@ def source_manifest() -> dict[str, str]:
 def clean_environment() -> dict[str, str]:
     keep = (
         "PATH", "SYSTEMROOT", "WINDIR", "TEMP", "TMP", "PATHEXT", "COMSPEC",
-        "PARETODRIVE_ENTRYPOINT_DIR",
+        "ROOTWISE_ENTRYPOINT_DIR",
     )
     environment = {key: os.environ[key] for key in keep if key in os.environ}
     temporary = ROOT / ".tool-tmp"
@@ -194,7 +194,7 @@ def main() -> int:
     host_name = "TEST-WINDOWS.json" if os.name == "nt" else "TEST-LINUX.json"
     write_json("SOURCE_MANIFEST.json", {"algorithm": "sha256", "files": before})
     write_json(host_name, {
-        "status": "PASS" if overall else "FAIL", "version": "0.14.0-alpha",
+        "status": "PASS" if overall else "FAIL", "version": "0.15.0-alpha",
         "platform": platform.platform(),
         "dependencies": versions(), "tests": test, "fixture": fixture,
         "canonical_fixture": fixture_value, "approval_fixture": approval,

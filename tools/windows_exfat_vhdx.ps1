@@ -164,7 +164,7 @@ if ($Action -eq "Create") {
     }
     $Initialized = Initialize-Disk -Number $Disk.Number -PartitionStyle GPT -PassThru
     $Partition = $Initialized | New-Partition -UseMaximumSize -AssignDriveLetter
-    $Volume = $Partition | Format-Volume -FileSystem exFAT -NewFileSystemLabel "PARETODRIVE_TEST" -Confirm:$false
+    $Volume = $Partition | Format-Volume -FileSystem exFAT -NewFileSystemLabel "ROOTWISE_TEST" -Confirm:$false
     if ($Volume.FileSystem -ine "exFAT") { throw "Post-format filesystem validation failed." }
     [ordered]@{
         status = "CREATED"

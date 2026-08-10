@@ -1,11 +1,15 @@
-# ParetoDrive 0.14.0-alpha
+# Rootwise 0.15.0-alpha
 
-ParetoDrive contains a deliberately narrow, metadata-only filesystem inventory scanner, a
+Rootwise contains a deliberately narrow, metadata-only filesystem inventory scanner, a
 separate read-only review interface, structural analytics, robust Pareto review ranking, a
 proposal-only hierarchical optimizer, and explicitly permissioned content enrichment.
 Stage 0.8 also records an explicit plan selection as a non-executable canonical approval receipt.
 Stage 0.9 compiles a bounded metadata-only executor-preflight manifest from that receipt.
 Stage 0.10 imports completed enrichment evidence into a new immutable analytical snapshot.
+
+Stage 0.15 completes the Rootwise namespace migration. Commands, Python packages, manifest
+schemas, release artifacts, GUI labels, and documentation now use only the Rootwise name. See
+`docs/NAMESPACE_MIGRATION.md` for the alpha compatibility boundary.
 Stage 0.11 compares two immutable snapshots and builds a conservative project relationship graph.
 The core scanner records directory entries and metadata in an external SQLite database and can
 stream a canonical NDJSON representation. Only the separate Stage 0.7 enrichment command reads
@@ -31,7 +35,7 @@ are optional and separately locked.
 
 ```powershell
 $ErrorActionPreference = "Stop"
-$Repo = "E:\Python Scripts\paretodrive"
+$Repo = "E:\Python Scripts\rootwise"
 if (-not (Test-Path -LiteralPath $Repo -PathType Container)) { throw "Missing repo: $Repo" }
 Set-Location -LiteralPath $Repo
 python -m pytest
@@ -44,7 +48,7 @@ The optional Windows viewer dependency is separately hash-locked:
 
 ```powershell
 $ErrorActionPreference = "Stop"
-$Repo = "E:\Python Scripts\paretodrive"
+$Repo = "E:\Python Scripts\rootwise"
 if (-not (Test-Path -LiteralPath $Repo -PathType Container)) { throw "Missing repo: $Repo" }
 Set-Location -LiteralPath $Repo
 python -m pip install --require-hashes -r requirements-viewer.lock
@@ -54,7 +58,7 @@ Install the optional Windows analytics dependencies in the same way:
 
 ```powershell
 $ErrorActionPreference = "Stop"
-$Repo = "E:\Python Scripts\paretodrive"
+$Repo = "E:\Python Scripts\rootwise"
 if (-not (Test-Path -LiteralPath $Repo -PathType Container)) { throw "Missing repo: $Repo" }
 Set-Location -LiteralPath $Repo
 python -m pip install --require-hashes -r requirements-analytics.lock
@@ -64,7 +68,7 @@ The proposal optimizer has its own complete Windows lock:
 
 ```powershell
 $ErrorActionPreference = "Stop"
-$Repo = "E:\Python Scripts\paretodrive"
+$Repo = "E:\Python Scripts\rootwise"
 if (-not (Test-Path -LiteralPath $Repo -PathType Container)) { throw "Missing repo: $Repo" }
 Set-Location -LiteralPath $Repo
 python -m pip install --require-hashes -r requirements-optimizer.lock
@@ -75,7 +79,7 @@ complete Windows lock:
 
 ```powershell
 $ErrorActionPreference = "Stop"
-$Repo = "E:\Python Scripts\paretodrive"
+$Repo = "E:\Python Scripts\rootwise"
 if (-not (Test-Path -LiteralPath $Repo -PathType Container)) { throw "Missing repo: $Repo" }
 Set-Location -LiteralPath $Repo
 python -m pip install --require-hashes -r requirements-enrichment.lock
@@ -83,9 +87,9 @@ python -m pip install --require-hashes -r requirements-enrichment.lock
 
 ## CLI
 
-`paretodrive scan --source SOURCE --database EXTERNAL_DB` validates that the database volume is
-different from the source volume before scanning. `paretodrive export` produces canonical NDJSON.
-Run `paretodrive report --database DB` for a read-only session summary.
+`rootwise scan --source SOURCE --database EXTERNAL_DB` validates that the database volume is
+different from the source volume before scanning. `rootwise export` produces canonical NDJSON.
+Run `rootwise report --database DB` for a read-only session summary.
 
 ## Read-only viewer
 
@@ -93,8 +97,8 @@ Headless search works without PySide6:
 
 ```powershell
 $ErrorActionPreference = "Stop"
-$env:PYTHONPATH = "E:\Python Scripts\paretodrive\src"
-python -m paretodrive_view.cli search `
+$env:PYTHONPATH = "E:\Python Scripts\rootwise\src"
+python -m rootwise_view.cli search `
     --inventory "E:\inventories\inventory.db" `
     --query "project" `
     --limit 200
@@ -104,8 +108,8 @@ Launch the GUI with a distinct decisions database:
 
 ```powershell
 $ErrorActionPreference = "Stop"
-$env:PYTHONPATH = "E:\Python Scripts\paretodrive\src"
-python -m paretodrive_view.cli gui `
+$env:PYTHONPATH = "E:\Python Scripts\rootwise\src"
+python -m rootwise_view.cli gui `
     --inventory "E:\inventories\inventory.db" `
     --decisions "E:\inventories\decisions.db"
 ```
@@ -120,8 +124,8 @@ be a new file beside the inventory database:
 
 ```powershell
 $ErrorActionPreference = "Stop"
-$env:PYTHONPATH = "E:\Python Scripts\paretodrive\src"
-python -m paretodrive_analytics.cli `
+$env:PYTHONPATH = "E:\Python Scripts\rootwise\src"
+python -m rootwise_analytics.cli `
     --inventory "E:\inventories\inventory.db" `
     --analysis "E:\inventories\analysis.db"
 ```
@@ -136,8 +140,8 @@ Rank a completed analysis into a third, new database beside it:
 
 ```powershell
 $ErrorActionPreference = "Stop"
-$env:PYTHONPATH = "E:\Python Scripts\paretodrive\src"
-python -m paretodrive_analytics.ranking_cli `
+$env:PYTHONPATH = "E:\Python Scripts\rootwise\src"
+python -m rootwise_analytics.ranking_cli `
     --analysis "E:\inventories\analysis.db" `
     --ranking "E:\inventories\ranking.db" `
     --review-limit 100
@@ -155,8 +159,8 @@ the operator. All three inputs/outputs must be distinct sibling databases:
 
 ```powershell
 $ErrorActionPreference = "Stop"
-$env:PYTHONPATH = "E:\Python Scripts\paretodrive\src"
-python -m paretodrive_analytics.optimizer_cli `
+$env:PYTHONPATH = "E:\Python Scripts\rootwise\src"
+python -m rootwise_analytics.optimizer_cli `
     --ranking "E:\inventories\ranking.db" `
     --decisions "E:\inventories\decisions.db" `
     --plans "E:\inventories\plans.db" `
@@ -179,8 +183,8 @@ different OS volume from the source:
 
 ```powershell
 $ErrorActionPreference = "Stop"
-$env:PYTHONPATH = "E:\Python Scripts\paretodrive\src"
-python -m paretodrive_enrich.cli `
+$env:PYTHONPATH = "E:\Python Scripts\rootwise\src"
+python -m rootwise_enrich.cli `
     --inventory "E:\inventories\inventory.db" `
     --source "D:\disposable-source" `
     --selection "E:\inventories\selection.json" `
@@ -201,8 +205,8 @@ new canonical receipt. The declaration, plans database, and receipt must be dist
 
 ```powershell
 $ErrorActionPreference = "Stop"
-$env:PYTHONPATH = "E:\Python Scripts\paretodrive\src"
-python -m paretodrive_approval.cli `
+$env:PYTHONPATH = "E:\Python Scripts\rootwise\src"
+python -m rootwise_approval.cli `
     --plans "E:\inventories\plans.db" `
     --declaration "E:\inventories\approval-declaration.json" `
     --receipt "E:\inventories\approval-receipt.json"
@@ -220,8 +224,8 @@ group. All artifacts must be distinct siblings in the external inventory directo
 
 ```powershell
 $ErrorActionPreference = "Stop"
-$env:PYTHONPATH = "E:\Python Scripts\paretodrive\src"
-python -m paretodrive_preflight.cli `
+$env:PYTHONPATH = "E:\Python Scripts\rootwise\src"
+python -m rootwise_preflight.cli `
     --plans "E:\inventories\plans.db" `
     --approval-receipt "E:\inventories\approval-receipt.json" `
     --inventory "E:\inventories\inventory.db" `
@@ -240,8 +244,8 @@ the inventory or any recorded source path:
 
 ```powershell
 $ErrorActionPreference = "Stop"
-$env:PYTHONPATH = "E:\Python Scripts\paretodrive\src"
-python -m paretodrive_fusion.cli `
+$env:PYTHONPATH = "E:\Python Scripts\rootwise\src"
+python -m rootwise_fusion.cli `
     --analysis "E:\inventories\analysis.db" `
     --evidence "E:\inventories\evidence.db" `
     --fusion "E:\inventories\fusion.db"
@@ -258,8 +262,8 @@ the same source root and volume. It opens only external databases:
 
 ```powershell
 $ErrorActionPreference = "Stop"
-$env:PYTHONPATH = "E:\Python Scripts\paretodrive\src"
-python -m paretodrive_longitudinal.cli `
+$env:PYTHONPATH = "E:\Python Scripts\rootwise\src"
+python -m rootwise_longitudinal.cli `
     --baseline-analysis "E:\inventories\baseline-analysis.db" `
     --current-analysis "E:\inventories\current-analysis.db" `
     --output "E:\inventories\longitudinal.db"
@@ -277,8 +281,8 @@ longitudinal database, manifest, and new output database must be distinct siblin
 
 ```powershell
 $ErrorActionPreference = "Stop"
-$env:PYTHONPATH = "E:\Python Scripts\paretodrive\src"
-python -m paretodrive_dependency.cli `
+$env:PYTHONPATH = "E:\Python Scripts\rootwise\src"
+python -m rootwise_dependency.cli `
     --longitudinal "E:\inventories\longitudinal.db" `
     --evidence-manifest "E:\inventories\dependency-evidence.json" `
     --output "E:\inventories\dependency-graph.db"
@@ -295,8 +299,8 @@ databases, representing at least three snapshots:
 
 ```powershell
 $ErrorActionPreference = "Stop"
-$env:PYTHONPATH = "E:\Python Scripts\paretodrive\src"
-python -m paretodrive_history.cli `
+$env:PYTHONPATH = "E:\Python Scripts\rootwise\src"
+python -m rootwise_history.cli `
     --chain-manifest "E:\inventories\history-chain.json" `
     --output "E:\inventories\history.db"
 ```
@@ -312,8 +316,8 @@ same latest analysis and inventory session:
 
 ```powershell
 $ErrorActionPreference = "Stop"
-$env:PYTHONPATH = "E:\Python Scripts\paretodrive\src"
-python -m paretodrive_synthesis.cli `
+$env:PYTHONPATH = "E:\Python Scripts\rootwise\src"
+python -m rootwise_synthesis.cli `
     --ranking "E:\inventories\ranking.db" `
     --fusion "E:\inventories\fusion.db" `
     --dependency "E:\inventories\dependency.db" `

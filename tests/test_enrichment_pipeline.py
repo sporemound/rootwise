@@ -7,14 +7,14 @@ from pathlib import Path
 
 import pytest
 
-from paretodrive.database import InventoryDatabase
-from paretodrive.models import ScanConfig, VolumeInfo
-from paretodrive.scanner import MetadataScanner
-from paretodrive.volume import resolve_volume
-from paretodrive_analytics.snapshot import InventorySnapshot
-from paretodrive_enrich.cli import main as enrichment_main
-from paretodrive_enrich.pipeline import ENRICHMENT_APPLICATION_ID, run_enrichment
-from paretodrive_enrich.reader import ReadPolicy
+from rootwise.database import InventoryDatabase
+from rootwise.models import ScanConfig, VolumeInfo
+from rootwise.scanner import MetadataScanner
+from rootwise.volume import resolve_volume
+from rootwise_analytics.snapshot import InventorySnapshot
+from rootwise_enrich.cli import main as enrichment_main
+from rootwise_enrich.pipeline import ENRICHMENT_APPLICATION_ID, run_enrichment
+from rootwise_enrich.reader import ReadPolicy
 
 from .helpers import RecordingGuard, make_corpus
 
@@ -48,7 +48,7 @@ def manifest(path: Path, inventory: Path, session: str, level: str, paths: list[
     with InventorySnapshot(inventory, session) as snapshot:
         inventory_digest = snapshot.logical_digest()
     path.write_text(json.dumps({
-        "schema_version": "paretodrive-enrichment-selection-1",
+        "schema_version": "rootwise-enrichment-selection-1",
         "scan_session_id": session,
         "inventory_digest": inventory_digest,
         "evidence_level": level,

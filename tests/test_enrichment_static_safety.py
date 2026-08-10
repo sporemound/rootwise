@@ -14,7 +14,7 @@ def dotted(node: ast.AST) -> str:
 
 
 def test_enrichment_is_separate_and_has_no_write_or_execution_capability() -> None:
-    root = Path(__file__).parents[1] / "src" / "paretodrive_enrich"
+    root = Path(__file__).parents[1] / "src" / "rootwise_enrich"
     forbidden_imports = {"subprocess", "socket", "shutil", "zipfile", "tarfile", "send2trash"}
     forbidden_calls = {
         "os.remove", "os.unlink", "os.rename", "os.replace", "shutil.move", "shutil.copy",
@@ -38,7 +38,7 @@ def test_enrichment_is_separate_and_has_no_write_or_execution_capability() -> No
     combined = "\n".join(
         path.read_text(encoding="utf-8") for path in root.glob("*.py")
     )
-    assert "paretodrive_analytics" not in combined
+    assert "rootwise_analytics" not in combined
     assert "allow_content_read" in pipeline
     assert "validate_distinct_volumes" in pipeline
     assert "os.O_RDONLY" in reader and "O_NOFOLLOW" in reader

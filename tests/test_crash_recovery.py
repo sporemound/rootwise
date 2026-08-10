@@ -5,8 +5,8 @@ import subprocess
 import sys
 from pathlib import Path
 
-from paretodrive.database import InventoryDatabase
-from paretodrive.models import ScanConfig, SessionState
+from rootwise.database import InventoryDatabase
+from rootwise.models import ScanConfig, SessionState
 
 from .helpers import RecordingGuard, fake_volume
 

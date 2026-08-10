@@ -1,6 +1,6 @@
 # 0.8 Non-Executing Plan-Approval Contract
 
-The original ParetoDrive roadmap did not define a 0.8 milestone. This stage is the smallest bridge
+The original Rootwise roadmap did not define a 0.8 milestone. This stage is the smallest bridge
 between proposal-only optimization and a possible future executor preview: it records which
 validated proposal a person selected, while deliberately withholding every filesystem-action
 authorization.
@@ -11,7 +11,7 @@ The operator creates UTF-8 JSON with exactly these fields:
 
 ```json
 {
-  "schema_version": "paretodrive-plan-approval-declaration-1",
+  "schema_version": "rootwise-plan-approval-declaration-1",
   "plan_run_id": "complete-plan-run-id",
   "plan_id": "64-lowercase-hex-characters",
   "plan_output_digest": "64-lowercase-hex-characters",

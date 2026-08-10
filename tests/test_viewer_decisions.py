@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from paretodrive_view.decisions import (
+from rootwise_view.decisions import (
     DecisionConflictError,
     DecisionStore,
 )

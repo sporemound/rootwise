@@ -7,9 +7,9 @@ from pathlib import Path
 
 import pytest
 
-import paretodrive_analytics.pipeline as pipeline
-from paretodrive_analytics.cli import main
-from paretodrive_analytics.pipeline import ANALYSIS_APPLICATION_ID, run_analysis
+import rootwise_analytics.pipeline as pipeline
+from rootwise_analytics.cli import main
+from rootwise_analytics.pipeline import ANALYSIS_APPLICATION_ID, run_analysis
 
 from .test_viewer_inventory import completed_inventory
 

@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import pytest
 
-from paretodrive_analytics.exact_optimizer import ExactFrontierLimit, exact_tree_frontier
-from paretodrive_analytics.plan_models import Action, Candidate, PlanMetrics, PlanPolicy
-from paretodrive_analytics.plan_validation import PlanValidationError, validate_plan
+from rootwise_analytics.exact_optimizer import ExactFrontierLimit, exact_tree_frontier
+from rootwise_analytics.plan_models import Action, Candidate, PlanMetrics, PlanPolicy
+from rootwise_analytics.plan_validation import PlanValidationError, validate_plan
 
 
 def fixture_candidates() -> list[Candidate]:

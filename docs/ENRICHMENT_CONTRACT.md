@@ -1,7 +1,7 @@
 # 0.7 Permissioned Content-Enrichment Contract
 
-Stage 0.7 is the first ParetoDrive component permitted to read source-file contents. It is a
-separate `paretodrive_enrich` package and CLI, and it does not relax the metadata-only boundary of
+Stage 0.7 is the first Rootwise component permitted to read source-file contents. It is a
+separate `rootwise_enrich` package and CLI, and it does not relax the metadata-only boundary of
 the scanner, viewer, structural analytics, ranking, or optimizer.
 
 ## Required acknowledgement and selection
@@ -11,7 +11,7 @@ selection manifest whose canonical JSON fields are exactly:
 
 ```json
 {
-  "schema_version": "paretodrive-enrichment-selection-1",
+  "schema_version": "rootwise-enrichment-selection-1",
   "scan_session_id": "the-complete-inventory-session-id",
   "inventory_digest": "64-lowercase-hex-characters",
   "evidence_level": "D3",

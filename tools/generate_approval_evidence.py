@@ -11,11 +11,11 @@ import sys
 import tempfile
 from pathlib import Path
 
-from paretodrive_analytics.optimizer_pipeline import run_optimization
-from paretodrive_analytics.pipeline import run_analysis
-from paretodrive_analytics.ranking_pipeline import run_ranking
-from paretodrive_approval.declaration import ACKNOWLEDGEMENTS, INTENT, SCHEMA_VERSION
-from paretodrive_view.decisions import DecisionStore
+from rootwise_analytics.optimizer_pipeline import run_optimization
+from rootwise_analytics.pipeline import run_analysis
+from rootwise_analytics.ranking_pipeline import run_ranking
+from rootwise_approval.declaration import ACKNOWLEDGEMENTS, INTENT, SCHEMA_VERSION
+from rootwise_view.decisions import DecisionStore
 from tests.test_viewer_inventory import completed_inventory
 
 
@@ -32,7 +32,7 @@ def _tree_digest(source: Path) -> str:
 
 
 def main() -> int:
-    with tempfile.TemporaryDirectory(prefix="paretodrive-approval-") as temporary:
+    with tempfile.TemporaryDirectory(prefix="rootwise-approval-") as temporary:
         root = Path(temporary)
         inventory, session = completed_inventory(root)
         analysis = root / "analysis.db"
@@ -83,10 +83,10 @@ def main() -> int:
             "inventory": _sha256(inventory), "source": _tree_digest(source),
         }
         entrypoint_directory = Path(
-            os.environ.get("PARETODRIVE_ENTRYPOINT_DIR", str(Path(sys.executable).parent))
+            os.environ.get("ROOTWISE_ENTRYPOINT_DIR", str(Path(sys.executable).parent))
         )
         executable = entrypoint_directory / (
-            "paretodrive-approve.exe" if os.name == "nt" else "paretodrive-approve"
+            "rootwise-approve.exe" if os.name == "nt" else "rootwise-approve"
         )
         if not executable.is_file():
             raise RuntimeError(f"installed approval entry point is missing: {executable}")
@@ -118,7 +118,7 @@ def main() -> int:
         if before != after_approval:
             raise RuntimeError("installed approval CLI modified an input")
         preflight_executable = entrypoint_directory / (
-            "paretodrive-preflight.exe" if os.name == "nt" else "paretodrive-preflight"
+            "rootwise-preflight.exe" if os.name == "nt" else "rootwise-preflight"
         )
         if not preflight_executable.is_file():
             raise RuntimeError(f"installed preflight entry point is missing: {preflight_executable}")

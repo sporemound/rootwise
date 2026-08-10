@@ -13,9 +13,9 @@ try:
 except ImportError as exc:
     pytest.skip(f"PySide6 native Qt runtime is unavailable: {exc}", allow_module_level=True)
 
-from paretodrive_view.decisions import DecisionStore
-from paretodrive_view.gui import ViewerWindow
-from paretodrive_view.inventory import InventoryReader
+from rootwise_view.decisions import DecisionStore
+from rootwise_view.gui import ViewerWindow
+from rootwise_view.inventory import InventoryReader
 
 from .test_viewer_inventory import completed_inventory
 
@@ -29,7 +29,7 @@ def test_gui_constructs_bounded_results_without_source_access(tmp_path: Path) ->
         window = ViewerWindow(reader, decisions, session_id=session)
         window.show()
         application.processEvents()
-        assert window.windowTitle().startswith("ParetoDrive 0.3")
+        assert window.windowTitle().startswith("Rootwise 0.3")
         assert 0 < window.model.rowCount() <= 200
         assert window.sessions.currentData() == session
         window.close()

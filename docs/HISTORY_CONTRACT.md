@@ -7,7 +7,7 @@ project-graph, stage, and run digests are independently checked.
 
 ## Chain boundary
 
-The manifest uses schema `paretodrive-longitudinal-chain-v1` and contains between 2 and 10,000
+The manifest uses schema `rootwise-longitudinal-chain-v1` and contains between 2 and 10,000
 ordered transitions, representing at least three snapshots. Each entry is a sibling filename plus
 the exact longitudinal run ID and output digest. Adjacent entries must share the same intermediate
 inventory session and analysis run. Duplicate databases, path escapes, incomplete runs,

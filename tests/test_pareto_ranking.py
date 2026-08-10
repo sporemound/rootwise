@@ -4,9 +4,9 @@ import hashlib
 import sqlite3
 from pathlib import Path
 
-from paretodrive_analytics.pareto import Interval, pareto_ranks, robustly_dominates
-from paretodrive_analytics.pipeline import run_analysis
-from paretodrive_analytics.ranking_pipeline import RANKING_APPLICATION_ID, run_ranking
+from rootwise_analytics.pareto import Interval, pareto_ranks, robustly_dominates
+from rootwise_analytics.pipeline import run_analysis
+from rootwise_analytics.ranking_pipeline import RANKING_APPLICATION_ID, run_ranking
 
 from .test_viewer_inventory import completed_inventory
 

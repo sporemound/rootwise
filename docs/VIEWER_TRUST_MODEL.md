@@ -1,6 +1,6 @@
 # 0.3 Viewer Trust Model
 
-`paretodrive-view` is a separate package and process from the source-facing scanner. It receives
+`rootwise-view` is a separate package and process from the source-facing scanner. It receives
 an existing inventory database; it does not receive or traverse the source root.
 
 ## Boundaries

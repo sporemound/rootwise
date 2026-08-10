@@ -6,15 +6,15 @@ import json
 import tempfile
 from pathlib import Path
 
-from paretodrive.canonicalize import export_canonical
-from paretodrive.database import InventoryDatabase
-from paretodrive.models import ScanConfig
-from paretodrive.scanner import MetadataScanner
+from rootwise.canonicalize import export_canonical
+from rootwise.database import InventoryDatabase
+from rootwise.models import ScanConfig
+from rootwise.scanner import MetadataScanner
 from tests.helpers import RecordingGuard, actual_volume, make_corpus
 
 
 def main() -> int:
-    with tempfile.TemporaryDirectory(prefix="paretodrive-fixture-") as temporary:
+    with tempfile.TemporaryDirectory(prefix="rootwise-fixture-") as temporary:
         root = Path(temporary)
         source = make_corpus(root / "source")
         database_path = root / "inventory.db"

@@ -3,10 +3,10 @@ from __future__ import annotations
 import ast
 from pathlib import Path
 
-PRODUCTION = Path(__file__).parents[1] / "src" / "paretodrive_dependency"
+PRODUCTION = Path(__file__).parents[1] / "src" / "rootwise_dependency"
 FORBIDDEN_IMPORTS = {
     "socket", "subprocess", "zipfile", "tarfile", "shutil", "send2trash", "urllib", "http",
-    "requests", "aiohttp", "ftplib", "paretodrive_enrich", "paretodrive_preflight",
+    "requests", "aiohttp", "ftplib", "rootwise_enrich", "rootwise_preflight",
 }
 FORBIDDEN_CALLS = {
     "os.remove", "os.unlink", "os.rename", "os.replace", "shutil.move", "shutil.copy",

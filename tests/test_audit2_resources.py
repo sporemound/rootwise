@@ -4,11 +4,11 @@ from pathlib import Path
 
 import pytest
 
-from paretodrive.database import InventoryDatabase
-from paretodrive.errors import ResourceLimitExceeded
-from paretodrive.models import ScanConfig, SessionState
-from paretodrive.resources import ResourceController, ResourcePolicy
-from paretodrive.scanner import MetadataScanner
+from rootwise.database import InventoryDatabase
+from rootwise.errors import ResourceLimitExceeded
+from rootwise.models import ScanConfig, SessionState
+from rootwise.resources import ResourceController, ResourcePolicy
+from rootwise.scanner import MetadataScanner
 
 from .helpers import RecordingGuard, actual_volume
 
@@ -16,8 +16,8 @@ from .helpers import RecordingGuard, actual_volume
 def test_resource_controller_rejects_rss_limit(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    monkeypatch.setattr("paretodrive.resources.process_rss_bytes", lambda: 101)
-    monkeypatch.setattr("paretodrive.resources.destination_free_bytes", lambda _path: 10_000)
+    monkeypatch.setattr("rootwise.resources.process_rss_bytes", lambda: 101)
+    monkeypatch.setattr("rootwise.resources.destination_free_bytes", lambda _path: 10_000)
     controller = ResourceController(tmp_path, ResourcePolicy(100, 1, 30, 0), lambda: False)
     with pytest.raises(ResourceLimitExceeded, match="RSS"):
         controller.check()
@@ -28,8 +28,8 @@ def test_resource_controller_cooldown_is_bounded_and_interruptible(
 ) -> None:
     now = [0.0]
     sleeps: list[float] = []
-    monkeypatch.setattr("paretodrive.resources.process_rss_bytes", lambda: 1)
-    monkeypatch.setattr("paretodrive.resources.destination_free_bytes", lambda _path: 10_000)
+    monkeypatch.setattr("rootwise.resources.process_rss_bytes", lambda: 1)
+    monkeypatch.setattr("rootwise.resources.destination_free_bytes", lambda _path: 10_000)
 
     def sleep(seconds: float) -> None:
         sleeps.append(seconds)

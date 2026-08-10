@@ -7,12 +7,12 @@ from pathlib import Path
 
 import pytest
 
-from paretodrive.database import InventoryDatabase
-from paretodrive.models import ScanConfig
-from paretodrive.scanner import MetadataScanner
-from paretodrive_analytics.pipeline import run_analysis
-from paretodrive_longitudinal.cli import main as longitudinal_main
-from paretodrive_longitudinal.pipeline import LONGITUDINAL_APPLICATION_ID, run_longitudinal
+from rootwise.database import InventoryDatabase
+from rootwise.models import ScanConfig
+from rootwise.scanner import MetadataScanner
+from rootwise_analytics.pipeline import run_analysis
+from rootwise_longitudinal.cli import main as longitudinal_main
+from rootwise_longitudinal.pipeline import LONGITUDINAL_APPLICATION_ID, run_longitudinal
 
 from .helpers import RecordingGuard, actual_volume, make_corpus
 
