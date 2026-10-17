@@ -1,0 +1,5 @@
+Initial alpha release (0.23.0-alpha, versionCode 1):
+- Native Kotlin port of the Rootwise metadata-only scanner, write guard, and bounded resource controller.
+- Verbatim upstream SQLite schemas for inventory.db (0x5044494E) and decisions.db (0x50444443).
+- Rooted POSIX path adapter (with su --mount-master fallback and same-volume disjoint-subtree self-exclusion guard), SAF Document Tree adapter, and MediaStore adapter.
+- Compose Material 3 dark-theme review UI with local search, sorting, decision tagging, and user-initiated SAF export of inventory.db, canonical NDJSON, and non-executing proposal JSON.
