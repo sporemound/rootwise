@@ -92,8 +92,7 @@ val jacocoExcludes = listOf(
     "**/Manifest*.*",
     "org/rootwise/android/ui/**",
     "org/rootwise/android/MainActivity*",
-    "org/rootwise/android/adapter/Saf*",
-    "org/rootwise/android/adapter/MediaStore*",
+    "org/rootwise/android/adapter/Android*",
     "org/rootwise/android/core/db/AndroidSqlite*"
 )
 
@@ -146,7 +145,8 @@ tasks.register("dependencyGuard") {
             "androidx.",
             "org.jetbrains.kotlin",
             "org.jetbrains.kotlinx",
-            "org.jetbrains:annotations"
+            "org.jetbrains:annotations",
+            "com.google.guava:listenablefuture"
         )
         val forbiddenTokens = listOf(
             "okhttp",
