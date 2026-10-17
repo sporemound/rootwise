@@ -14,3 +14,11 @@ artifacts/*.json
 artifacts/*.txt
 artifacts/*.zip
 !artifacts/.gitkeep
+.gradle/
+.kotlin/
+local.properties
+*.apk
+*.aab
+*.ap_
+*.dex
+gradle/wrapper/gradle-wrapper.jar
