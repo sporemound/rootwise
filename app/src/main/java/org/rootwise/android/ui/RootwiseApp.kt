@@ -75,6 +75,8 @@ fun RootwiseApp(
     onToggleSameVolumeGuard: (Boolean) -> Unit,
     selectedSafUriString: String?,
     onPickSafTree: () -> Unit,
+    onRequestStorageScopes: () -> Unit = {},
+    onOpenAllFilesSettings: () -> Unit = {},
     onStartScan: () -> Unit,
     sessions: List<SessionSummary>,
     activeSessionId: String?,
@@ -139,7 +141,7 @@ fun RootwiseApp(
                             val coverageNote = when (selectedMode) {
                                 ScanSurfaceMode.ROOT_POSIX ->
                                     "Root POSIX Mode: Enforces O_NOFOLLOW/NOFOLLOW_LINKS, st_dev volume checks, and Stage 0.21 fresh lstat. " +
-                                        "When scanning /data or /data/media/0 on shared userdata, self-excludes org.rootwise.android artifact dirs."
+                                        "When scanning /storage/emulated/0, /data, or /data/media/0 on shared userdata, self-excludes org.rootwise.android artifact dirs."
                                 ScanSurfaceMode.SAF_TREE ->
                                     "SAF Mode: Scoped to user-selected tree. Blind spots: Android/data, Android/obb, /data. " +
                                         "Records nofollow_enforced=false and kernel_st_dev_enforced=false in session metadata."
@@ -162,10 +164,21 @@ fun RootwiseApp(
                     ) {
                         Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                             Text(
-                                text = "1. Scan Source Surface",
+                                text = "1. Scan Source Surface & GrapheneOS Storage Access",
                                 style = MaterialTheme.typography.titleMedium,
                                 fontWeight = FontWeight.SemiBold
                             )
+                            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                OutlinedButton(onClick = onRequestStorageScopes) {
+                                    Text("Grant Storage / Storage Scopes")
+                                }
+                                OutlinedButton(onClick = onOpenAllFilesSettings) {
+                                    Text("All Files / Storage Scopes Settings")
+                                }
+                                OutlinedButton(onClick = onPickSafTree) {
+                                    Text("Pick SAF Folder")
+                                }
+                            }
                             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                                 ScanSurfaceMode.entries.forEach { mode ->
                                     FilterChip(
@@ -186,7 +199,7 @@ fun RootwiseApp(
                                         singleLine = true
                                     )
                                     FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                                        listOf("/data/media/0", "/data", "/mnt/media_rw", "/storage").forEach { preset ->
+                                        listOf("/storage/emulated/0", "/data/media/0", "/data", "/mnt/media_rw", "/storage").forEach { preset ->
                                             OutlinedButton(onClick = { onPosixPathChange(preset) }) {
                                                 Text(preset, fontFamily = FontFamily.Monospace)
                                             }

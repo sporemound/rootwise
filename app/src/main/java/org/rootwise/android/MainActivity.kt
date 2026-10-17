@@ -1,8 +1,12 @@
 package org.rootwise.android
 
+import android.Manifest
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
@@ -41,10 +45,10 @@ import java.util.concurrent.Executors
 class MainActivity : ComponentActivity() {
     private val backgroundExecutor = Executors.newSingleThreadExecutor()
 
-    private var statusMessage by mutableStateOf("Ready. Select a Rooted POSIX mount, SAF tree, or MediaStore index.")
+    private var statusMessage by mutableStateOf("Ready. Grant GrapheneOS Storage Scopes, pick a SAF folder, or use Root POSIX.")
     private var isScanning by mutableStateOf(false)
     private var selectedMode by mutableStateOf(ScanSurfaceMode.ROOT_POSIX)
-    private var posixPathInput by mutableStateOf("/data/media/0")
+    private var posixPathInput by mutableStateOf("/storage/emulated/0")
     private var useRootSuHelper by mutableStateOf(true)
     private var allowSameVolumeGuard by mutableStateOf(true)
     private var selectedSafUri by mutableStateOf<Uri?>(null)
@@ -71,11 +75,42 @@ class MainActivity : ComponentActivity() {
     private fun inventoryDbPath(): Path = artifactRootDir().resolve("inventory.db")
     private fun decisionsDbPath(): Path = artifactRootDir().resolve("decisions.db")
 
+    private fun openAllFilesOrAppSettings() {
+        try {
+            val intent = Intent(
+                Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
+                Uri.parse("package:$packageName")
+            )
+            startActivity(intent)
+        } catch (_: Exception) {
+            try {
+                val fallback = Intent(
+                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                    Uri.parse("package:$packageName")
+                )
+                startActivity(fallback)
+            } catch (e: Exception) {
+                statusMessage = "Could not open Settings: ${e.message}"
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         refreshInventoryState()
 
         setContent {
+            val storagePermissionLauncher = rememberLauncherForActivityResult(
+                contract = ActivityResultContracts.RequestMultiplePermissions()
+            ) { result: Map<String, Boolean> ->
+                val anyGranted = result.values.any { it } || Environment.isExternalStorageManager()
+                statusMessage = if (anyGranted) {
+                    "Storage / GrapheneOS Storage Scopes active. Ready to scan."
+                } else {
+                    "Tip: On GrapheneOS, tap 'All Files / Storage Scopes Settings' to enable Storage Scopes."
+                }
+            }
+
             val safTreePicker = rememberLauncherForActivityResult(
                 contract = ActivityResultContracts.OpenDocumentTree()
             ) { uri: Uri? ->
@@ -122,6 +157,26 @@ class MainActivity : ComponentActivity() {
                 onToggleSameVolumeGuard = { allowSameVolumeGuard = it },
                 selectedSafUriString = selectedSafUri?.toString(),
                 onPickSafTree = { safTreePicker.launch(null) },
+                onRequestStorageScopes = {
+                    val perms = if (Build.VERSION.SDK_INT >= 34) {
+                        arrayOf(
+                            Manifest.permission.READ_MEDIA_IMAGES,
+                            Manifest.permission.READ_MEDIA_VIDEO,
+                            Manifest.permission.READ_MEDIA_AUDIO,
+                            Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED
+                        )
+                    } else if (Build.VERSION.SDK_INT >= 33) {
+                        arrayOf(
+                            Manifest.permission.READ_MEDIA_IMAGES,
+                            Manifest.permission.READ_MEDIA_VIDEO,
+                            Manifest.permission.READ_MEDIA_AUDIO
+                        )
+                    } else {
+                        arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    }
+                    storagePermissionLauncher.launch(perms)
+                },
+                onOpenAllFilesSettings = { openAllFilesOrAppSettings() },
                 onStartScan = { triggerScan() },
                 sessions = sessions,
                 activeSessionId = activeSessionId,

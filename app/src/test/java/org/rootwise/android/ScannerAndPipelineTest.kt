@@ -783,12 +783,12 @@ class ScannerAndPipelineTest {
         assertTrue("AndroidManifest.xml must exist", Files.exists(manifestFile))
         val manifestText = readString(manifestFile)
 
-        // Ensure INTERNET is only present with tools:node="remove" and no install-time permissions are granted
-        val usesPermLines = manifestText.lines().filter { it.contains("<uses-permission") }
-        assertEquals(1, usesPermLines.size)
+        // Ensure INTERNET is strictly removed and GrapheneOS Storage Scopes permissions are declared
         assertTrue(manifestText.contains("android:name=\"android.permission.INTERNET\""))
         assertTrue(manifestText.contains("tools:node=\"remove\""))
-        assertFalse(manifestText.contains("MANAGE_EXTERNAL_STORAGE"))
+        assertTrue(manifestText.contains("android.permission.READ_MEDIA_IMAGES"))
+        assertTrue(manifestText.contains("android.permission.MANAGE_EXTERNAL_STORAGE"))
+        assertFalse(manifestText.contains("WRITE_EXTERNAL_STORAGE"))
 
         // Inspect all core scanner Kotlin files for forbidden network, subprocess, or file deletion calls
         val coreDir = appDir.resolve("src/main/java/org/rootwise/android/core")
