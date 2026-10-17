@@ -1,0 +1,17 @@
+Rootwise for Android is a native, offline, audit-first filesystem inventory and review application for rooted Android and GrapheneOS devices.
+
+Core safety invariants preserved from upstream Rootwise (0.23.0-alpha):
+* Metadata-only scanning: inspects stat()-level metadata only (size, timestamps, inode/device where supported, entry kind) and never reads file contents or computes content hashes during scanning.
+* Bounded inventory outside the scanned tree: stores scan sessions in app-private SQLite (`inventory.db`, application_id 0x5044494E) with strict source/artifact path separation and runtime write guards.
+* Non-following symlink policy: POSIX scans use `LinkOption.NOFOLLOW_LINKS` / `lstat` so symlinks are cataloged as symlink entries without traversing into link targets.
+* Query-only review with separate decisions: browse, filter, and search inventory entries locally while storing human review decisions (`KEEP`, `DELETE_CANDIDATE`, `ARCHIVE_CANDIDATE`, `NEEDS_REVIEW`) in a separate `decisions.db` (application_id 0x50444443).
+* No executor: exports non-executable JSON planning proposals (`execution_Capability: "NONE"`) and canonical NDJSON snapshots (`rootwise-export/v1`) only when explicitly requested by the user.
+
+Supported Scan Modes:
+* Rooted / POSIX Path (`PosixRootScanAdapter`): Direct non-following `lstat` traversal with optional `su --mount-master` `toybox find`/`stat` fallback for protected directories (`/data`, `/mnt/media_rw/*`), enforcing hard self-artifact exclusion when scanning `userdata`.
+* SAF Document Tree (`SafScanAdapter`): Scoped Storage `DocumentContract` tree enumeration without broad storage permissions.
+* MediaStore (`MediaStoreScanAdapter`): Indexed media collection query with explicit visibility blind-spot reporting.
+
+Privacy & Permissions:
+* Zero install-time permissions (`INTERNET` and `MANAGE_EXTERNAL_STORAGE` are never requested).
+* 100% offline; no telemetry, analytics, or network code.

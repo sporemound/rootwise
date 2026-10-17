@@ -1,0 +1,27 @@
+Categories:
+  - System
+  - Security
+License: MIT
+SourceCode: https://github.com/sporemound/rootwise
+IssueTracker: https://github.com/sporemound/rootwise/issues
+Changelog: https://github.com/sporemound/rootwise/commits/feat/android-fdroid
+
+AutoName: Rootwise
+Summary: Audit-first, metadata-only storage inventory and non-executing review tool
+
+RepoType: git
+Repo: https://github.com/sporemound/rootwise.git
+
+Builds:
+  - versionName: 0.23.0-alpha
+    versionCode: 1
+    commit: feat/android-fdroid
+    subdir: app
+    gradle:
+      - yes
+
+AllowedAPKSigningKeys: ""
+AutoUpdateMode: Version
+UpdateCheckMode: Tags
+CurrentVersion: 0.23.0-alpha
+CurrentVersionCode: 1
